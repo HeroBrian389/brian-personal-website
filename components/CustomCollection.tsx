@@ -3,19 +3,26 @@ import { CollectionViewProps } from 'react-notion-x';
 import CustomListItem from './CustomListItem';
 import { site } from 'lib/config';
 
+interface ExtendedCollectionViewProps extends CollectionViewProps {
+    block: any; // replace 'any' with the actual type of 'block'
+    ctx: any; // replace 'any' with the actual type of 'ctx'
+}
 
-const CustomCollection: React.FC<CollectionViewProps> = (props) => {
+const CustomCollection: React.FC<ExtendedCollectionViewProps> = (props) => {
     const { block, ctx } = props;
     const { recordMap } = ctx;
     const collectionId = block.collection_id;
+
+    console.log(block);
+
+    if (!block.view_ids || block.view_ids.length === 0) {
+        return null;
+    }
+
     const collectionViewId = block.view_ids[0];
   
     const collection = recordMap.collection[collectionId]?.value;
     const collectionView = recordMap.collection_view[collectionViewId]?.value;
-  
-    console.log('collection', collection);
-    console.log('collectionView', collectionView);
-    console.log('recordMap', recordMap);
   
     if (!collection || !collectionView) {
       return null;

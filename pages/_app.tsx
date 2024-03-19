@@ -30,8 +30,7 @@ import {
   isServer,
   fathomId,
   fathomConfig,
-  posthogId,
-  posthogConfig
+  posthogId
 } from 'lib/config'
 
 if (!isServer) {
@@ -54,10 +53,6 @@ export default function App({ Component, pageProps }: AppProps) {
 
     if (fathomId) {
       Fathom.load(fathomId, fathomConfig)
-    }
-
-    if (posthogId) {
-      posthog.init(posthogId, posthogConfig)
     }
 
     router.events.on('routeChangeComplete', onRouteChangeComplete)

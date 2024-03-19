@@ -10,7 +10,7 @@ export default siteConfig({
 
   // basic site info (required)
   name: 'Brian Kelleher',
-  domain: 'microdoc.io',
+  domain: 'briankelleher.ie',
   author: 'Brian Kelleher',
   email: 'mailto:briankelleher38@gmail.com',
 
