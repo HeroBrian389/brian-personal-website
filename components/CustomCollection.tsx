@@ -1,7 +1,6 @@
 import React from 'react';
 import { CollectionViewProps } from 'react-notion-x';
 import CustomListItem from './CustomListItem';
-import { Site } from './types'
 import { site } from 'lib/config';
 
 
