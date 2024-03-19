@@ -213,3 +213,26 @@
 .hidden {
   visibility: hidden;
 }
+
+/* notionStyles.module.css */
+
+.databaseListView {
+  /* Add your custom styles for the database list view block */
+  background-color: #f0f0f0;
+  padding: 16px;
+  border-radius: 8px;
+}
+
+/* create a dark style for the database list view block using media query */
+@media (prefers-color-scheme: dark) {
+  .databaseListView {
+    background-color: #1f1f1f;
+  }
+}
+
+.notion-list-item-body {
+  display: none;
+  align-items: center;
+  flex-wrap: nowrap;
+  overflow: hidden;
+}

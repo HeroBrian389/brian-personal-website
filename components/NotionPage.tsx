@@ -12,6 +12,8 @@ import TweetEmbed from 'react-tweet-embed'
 
 // core notion renderer
 import { NotionRenderer } from 'react-notion-x'
+import { CollectionViewProps } from 'react-notion-x';
+import CustomListItem from './CustomListItem';
 
 // utils
 import { getBlockTitle, getPageProperty, formatDate } from 'notion-utils'
@@ -31,7 +33,9 @@ import { Footer } from './Footer'
 import { NotionPageHeader } from './NotionPageHeader'
 
 
+
 import styles from './styles.module.css'
+import CustomCollection from './CustomCollection'
 
 // -----------------------------------------------------------------------------
 // dynamic imports for optional components
@@ -147,6 +151,22 @@ const propertyTextValue = (
   return defaultFn()
 }
 
+const CleanedCollection = (props) => {
+  const { block, collection } = props;
+
+  if (block?.type === 'collection_view' && block?.view_ids) {
+
+    return (
+      <div className={styles.databaseListView}>
+        <Collection {...props}  />
+      </div>
+    );
+  }
+
+  return <Collection {...props} />;
+};
+
+
 export const NotionPage: React.FC<types.PageProps> = ({
   site,
   recordMap,
@@ -158,10 +178,10 @@ export const NotionPage: React.FC<types.PageProps> = ({
 
   const components = React.useMemo(
     () => ({
+      Collection: CustomCollection,
       nextImage: Image,
       nextLink: Link,
       Code,
-      Collection,
       Equation,
       Pdf,
       Modal,
@@ -217,13 +237,13 @@ export const NotionPage: React.FC<types.PageProps> = ({
 
   const title = getBlockTitle(block, recordMap) || site.name
 
-  console.log('notion page', {
+  /*console.log('notion page', {
     isDev: config.isDev,
     title,
     pageId,
     rootNotionPageId: site.rootNotionPageId,
     recordMap
-  })
+  })*/
 
   if (!config.isServer) {
     // add important objects to the window global for easy debugging
