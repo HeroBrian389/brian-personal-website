@@ -5,12 +5,12 @@
 	let age = $state(19);
 	let yearsOfCoding = $state(8);
 	let githubCommits = $state(0);
-	let isVisible = $state(false);
-	let isLoadingGithub = $state(true);
+	let _isVisible = $state(false);
+	let _isLoadingGithub = $state(true);
 
 	// Calculate dynamic values
 	onMount(() => {
-		isVisible = true;
+		_isVisible = true;
 
 		// Update age dynamically
 		const birthYear = 2004; // Approximate based on being 19 in 2023
@@ -53,7 +53,7 @@
 			console.error("Error fetching GitHub contributions:", error);
 			githubCommits = 2400;
 		} finally {
-			isLoadingGithub = false;
+			_isLoadingGithub = false;
 		}
 	}
 
@@ -68,7 +68,7 @@
 	];
 
 	// Achievement cards data
-	const achievements = [
+	const _achievements = [
 		{
 			title: "MicroDoc",
 			description: "AI-powered medical paperwork automation for doctors",

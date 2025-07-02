@@ -135,8 +135,8 @@
 	<div class="relative h-16 w-16">
 		<div
 			class="absolute inset-0 rounded-full bg-gradient-to-br from-neutral-900 to-neutral-800 shadow-lg {showAudioPrompt
-				? "animate-pulse-subtle"
-				: ""}"
+				? 'animate-pulse-subtle'
+				: ''}"
 			class:animate-spin-slow={audioPlaying}
 		>
 			<!-- Vinyl grooves -->

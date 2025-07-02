@@ -1,6 +1,5 @@
 <script lang="ts">
 	import "../app.css";
-	import { Button } from "$lib/components/ui/button";
 	import { ModeWatcher } from "mode-watcher";
 	import AudioPlayer from "$lib/components/AudioPlayer.svelte";
 	import ThemeToggle from "$lib/components/ThemeToggle.svelte";
@@ -16,7 +15,8 @@
 
 	// Close mobile menu when route changes
 	$effect(() => {
-		currentPath;
+		// Access currentPath to trigger the effect
+		void currentPath;
 		isMobileMenuOpen = false;
 	});
 
@@ -56,78 +56,78 @@
 					<a
 						href="/about"
 						class="hover:text-foreground/80 group relative transition-all duration-500 {currentPath ===
-						"/about"
-							? "text-foreground"
-							: "text-foreground/60"}"
+						'/about'
+							? 'text-foreground'
+							: 'text-foreground/60'}"
 					>
 						<span class="relative z-10">About</span>
 						<div
 							class="bg-foreground/20 absolute inset-x-0 bottom-0 h-px transition-transform duration-500 {currentPath ===
-							"/about"
-								? "scale-x-100"
-								: "scale-x-0 group-hover:scale-x-100"}"
+							'/about'
+								? 'scale-x-100'
+								: 'scale-x-0 group-hover:scale-x-100'}"
 						></div>
 					</a>
 					<a
 						href="/writing"
 						class="hover:text-foreground/80 group relative transition-all duration-500 {currentPath.startsWith(
-							"/writing"
+							'/writing'
 						)
-							? "text-foreground"
-							: "text-foreground/60"}"
+							? 'text-foreground'
+							: 'text-foreground/60'}"
 					>
 						<span class="relative z-10">Writing</span>
 						<div
 							class="bg-foreground/20 absolute inset-x-0 bottom-0 h-px transition-transform duration-500 {currentPath.startsWith(
-								"/writing"
+								'/writing'
 							)
-								? "scale-x-100"
-								: "scale-x-0 group-hover:scale-x-100"}"
+								? 'scale-x-100'
+								: 'scale-x-0 group-hover:scale-x-100'}"
 						></div>
 					</a>
 					<a
 						href="/quotes"
 						class="hover:text-foreground/80 group relative transition-all duration-500 {currentPath ===
-						"/quotes"
-							? "text-foreground"
-							: "text-foreground/60"}"
+						'/quotes'
+							? 'text-foreground'
+							: 'text-foreground/60'}"
 					>
 						<span class="relative z-10">Quotes</span>
 						<div
 							class="bg-foreground/20 absolute inset-x-0 bottom-0 h-px transition-transform duration-500 {currentPath ===
-							"/quotes"
-								? "scale-x-100"
-								: "scale-x-0 group-hover:scale-x-100"}"
+							'/quotes'
+								? 'scale-x-100'
+								: 'scale-x-0 group-hover:scale-x-100'}"
 						></div>
 					</a>
 					<a
 						href="/art"
 						class="hover:text-foreground/80 group relative transition-all duration-500 {currentPath ===
-						"/art"
-							? "text-foreground"
-							: "text-foreground/60"}"
+						'/art'
+							? 'text-foreground'
+							: 'text-foreground/60'}"
 					>
 						<span class="relative z-10">Art</span>
 						<div
 							class="bg-foreground/20 absolute inset-x-0 bottom-0 h-px transition-transform duration-500 {currentPath ===
-							"/art"
-								? "scale-x-100"
-								: "scale-x-0 group-hover:scale-x-100"}"
+							'/art'
+								? 'scale-x-100'
+								: 'scale-x-0 group-hover:scale-x-100'}"
 						></div>
 					</a>
 					<a
 						href="/ponder"
 						class="hover:text-foreground/80 group relative transition-all duration-500 {currentPath ===
-						"/ponder"
-							? "text-foreground"
-							: "text-foreground/60"}"
+						'/ponder'
+							? 'text-foreground'
+							: 'text-foreground/60'}"
 					>
 						<span class="relative z-10">Ponder</span>
 						<div
 							class="bg-foreground/20 absolute inset-x-0 bottom-0 h-px transition-transform duration-500 {currentPath ===
-							"/ponder"
-								? "scale-x-100"
-								: "scale-x-0 group-hover:scale-x-100"}"
+							'/ponder'
+								? 'scale-x-100'
+								: 'scale-x-0 group-hover:scale-x-100'}"
 						></div>
 					</a>
 				</div>
@@ -141,18 +141,18 @@
 					<div class="relative flex h-4 w-6 flex-col justify-between">
 						<span
 							class="block h-px origin-center bg-current transition-all duration-500 {isMobileMenuOpen
-								? "translate-y-[8px] rotate-45"
-								: ""}"
+								? 'translate-y-[8px] rotate-45'
+								: ''}"
 						></span>
 						<span
 							class="block h-px bg-current transition-all duration-500 {isMobileMenuOpen
-								? "scale-x-0 opacity-0"
-								: ""}"
+								? 'scale-x-0 opacity-0'
+								: ''}"
 						></span>
 						<span
 							class="block h-px origin-center bg-current transition-all duration-500 {isMobileMenuOpen
-								? "-translate-y-[8px] -rotate-45"
-								: ""}"
+								? '-translate-y-[8px] -rotate-45'
+								: ''}"
 						></span>
 					</div>
 				</button>
@@ -187,17 +187,17 @@
 							<span
 								class="relative inline-block text-2xl font-extralight tracking-wide {currentPath ===
 									item.href ||
-								(item.href === "/writing" && currentPath.startsWith("/writing"))
-									? "text-foreground"
-									: "text-foreground/60"} hover:text-foreground transition-colors duration-500"
+								(item.href === '/writing' && currentPath.startsWith('/writing'))
+									? 'text-foreground'
+									: 'text-foreground/60'} hover:text-foreground transition-colors duration-500"
 							>
 								{item.label}
 								<div
 									class="bg-foreground/20 absolute right-0 -bottom-2 left-0 h-px transition-transform duration-500 {currentPath ===
 										item.href ||
-									(item.href === "/writing" && currentPath.startsWith("/writing"))
-										? "scale-x-100"
-										: "scale-x-0 group-hover:scale-x-100"}"
+									(item.href === '/writing' && currentPath.startsWith('/writing'))
+										? 'scale-x-100'
+										: 'scale-x-0 group-hover:scale-x-100'}"
 								></div>
 							</span>
 						</a>

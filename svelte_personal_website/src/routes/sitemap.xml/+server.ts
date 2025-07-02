@@ -1,6 +1,6 @@
 // src/routes/sitemap.xml/+server.ts
 
-import { getPublishedPosts } from "$lib/notion/service";
+import { getPublishedPosts, type PublishedPost } from "$lib/notion/service";
 
 // IMPORTANT: Change this to your production domain
 const siteURL = "https://briankelleher.ie";
@@ -42,7 +42,7 @@ export async function GET({ setHeaders }) {
       <!-- Dynamic Pages (Writing) -->
       ${posts
 			.map(
-				(post) => `
+				(post: PublishedPost) => `
         <url>
           <loc>${siteURL}/writing/${post.slug}</loc>
           <changefreq>weekly</changefreq>

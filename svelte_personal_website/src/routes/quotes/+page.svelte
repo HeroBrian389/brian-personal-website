@@ -1,12 +1,9 @@
 <script lang="ts">
 	import { onMount } from "svelte";
-	import { spring, tweened } from "svelte/motion";
-	import { fade, fly, blur, scale } from "svelte/transition";
-	import { cubicOut, quintOut, backOut } from "svelte/easing";
+	import { tweened } from "svelte/motion";
+	import { fade } from "svelte/transition";
+	import { quintOut } from "svelte/easing";
 	import type { Quote } from "$lib/notion/quotes-service";
-	import { getRandomQuote } from "$lib/notion/quotes-service";
-	import { Button } from "$lib/components/ui/button";
-	import { Card } from "$lib/components/ui/card";
 	import type { PageData } from "./$types";
 
 	let { data }: { data: PageData } = $props();
@@ -15,7 +12,7 @@
 	let currentQuote = $state<Quote | null>(null);
 	let nextQuote = $state<Quote | null>(null);
 	let isTransitioning = $state(false);
-	let hoveredQuote = $state<string | null>(null);
+	let _hoveredQuote = $state<string | null>(null);
 	let autoAdvanceInterval: ReturnType<typeof setInterval> | null = null;
 	let currentOpacity = $state(1);
 	let nextOpacity = $state(0);
@@ -170,8 +167,8 @@
 					<div
 						class="absolute inset-0 flex flex-col items-center justify-center"
 						style="opacity: {currentOpacity}; transition: opacity {currentOpacity === 0
-							? "1000ms"
-							: "2000ms"} ease-in-out"
+							? '1000ms'
+							: '2000ms'} ease-in-out"
 					>
 						<!-- Quote text -->
 						<div class="w-full">
@@ -297,8 +294,8 @@
 
 						isTransitioning = false;
 					}}
-					onmouseenter={() => (hoveredQuote = quote.id)}
-					onmouseleave={() => (hoveredQuote = null)}
+					onmouseenter={() => (_hoveredQuote = quote.id)}
+					onmouseleave={() => (_hoveredQuote = null)}
 					class="group hover:border-foreground/10 relative overflow-hidden border border-transparent
                  p-8 text-left transition-all duration-500"
 					in:fade={{ duration: 400, delay: Math.min(i * 50, 200) }}

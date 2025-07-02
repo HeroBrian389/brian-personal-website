@@ -1,13 +1,11 @@
 <script lang="ts">
-	import type { EnhancedParsedPage } from "$lib/notion/service";
 	import PageRenderer from "$lib/components/notion/PageRenderer.svelte";
-	import { Button } from "$lib/components/ui/button";
 	import type { PageData } from "./$types";
 
-	export let data: PageData;
+	let { data }: { data: PageData } = $props();
 
-	$: writingPage = data.writingPage;
-	$: error = data.error;
+	let writingPage = $derived(data.writingPage);
+	let error = $derived(data.error);
 </script>
 
 <svelte:head>

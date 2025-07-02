@@ -1,4 +1,4 @@
-import { json, error } from "@sveltejs/kit";
+import { json } from "@sveltejs/kit";
 import type { RequestHandler } from "./$types";
 import { rateLimiter, getClientIp, createRateLimitHeaders } from "$lib/server/rate-limiter";
 import { env } from "$env/dynamic/private";
@@ -108,14 +108,14 @@ export const GET: RequestHandler = async ({ request, fetch }) => {
 				headers: rateLimitHeaders
 			}
 		);
-	} catch (error) {
-		console.error("Error fetching GitHub contributions:", error);
+	} catch (_error) {
+		console.error("Error fetching GitHub contributions:", _error);
 
 		return json(
 			{
 				contributions: 0,
 				success: false,
-				error: error instanceof Error ? error.message : "Unknown error"
+				error: _error instanceof Error ? _error.message : "Unknown error"
 			},
 			{
 				headers: rateLimitHeaders

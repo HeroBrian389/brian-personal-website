@@ -44,7 +44,7 @@ async function fetchQuotesFromNotion(): Promise<Quote[]> {
 		const quotes: Quote[] = [];
 
 		// Process all blocks
-		Object.entries(recordMap.block).forEach(([id, blockWrapper]: [string, any]) => {
+		Object.entries(recordMap.block).forEach(([_id, blockWrapper]: [string, any]) => {
 			const block = blockWrapper.value;
 
 			if (

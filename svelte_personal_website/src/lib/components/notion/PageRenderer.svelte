@@ -1,16 +1,22 @@
 <script lang="ts">
-	import { onMount } from "svelte";
 	import type { EnhancedParsedPage } from "$lib/notion/service";
 	import Block from "./Block.svelte";
 	import { Progress } from "$lib/components/ui/progress";
 
-	export let page: EnhancedParsedPage;
-	export let showMetadata = true;
-	export let showProgress = true;
-	export let enableTypography = true;
+	let {
+		page,
+		showMetadata = true,
+		showProgress = true,
+		enableTypography = true
+	}: {
+		page: EnhancedParsedPage;
+		showMetadata?: boolean;
+		showProgress?: boolean;
+		enableTypography?: boolean;
+	} = $props();
 
-	let scrollProgress = 0;
-	let currentSection = "";
+	let scrollProgress = $state(0);
+	let currentSection = $state("");
 
 	// Calculate reading progress
 	function updateProgress() {
@@ -36,7 +42,7 @@
 		currentSection = current;
 	}
 
-	onMount(() => {
+	$effect(() => {
 		window.addEventListener("scroll", updateProgress);
 		updateProgress();
 
@@ -67,7 +73,7 @@
 		</div>
 	{/if}
 
-	<header class="mb-20 {showProgress ? "pt-16" : ""}">
+	<header class="mb-20 {showProgress ? 'pt-16' : ''}">
 		<h1 class="mb-8 text-4xl font-extralight md:text-5xl">{page.title}</h1>
 
 		{#if showMetadata}

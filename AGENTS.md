@@ -143,14 +143,15 @@ TypeScript Usage
 - Use functional components with TypeScript interfaces for props.
 - Enable strict mode in TypeScript for better type safety.
 
-Svelte Runes
+Svelte 5 Runes (ALWAYS use these patterns)
 - `$state`: Declare reactive state
   ```typescript
   let count = $state(0);
   ```
-- `$derived`: Compute derived values
+- `$derived`: Compute derived values (replaces Svelte 4's `$:`)
   ```typescript
   let doubled = $derived(count * 2);
+  // Svelte 4: $: doubled = count * 2;
   ```
 - `$effect`: Manage side effects and lifecycle
   ```typescript
@@ -158,9 +159,10 @@ Svelte Runes
     console.log(`Count is now ${count}`);
   });
   ```
-- `$props`: Declare component props
+- `$props`: Declare component props (replaces Svelte 4's `export let`)
   ```typescript
   let { optionalProp = 42, requiredProp } = $props();
+  // Svelte 4: export let optionalProp = 42; export let requiredProp;
   ```
 - `$bindable`: Create two-way bindable props
   ```typescript
@@ -170,6 +172,19 @@ Svelte Runes
   ```typescript
   $inspect(count);
   ```
+
+Svelte 4 → Svelte 5 Migration Guide
+| Svelte 4 Pattern | Svelte 5 Pattern | Notes |
+|------------------|------------------|-------|
+| `export let prop` | `let { prop } = $props()` | Props must be destructured from $props() |
+| `export let prop = defaultValue` | `let { prop = defaultValue } = $props()` | Default values in destructuring |
+| `$: derived = value * 2` | `let derived = $derived(value * 2)` | Use $derived for reactive computations |
+| `$: { console.log(value) }` | `$effect(() => { console.log(value) })` | Use $effect for side effects |
+| `let count = 0` | `let count = $state(0)` | Use $state for reactive variables |
+| `onMount(() => {})` | Still valid, or use `$effect` | onMount/onDestroy still work |
+| `beforeUpdate/afterUpdate` | `$effect.pre()` / `$effect()` | These are deprecated |
+| Store subscriptions `$store` | Still work | But consider using runes instead |
+| `bind:value` | Still works | Use `$bindable()` for two-way props |
 
 UI and Styling
 - Use Tailwind CSS for utility-first styling approach.

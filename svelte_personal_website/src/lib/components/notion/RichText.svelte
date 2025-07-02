@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { ParsedRichText } from "$lib/notion/parser";
 
-	export let content: ParsedRichText;
+	let { content }: { content: ParsedRichText } = $props();
 </script>
 
 {#if content.href}

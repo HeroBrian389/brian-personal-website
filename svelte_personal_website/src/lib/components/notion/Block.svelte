@@ -2,8 +2,13 @@
 	import type { EnhancedParsedBlock } from "$lib/notion/service";
 	import RichText from "./RichText.svelte";
 
-	export let block: EnhancedParsedBlock;
-	export let enableTypography = true;
+	let {
+		block,
+		enableTypography = true
+	}: {
+		block: EnhancedParsedBlock;
+		enableTypography?: boolean;
+	} = $props();
 
 	// Apply typography enhancements
 	function enhanceTypography(text: string): string {

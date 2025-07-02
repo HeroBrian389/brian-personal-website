@@ -168,3 +168,34 @@ export async function getCachedPage(pageId: string): Promise<EnhancedParsedPage 
 
 	return page;
 }
+
+// Type for a published post
+export interface PublishedPost {
+	slug: string;
+	title: string;
+	date: string;
+	pageId: string;
+}
+
+// Get all published posts for sitemap generation
+export async function getPublishedPosts(): Promise<PublishedPost[]> {
+	// Dynamically import server-only config
+	const { NOTION_CONFIG } = await import("./config.server");
+
+	const posts: PublishedPost[] = [];
+
+	for (const [slug, pageId] of Object.entries(NOTION_CONFIG.writingPages)) {
+		const page = await fetchNotionPage(pageId);
+		if (page) {
+			posts.push({
+				slug,
+				title: page.title,
+				date: new Date(page.metadata.createdTime).toISOString(),
+				pageId
+			});
+		}
+	}
+
+	// Sort by date, newest first
+	return posts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+}

@@ -1,13 +1,12 @@
 <script lang="ts">
-	import type { ParsedPage } from "$lib/notion/parser";
 	import { fade } from "svelte/transition";
 	import type { PageData } from "./$types";
 
-	export let data: PageData;
+	let { data }: { data: PageData } = $props();
 
-	$: writingPages = data.writingPages || [];
-	$: pageIdToSlug = data.pageIdToSlug || {};
-	$: error = data.error || null;
+	let writingPages = $derived(data.writingPages || []);
+	let pageIdToSlug = $derived((data.pageIdToSlug || {}) as Record<string, string>);
+	let error = $derived(data.error || null);
 
 	function formatDate(timestamp: number): string {
 		return new Date(timestamp).toLocaleDateString("en-US", {

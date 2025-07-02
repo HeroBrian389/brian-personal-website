@@ -1,2 +1,56 @@
 #!/bin/sh
+
+# Copy CLAUDE.md to AGENTS.md
 cp CLAUDE.md AGENTS.md
+
+# Check if there are any changes in the svelte_personal_website directory
+if git diff --cached --name-only | grep -q "^svelte_personal_website/"; then
+    # Run checks for the Svelte project
+    echo "Running pre-commit checks for Svelte project..."
+    cd svelte_personal_website
+else
+    echo "No changes in svelte_personal_website, skipping Svelte checks."
+    exit 0
+fi
+
+# Run type checking
+echo "Running type check..."
+npm run check
+if [ $? -ne 0 ]; then
+    echo "❌ Type check failed. Please fix the errors before committing."
+    exit 1
+fi
+
+# Run formatting and auto-fix linting issues
+echo "Running formatter and auto-fixing lint issues..."
+npm run lint:fix
+
+# Run linting to check if there are any remaining issues
+echo "Checking for remaining lint issues..."
+npm run lint
+LINT_EXIT_CODE=$?
+if [ $LINT_EXIT_CODE -ne 0 ]; then
+    echo ""
+    echo "❌ Linting failed with non-auto-fixable errors."
+    echo ""
+    echo "Common issues to fix manually:"
+    echo "  - Remove unused imports and variables"
+    echo "  - Add keys to {#each} blocks: {#each items as item (item.id)}"
+    echo "  - Replace 'any' types with specific types"
+    echo ""
+    echo "Run 'npm run lint' to see all errors."
+    exit 1
+fi
+
+# Run build to ensure no build errors
+echo "Running build..."
+npm run build
+if [ $? -ne 0 ]; then
+    echo "❌ Build failed. Please fix the errors before committing."
+    exit 1
+fi
+
+echo "✅ All pre-commit checks passed!"
+
+# Return to root directory
+cd ..
