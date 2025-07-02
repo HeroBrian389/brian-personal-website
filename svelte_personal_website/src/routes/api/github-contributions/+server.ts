@@ -1,9 +1,34 @@
-import { json } from '@sveltejs/kit';
+import { json, error } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
+import { rateLimiter, getClientIp, createRateLimitHeaders } from '$lib/server/rate-limiter';
+import { env } from '$env/dynamic/private';
 
-export const GET: RequestHandler = async ({ fetch }) => {
+export const GET: RequestHandler = async ({ request, fetch }) => {
+  // Apply rate limiting: 10 requests per minute per IP
+  const clientIp = getClientIp(request);
+  const { allowed, info } = rateLimiter.check(clientIp, {
+    limit: 10,
+    windowMs: 60000, // 1 minute
+    keyPrefix: 'github-contributions'
+  });
+
+  // Always include rate limit headers in the response
+  const rateLimitHeaders = createRateLimitHeaders(info);
+
+  // If rate limit exceeded, return 429 Too Many Requests
+  if (!allowed) {
+    return json({
+      error: 'Too many requests. Please try again later.',
+      success: false,
+      contributions: 0
+    }, {
+      status: 429,
+      headers: rateLimitHeaders
+    });
+  }
+
   try {
-    const username = 'HeroBrian389';
+    const username = env.GITHUB_USERNAME || 'HeroBrian389';
     
     // Fetch the contributions fragment from GitHub
     const response = await fetch(
@@ -35,6 +60,8 @@ export const GET: RequestHandler = async ({ fetch }) => {
       return json({
         contributions,
         success: true
+      }, {
+        headers: rateLimitHeaders
       });
     }
     
@@ -48,6 +75,8 @@ export const GET: RequestHandler = async ({ fetch }) => {
       return json({
         contributions,
         success: true
+      }, {
+        headers: rateLimitHeaders
       });
     }
     
@@ -59,6 +88,8 @@ export const GET: RequestHandler = async ({ fetch }) => {
       contributions: 0,
       success: false,
       error: 'Could not parse contribution count'
+    }, {
+      headers: rateLimitHeaders
     });
     
   } catch (error) {
@@ -68,6 +99,8 @@ export const GET: RequestHandler = async ({ fetch }) => {
       contributions: 0,
       success: false,
       error: error instanceof Error ? error.message : 'Unknown error'
+    }, {
+      headers: rateLimitHeaders
     });
   }
 };

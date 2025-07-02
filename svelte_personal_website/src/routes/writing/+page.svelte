@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { NOTION_CONFIG } from '$lib/notion/service';
   import type { ParsedPage } from '$lib/notion/parser';
   import { fade } from 'svelte/transition';
   import type { PageData } from './$types';
@@ -7,6 +6,7 @@
   export let data: PageData;
   
   $: writingPages = data.writingPages || [];
+  $: pageIdToSlug = data.pageIdToSlug || {};
   $: error = data.error || null;
   
   function formatDate(timestamp: number): string {
@@ -18,8 +18,7 @@
   }
   
   function getSlug(pageId: string): string {
-    const entry = Object.entries(NOTION_CONFIG.writingPages).find(([_, id]) => id === pageId);
-    return entry ? entry[0] : pageId;
+    return pageIdToSlug[pageId] || pageId;
   }
 </script>
 

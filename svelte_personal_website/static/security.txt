@@ -1,0 +1,28 @@
+# This security.txt file is compliant with RFC 9116
+# https://securitytxt.org/
+
+# Our security email address
+Contact: mailto:security@briankelleher.ie
+
+# Our preferred languages for communication
+Preferred-Languages: en
+
+# Expiration date for this file (1 year from creation)
+Expires: 2026-07-01T00:00:00.000Z
+
+# OpenPGP key (optional - uncomment and add if you have one)
+# Encryption: https://briankelleher.ie/pgp-key.txt
+
+# Policy page (optional - uncomment if you have a security policy)
+# Policy: https://briankelleher.ie/security-policy
+
+# Acknowledgments page (optional - uncomment if you have a hall of fame)
+# Acknowledgments: https://briankelleher.ie/security-acknowledgments
+
+# Canonical URI for this file
+Canonical: https://briankelleher.ie/.well-known/security.txt
+
+# Digital signature (optional - sign this file with your OpenPGP key)
+# -----BEGIN PGP SIGNATURE-----
+# [signature]
+# -----END PGP SIGNATURE-----

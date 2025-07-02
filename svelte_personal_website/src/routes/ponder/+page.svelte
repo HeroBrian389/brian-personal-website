@@ -181,11 +181,13 @@
             <div class="aspect-video relative bg-black/5 backdrop-blur-sm overflow-hidden rounded-sm">
               {#if videosInView.has(index)}
                 <iframe
-                  src="https://www.youtube.com/embed/{video.id}?autoplay=0&rel=0&modestbranding=1"
+                  src="https://www.youtube-nocookie.com/embed/{video.id}?autoplay=0&rel=0&modestbranding=1"
                   title={video.title}
                   frameborder="0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowfullscreen
+                  loading="lazy"
+                  sandbox="allow-scripts allow-same-origin allow-presentation allow-popups"
                   class="absolute inset-0 w-full h-full"
                   in:fade={{ duration: 1000 }}
                 ></iframe>
@@ -252,7 +254,7 @@
   }
   
   /* Garden path smooth scroll */
-  html {
+  :global(html) {
     scroll-behavior: smooth;
   }
   

@@ -4,20 +4,6 @@ import { parsePage, enhanceBlock, type ParsedPage, type EnhancedParsedBlock } fr
 // Re-export for convenience
 export type { EnhancedParsedBlock } from './parser';
 
-// Site configuration - should match notion_site/site.config.ts
-export const NOTION_CONFIG = {
-  rootPageId: '149c09c3c6044fd495248cacffd5cf05',
-  // Add specific writing page IDs here
-  writingPages: {
-    'overthinking-vs-misthinking': '26a5b55f-f5bd-405d-aaf0-a96979d817eb',
-    'why-do-we-collect-stories': '44b00c27-5430-4b65-95c8-f78097dd8e82',
-    'good-writing-steals-soul': '6ffc4de7-f506-4421-bef1-1db03b8bd4cd',
-    'witness-to-our-lives': '943ccbc2-08b0-4941-9f14-f0a16aa000fc',
-    'cure-soul-by-senses': '97add8d8-fb23-4a00-bb75-b1c651b6ac6a',
-    'leinster-final-speech': 'b2197937-3321-442f-8376-117a3a55f08d'
-  }
-};
-
 export interface EnhancedParsedPage extends ParsedPage {
   enhancedBlocks: EnhancedParsedBlock[];
   analysis: {
@@ -165,12 +151,6 @@ function countSyllables(word: string): number {
   return Math.max(1, count);
 }
 
-// Fetch all writing pages
-export async function fetchAllWritingPages(): Promise<ParsedPage[]> {
-  const pageIds = Object.values(NOTION_CONFIG.writingPages);
-  const pages = await Promise.all(pageIds.map(id => fetchNotionPage(id)));
-  return pages.filter((p): p is ParsedPage => p !== null);
-}
 
 // Cache for parsed pages
 const pageCache = new Map<string, { data: EnhancedParsedPage; timestamp: number }>();

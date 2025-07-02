@@ -1,4 +1,5 @@
-import { getCachedPage, NOTION_CONFIG } from '$lib/notion/service';
+import { getCachedPage } from '$lib/notion/service';
+import { NOTION_CONFIG } from '$lib/notion/config.server';
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ params }) => {

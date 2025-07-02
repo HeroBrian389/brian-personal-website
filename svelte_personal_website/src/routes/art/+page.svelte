@@ -78,11 +78,12 @@
     <!-- Art grid - minimalist layout -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pb-20">
       {#each filteredArt as art, i}
-        <div
-          class="group cursor-pointer"
+        <button
+          class="group cursor-pointer w-full text-left"
           in:fade={{ duration: 600, delay: i * 100 }}
           onmouseenter={() => hoveredArt = art.id}
           onmouseleave={() => hoveredArt = null}
+          aria-label="View {art.title}"
         >
           <div class="relative overflow-hidden bg-foreground/5">
             <img 
@@ -110,7 +111,7 @@
               {art.artist}
             </p>
           </div>
-        </div>
+        </button>
       {/each}
     </div>
   </div>

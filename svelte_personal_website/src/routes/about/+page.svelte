@@ -305,11 +305,13 @@
             {#if quest.videoId}
               <div class="relative w-full max-w-2xl aspect-video mb-6 bg-background rounded-sm overflow-hidden">
                 <iframe
-                  src="https://www.youtube.com/embed/{quest.videoId}"
+                  src="https://www.youtube-nocookie.com/embed/{quest.videoId}"
                   title={quest.title}
                   frameborder="0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowfullscreen
+                  loading="lazy"
+                  sandbox="allow-scripts allow-same-origin allow-presentation allow-popups"
                   class="absolute inset-0 w-full h-full"
                 ></iframe>
               </div>

@@ -73,16 +73,18 @@
             
             // Try to play on first user interaction
             const playOnInteraction = () => {
-              audioElement.play().then(() => {
-                console.log('[AUDIO] Playback started after user interaction');
-                audioPlaying = true;
-                showAudioPrompt = false;
-                // Remove the listener once audio starts
-                document.removeEventListener('click', playOnInteraction);
-                document.removeEventListener('keydown', playOnInteraction);
-              }).catch(e => {
-                console.log('[AUDIO] Still failed to play:', e);
-              });
+              if (audioElement) {
+                audioElement.play().then(() => {
+                  console.log('[AUDIO] Playback started after user interaction');
+                  audioPlaying = true;
+                  showAudioPrompt = false;
+                  // Remove the listener once audio starts
+                  document.removeEventListener('click', playOnInteraction);
+                  document.removeEventListener('keydown', playOnInteraction);
+                }).catch(e => {
+                  console.log('[AUDIO] Still failed to play:', e);
+                });
+              }
             };
             
             // Add listeners for user interaction
