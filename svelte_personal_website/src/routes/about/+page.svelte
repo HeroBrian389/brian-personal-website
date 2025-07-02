@@ -235,14 +235,14 @@
       <div class="space-y-0">
         {#each timeline as item, i}
           <div 
-            class="flex items-center gap-8 py-8 border-b border-foreground/5 last:border-b-0"
+            class="flex flex-col md:flex-row md:items-center gap-3 md:gap-8 py-8 border-b border-foreground/5 last:border-b-0"
             in:fade={{ duration: 600, delay: i * 100 }}
           >
-            <p class="text-sm uppercase tracking-[0.2em] text-muted-foreground/60 font-light w-20">
+            <p class="text-sm uppercase tracking-[0.2em] text-muted-foreground/60 font-light md:w-20">
               {item.year}
             </p>
-            <div class="h-px flex-1 bg-foreground/10"></div>
-            <p class="text-base font-light text-foreground/80">
+            <div class="hidden md:block h-px flex-1 bg-foreground/10"></div>
+            <p class="text-base font-light text-foreground/80 md:text-right">
               {item.event}
             </p>
           </div>
