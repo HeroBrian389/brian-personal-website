@@ -173,8 +173,8 @@
             
             <!-- Minimal separator line -->
             <div class="flex justify-center mt-12 mb-8">
-              <div 
-                class="h-px bg-foreground/20 transition-all duration-1000"
+              <div
+                class="h-px bg-foreground/20"
                 style="width: {$lineWidth}px"
               ></div>
             </div>
@@ -202,8 +202,8 @@
             
             <!-- Minimal separator line -->
             <div class="flex justify-center mt-12 mb-8">
-              <div 
-                class="h-px bg-foreground/20 transition-all duration-1000"
+              <div
+                class="h-px bg-foreground/20"
                 style="width: {nextOpacity > 0.5 ? 100 : 0}px"
               ></div>
             </div>
