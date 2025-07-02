@@ -2,9 +2,22 @@
   import { toggleMode, mode } from 'mode-watcher';
   import { Sun, Moon } from 'phosphor-svelte';
 
+  function setCookie(value: string) {
+    document.cookie = `mode=${value}; path=/; max-age=${60 * 60 * 24 * 365}`;
+  }
+
+  $effect(() => {
+    const current = mode.current;
+    if (typeof document !== 'undefined' && current) {
+      setCookie(current);
+    }
+  });
+
   function handleToggle() {
     document.documentElement.classList.add('color-transition');
+    const newMode = mode.current === 'dark' ? 'light' : 'dark';
     toggleMode();
+    setCookie(newMode);
     setTimeout(() => {
       document.documentElement.classList.remove('color-transition');
     }, 1000);

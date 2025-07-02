@@ -1,9 +1,9 @@
 <script lang="ts">
 	import '../app.css';
 	import { Button } from '$lib/components/ui/button';
-       import { ModeWatcher } from 'mode-watcher';
-       import AudioPlayer from '$lib/components/AudioPlayer.svelte';
-       import ThemeToggle from '$lib/components/ThemeToggle.svelte';
+import { ModeWatcher } from 'mode-watcher';
+import AudioPlayer from '$lib/components/AudioPlayer.svelte';
+import ThemeToggle from '$lib/components/ThemeToggle.svelte';
 	import { page } from '$app/stores';
 	import { slide, fade } from 'svelte/transition';
 	import { quintOut } from 'svelte/easing';
@@ -34,7 +34,17 @@
 	});
 </script>
 
-<ModeWatcher />
+<svelte:head>
+  <script>
+    (function () {
+      const match = document.cookie.match(/(?:^|;\s*)mode=([^;]+)/);
+      if (match) {
+        localStorage.setItem('mode-watcher-mode', match[1]);
+      }
+    })();
+  </script>
+</svelte:head>
+<ModeWatcher defaultMode="dark" disableTransitions={false} />
 <AudioPlayer />
 <ThemeToggle />
 

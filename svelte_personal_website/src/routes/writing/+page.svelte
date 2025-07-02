@@ -4,7 +4,10 @@
   import type { PageData } from './$types';
   
   export let data: PageData;
-  
+  let writingPages: ParsedPage[] = [];
+  let pageIdToSlug: Record<string, string> = {};
+  let error: string | null = null;
+
   $: writingPages = data.writingPages || [];
   $: pageIdToSlug = data.pageIdToSlug || {};
   $: error = data.error || null;
