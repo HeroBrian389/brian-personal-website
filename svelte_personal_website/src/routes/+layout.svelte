@@ -2,7 +2,8 @@
 	import '../app.css';
 	import { Button } from '$lib/components/ui/button';
 	import { ModeWatcher } from 'mode-watcher';
-	import AudioPlayer from '$lib/components/AudioPlayer.svelte';
+import AudioPlayer from '$lib/components/AudioPlayer.svelte';
+import ThemeToggle from '$lib/components/ThemeToggle.svelte';
 	import { page } from '$app/stores';
 	import { slide, fade } from 'svelte/transition';
 	import { quintOut } from 'svelte/easing';
@@ -35,6 +36,7 @@
 
 <ModeWatcher />
 <AudioPlayer />
+<ThemeToggle />
 
 <div class="min-h-screen bg-background">
 	<header class="fixed top-0 z-50 w-full bg-background/80 backdrop-blur-sm">
