@@ -1,30 +1,23 @@
 // src/routes/sitemap.xml/+server.ts
 
-import { getPublishedPosts } from '$lib/notion/service';
+import { getPublishedPosts } from "$lib/notion/service";
 
 // IMPORTANT: Change this to your production domain
-const siteURL = 'https://briankelleher.ie';
+const siteURL = "https://briankelleher.ie";
 
 // List of static pages
-const staticPages = [
-  '/',
-  '/about',
-  '/art',
-  '/ponder',
-  '/quotes',
-  '/writing'
-];
+const staticPages = ["/", "/about", "/art", "/ponder", "/quotes", "/writing"];
 
 /** @type {import('./$types').RequestHandler} */
 export async function GET({ setHeaders }) {
-  setHeaders({
-    'Content-Type': 'application/xml',
-    'Cache-Control': 'public, max-age=86400' // Cache for 24 hours
-  });
+	setHeaders({
+		"Content-Type": "application/xml",
+		"Cache-Control": "public, max-age=86400" // Cache for 24 hours
+	});
 
-  const posts = await getPublishedPosts();
+	const posts = await getPublishedPosts();
 
-  const sitemap = `<?xml version="1.0" encoding="UTF-8" ?>
+	const sitemap = `<?xml version="1.0" encoding="UTF-8" ?>
     <urlset
       xmlns="https://www.sitemaps.org/schemas/sitemap/0.9"
       xmlns:xhtml="https://www.w3.org/1999/xhtml"
@@ -35,21 +28,21 @@ export async function GET({ setHeaders }) {
     >
       <!-- Static Pages -->
       ${staticPages
-        .map(
-          (page) => `
+			.map(
+				(page) => `
         <url>
           <loc>${siteURL}${page}</loc>
           <changefreq>daily</changefreq>
           <priority>0.7</priority>
         </url>
       `
-        )
-        .join('')}
+			)
+			.join("")}
 
       <!-- Dynamic Pages (Writing) -->
       ${posts
-        .map(
-          (post) => `
+			.map(
+				(post) => `
         <url>
           <loc>${siteURL}/writing/${post.slug}</loc>
           <changefreq>weekly</changefreq>
@@ -57,9 +50,9 @@ export async function GET({ setHeaders }) {
           <priority>0.8</priority>
         </url>
       `
-        )
-        .join('')}
+			)
+			.join("")}
     </urlset>`;
 
-  return new Response(sitemap.trim());
+	return new Response(sitemap.trim());
 }

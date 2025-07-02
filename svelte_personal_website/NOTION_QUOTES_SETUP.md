@@ -10,15 +10,15 @@
 
 Add these properties to your database:
 
-| Property Name | Type | Description |
-|--------------|------|-------------|
-| Quote | Title | The main quote text |
-| Author | Text | Person who said/wrote it |
-| Source | Text | Book, speech, movie, etc. |
-| Tags | Multi-select | Categories (wisdom, life, love, etc.) |
-| Date Added | Date | When you added the quote |
-| Favorite | Checkbox | Mark your favorites |
-| Notes | Text | Any additional context |
+| Property Name | Type         | Description                           |
+| ------------- | ------------ | ------------------------------------- |
+| Quote         | Title        | The main quote text                   |
+| Author        | Text         | Person who said/wrote it              |
+| Source        | Text         | Book, speech, movie, etc.             |
+| Tags          | Multi-select | Categories (wisdom, life, love, etc.) |
+| Date Added    | Date         | When you added the quote              |
+| Favorite      | Checkbox     | Mark your favorites                   |
+| Notes         | Text         | Any additional context                |
 
 ## Step 3: Import Your Quotes
 
@@ -32,16 +32,17 @@ I've created a CSV file (`quotes-for-notion.csv`) that you can import:
 ## Step 4: Update Your Code
 
 Once you have the database set up, we'll need to:
+
 1. Get the database ID (found in the URL when viewing the database)
 2. Update the quotes service to use Notion's database API
 3. This will give us structured data with consistent formatting
 
 ## Example Database Entry
 
-| Quote | Author | Source | Tags | Favorite |
-|-------|--------|--------|------|----------|
-| "The unexamined life is not worth living" | Socrates | Apology | wisdom, life, philosophy | ✓ |
-| "One day I will find the right words, and they will be simple" | Jack Kerouac | The Dharma Bums | writing, simplicity | ✓ |
+| Quote                                                          | Author       | Source          | Tags                     | Favorite |
+| -------------------------------------------------------------- | ------------ | --------------- | ------------------------ | -------- |
+| "The unexamined life is not worth living"                      | Socrates     | Apology         | wisdom, life, philosophy | ✓        |
+| "One day I will find the right words, and they will be simple" | Jack Kerouac | The Dharma Bums | writing, simplicity      | ✓        |
 
 ## Benefits of Using a Database
 
@@ -54,6 +55,7 @@ Once you have the database set up, we'll need to:
 ## Tag Suggestions
 
 Based on your quotes, here are suggested tags:
+
 - wisdom
 - life
 - love
