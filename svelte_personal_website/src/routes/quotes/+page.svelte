@@ -20,11 +20,32 @@
   let currentOpacity = $state(1);
   let nextOpacity = $state(0);
   
+  // Quote cycling state
+  let shuffledQuotes = $state<Quote[]>([]);
+  let currentQuoteIndex = $state(0);
+  
   // Smooth animations with consistent timing
   const lineWidth = tweened(0, { duration: 800, easing: quintOut });
   
+  // Shuffle quotes array
+  function shuffleArray<T>(array: T[]): T[] {
+    const shuffled = [...array];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+  }
   
-  // Get a new random quote
+  // Get the next quote in the shuffled order
+  function getNextQuoteInCycle(): Quote | null {
+    if (shuffledQuotes.length === 0) return null;
+    
+    currentQuoteIndex = (currentQuoteIndex + 1) % shuffledQuotes.length;
+    return shuffledQuotes[currentQuoteIndex];
+  }
+  
+  // Get a new quote following the cycle
   async function getNewQuote() {
     console.log('[QUOTES] getNewQuote called at', new Date().toISOString());
     if (isTransitioning || quotes.length === 0) {
@@ -38,8 +59,8 @@
     // Reset auto-advance timer
     startAutoAdvance();
     
-    // Get new quote and load it immediately (but invisible)
-    const newQuote = getRandomQuote(quotes);
+    // Get next quote in cycle
+    const newQuote = getNextQuoteInCycle();
     if (newQuote) {
       console.log('[QUOTES] Loading new quote:', newQuote.id);
       nextQuote = newQuote;
@@ -99,7 +120,10 @@
   // Initialize
   onMount(() => {
     if (quotes.length > 0) {
-      currentQuote = getRandomQuote(quotes);
+      // Shuffle quotes on page load
+      shuffledQuotes = shuffleArray(quotes);
+      currentQuoteIndex = 0;
+      currentQuote = shuffledQuotes[0];
       currentOpacity = 1;
       nextOpacity = 0;
       setTimeout(() => {
@@ -219,6 +243,12 @@
             if (isTransitioning) return;
             
             isTransitioning = true;
+            
+            // Find the quote's position in the shuffled array
+            const quoteIndex = shuffledQuotes.findIndex(q => q.id === quote.id);
+            if (quoteIndex !== -1) {
+              currentQuoteIndex = quoteIndex;
+            }
             
             // Load new quote immediately (but invisible)
             nextQuote = quote;

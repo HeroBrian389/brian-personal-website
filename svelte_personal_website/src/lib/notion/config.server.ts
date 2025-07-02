@@ -10,6 +10,7 @@ export const NOTION_CONFIG = {
     'good-writing-steals-soul': env.NOTION_PAGE_GOOD_WRITING_STEALS_SOUL || '6ffc4de7-f506-4421-bef1-1db03b8bd4cd',
     'witness-to-our-lives': env.NOTION_PAGE_WITNESS_TO_OUR_LIVES || '943ccbc2-08b0-4941-9f14-f0a16aa000fc',
     'cure-soul-by-senses': env.NOTION_PAGE_CURE_SOUL_BY_SENSES || '97add8d8-fb23-4a00-bb75-b1c651b6ac6a',
-    'leinster-final-speech': env.NOTION_PAGE_LEINSTER_FINAL_SPEECH || 'b2197937-3321-442f-8376-117a3a55f08d'
+    'leinster-final-speech': env.NOTION_PAGE_LEINSTER_FINAL_SPEECH || 'b2197937-3321-442f-8376-117a3a55f08d',
+    'type-safety': env.NOTION_PAGE_TYPE_SAFETY || '22456556ce968080bf0cc18d9d296750'
   }
 };
