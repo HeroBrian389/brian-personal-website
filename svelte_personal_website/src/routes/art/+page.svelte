@@ -1,10 +1,9 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { fade } from 'svelte/transition';
-  
-  let selectedArtist = $state<string | null>(null);
+
   let hoveredArt = $state<string | null>(null);
-  
+
   // Art collection data
   const artCollection = [
     {
@@ -17,19 +16,29 @@
       style: 'City Pop',
       colors: ['#87CEEB', '#FF69B4', '#20B2AA', '#FFE4B5']
     },
+    {
+      id: 'banksy-1',
+      artist: 'Banksy',
+      title: 'Rage, the Flower Thrower',
+      description: 'A protestor throws a bouquet of flowers.',
+      imageUrl: '/banksy-flower-thrower.jpeg',
+      year: '2003',
+      style: 'Street Art',
+      colors: ['#000000', '#FFFFFF', '#FF0000', '#00FF00']
+    },
+    {
+      id: 'banksy-2',
+      artist: 'Banksy',
+      title: 'Girl with Balloon',
+      description: 'A young girl with her hand extended toward a red heart-shaped balloon.',
+      imageUrl: '/banksy-girl-with-balloon.jpg',
+      year: '2002',
+      style: 'Street Art',
+      colors: ['#000000', '#FFFFFF', '#FF0000']
+    }
     // Add more artworks as needed
   ];
-  
-  // Get unique artists
-  const artists = Array.from(new Set(artCollection.map(art => art.artist)));
-  
-  // Filter artworks by selected artist
-  let filteredArt = $derived(
-    selectedArtist 
-      ? artCollection.filter(art => art.artist === selectedArtist)
-      : artCollection
-  );
-  
+
   onMount(() => {
     // Initialize any animations or lazy loading
   });
@@ -47,37 +56,15 @@
       <div class="flex items-baseline justify-between mb-4" in:fade={{ duration: 800 }}>
         <h1 class="text-3xl font-extralight tracking-tight">Art</h1>
         <p class="text-xs uppercase tracking-[0.2em] text-muted-foreground/40 font-light">
-          {filteredArt.length} {filteredArt.length === 1 ? 'Piece' : 'Pieces'}
+          {artCollection.length} {artCollection.length === 1 ? 'Piece' : 'Pieces'}
         </p>
       </div>
       <div class="h-px bg-foreground/10"></div>
     </div>
-    
-    <!-- Artist filter - minimal approach -->
-    {#if artists.length > 1}
-      <div class="flex gap-8 mb-16 text-xs uppercase tracking-[0.2em] font-light">
-        <button
-          onclick={() => selectedArtist = null}
-          class="hover:text-foreground/80 transition-colors duration-500 relative group {selectedArtist === null ? 'text-foreground' : 'text-foreground/40'}"
-        >
-          <span class="relative z-10">All</span>
-          <div class="absolute inset-x-0 bottom-0 h-px bg-foreground/20 transition-transform duration-500 {selectedArtist === null ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'}"></div>
-        </button>
-        {#each artists as artist}
-          <button
-            onclick={() => selectedArtist = artist}
-            class="hover:text-foreground/80 transition-colors duration-500 relative group {selectedArtist === artist ? 'text-foreground' : 'text-foreground/40'}"
-          >
-            <span class="relative z-10">{artist}</span>
-            <div class="absolute inset-x-0 bottom-0 h-px bg-foreground/20 transition-transform duration-500 {selectedArtist === artist ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'}"></div>
-          </button>
-        {/each}
-      </div>
-    {/if}
-    
+
     <!-- Art grid - minimalist layout -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pb-20">
-      {#each filteredArt as art, i}
+      {#each artCollection as art, i}
         <button
           class="group cursor-pointer w-full text-left"
           in:fade={{ duration: 600, delay: i * 100 }}
