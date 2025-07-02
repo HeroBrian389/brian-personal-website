@@ -1,12 +1,20 @@
 <script lang="ts">
   import { toggleMode, mode } from 'mode-watcher';
   import { Sun, Moon } from 'phosphor-svelte';
+
+  function handleToggle() {
+    document.documentElement.classList.add('color-transition');
+    toggleMode();
+    setTimeout(() => {
+      document.documentElement.classList.remove('color-transition');
+    }, 1000);
+  }
 </script>
 
 <button
   class="group fixed bottom-4 left-4 z-50 w-9 h-9 rounded-full border border-foreground/20 hover:border-foreground/40 text-foreground/60 hover:text-foreground transition-all duration-500"
   aria-label="Toggle theme"
-  onclick={toggleMode}
+  onclick={handleToggle}
 >
   <span class="sr-only">Toggle theme</span>
   <Sun class="absolute inset-0 m-auto size-4 transition-opacity duration-500 {mode.current === 'dark' ? 'opacity-0' : 'opacity-100'}" />

@@ -119,3 +119,8 @@
     @apply bg-background text-foreground;
   }
 }
+html.color-transition,
+html.color-transition body {
+  @apply transition-colors duration-1000;
+}
+
