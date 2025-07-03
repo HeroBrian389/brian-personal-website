@@ -16,13 +16,9 @@
 				<h1 class="mb-8 text-4xl leading-relaxed font-extralight">Welcome</h1>
 
 				<div class="text-muted-foreground space-y-6 text-lg font-light">
-					<p in:fade={{ duration: 1500, delay: 800 }}>
-						I'm Brian. I build things.
-					</p>
+					<p in:fade={{ duration: 1500, delay: 800 }}>I'm Brian. I build things.</p>
 
-					<p in:fade={{ duration: 1500, delay: 1300 }}>
-						Feel free to explore a bit.
-					</p>
+					<p in:fade={{ duration: 1500, delay: 1300 }}>Feel free to explore a bit.</p>
 				</div>
 
 				<div
