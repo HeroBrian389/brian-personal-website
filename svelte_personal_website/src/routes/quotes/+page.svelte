@@ -212,6 +212,11 @@
 							</p>
 						</div>
 
+						<!-- Minimal separator line -->
+						<div class="mt-12 mb-8 flex justify-center">
+							<div class="bg-foreground/20 h-px" style="width: {$lineWidth}px"></div>
+						</div>
+
 						<!-- Author -->
 						{#if nextQuote.author}
 							<div class="text-center">
