@@ -21,6 +21,7 @@
 		yearFormat = "numeric",
 		day,
 		disableDaysOutsideMonth = false,
+		type = "single",
 		...restProps
 	}: WithoutChildrenOrChild<CalendarPrimitive.RootProps> & {
 		buttonVariant?: ButtonVariant;
@@ -46,7 +47,8 @@ get along, so we shut typescript up by casting `value` to `never`.
 <CalendarPrimitive.Root
 	bind:value={value as never}
 	bind:ref
-	bind:placeholder
+	{...(placeholder !== undefined ? { placeholder } : {})}
+	{type}
 	{weekdayFormat}
 	{disableDaysOutsideMonth}
 	class={cn(
@@ -56,7 +58,7 @@ get along, so we shut typescript up by casting `value` to `never`.
 	{locale}
 	{monthFormat}
 	{yearFormat}
-	{...restProps}
+	{...Object.entries(restProps).reduce((acc, [key, value]) => value !== undefined ? { ...acc, [key]: value } : acc, {})}
 >
 	{#snippet children({ months, weekdays })}
 		<Calendar.Months>

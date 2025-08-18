@@ -158,7 +158,7 @@
 >
 	<!-- Display the text file content -->
 	<div class="content-area h-full flex-1">
-		{#each fileContent as line, _i}
+		{#each fileContent as line}
 			<div class="line">{line || "\u00A0"}</div>
 		{/each}
 	</div>

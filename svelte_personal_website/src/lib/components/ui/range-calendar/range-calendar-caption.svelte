@@ -42,8 +42,8 @@
 
 {#snippet MonthSelect()}
 	<RangeCalendarMonthSelect
-		{months}
-		{monthFormat}
+		{...(months !== undefined && { months })}
+		{...(monthFormat !== undefined && { monthFormat })}
 		value={month.month}
 		onchange={(e) => {
 			if (!placeholder) return;
@@ -55,7 +55,11 @@
 {/snippet}
 
 {#snippet YearSelect()}
-	<RangeCalendarYearSelect {years} {yearFormat} value={month.year} />
+	<RangeCalendarYearSelect
+		{...(years !== undefined && { years })}
+		{...(yearFormat !== undefined && { yearFormat })}
+		value={month.year}
+	/>
 {/snippet}
 
 {#if captionLayout === "dropdown"}

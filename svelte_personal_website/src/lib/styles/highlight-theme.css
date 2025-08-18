@@ -1,0 +1,125 @@
+/* Custom minimalist syntax highlighting theme */
+
+/* Base styles */
+.hljs {
+	color: rgba(var(--foreground), 0.85);
+	background: transparent;
+}
+
+/* Comments and documentation */
+.hljs-comment,
+.hljs-quote {
+	color: rgba(var(--foreground), 0.4);
+	font-style: italic;
+}
+
+/* Keywords, built-ins, and types */
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-built_in,
+.hljs-type {
+	color: rgba(var(--foreground), 0.9);
+	font-weight: 400;
+}
+
+/* Function and method names */
+.hljs-title,
+.hljs-section,
+.hljs-selector-id,
+.hljs-function .hljs-title {
+	color: rgba(var(--foreground), 0.95);
+	font-weight: 400;
+}
+
+/* Strings and text */
+.hljs-string,
+.hljs-meta .hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: rgba(var(--foreground), 0.7);
+}
+
+/* Numbers and constants */
+.hljs-number,
+.hljs-literal {
+	color: rgba(var(--foreground), 0.75);
+}
+
+/* Variables and parameters */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-params,
+.hljs-attr {
+	color: rgba(var(--foreground), 0.8);
+}
+
+/* Regular expressions and special characters */
+.hljs-regexp,
+.hljs-link {
+	color: rgba(var(--foreground), 0.6);
+}
+
+/* Attributes and properties */
+.hljs-attribute,
+.hljs-property {
+	color: rgba(var(--foreground), 0.85);
+}
+
+/* Meta information */
+.hljs-meta {
+	color: rgba(var(--foreground), 0.5);
+}
+
+/* Deletions and errors */
+.hljs-deletion {
+	color: rgba(var(--foreground), 0.5);
+	text-decoration: line-through;
+}
+
+/* Emphasis and strong */
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: 500;
+}
+
+/* Bash/Shell specific */
+.language-bash .hljs-variable,
+.language-sh .hljs-variable {
+	color: rgba(var(--foreground), 0.85);
+}
+
+.language-bash .hljs-built_in,
+.language-sh .hljs-built_in {
+	color: rgba(var(--foreground), 0.9);
+}
+
+/* JavaScript/TypeScript specific */
+.language-javascript .hljs-keyword,
+.language-typescript .hljs-keyword,
+.language-js .hljs-keyword,
+.language-ts .hljs-keyword {
+	color: rgba(var(--foreground), 0.9);
+}
+
+/* Markdown specific */
+.language-markdown .hljs-section {
+	color: rgba(var(--foreground), 0.95);
+	font-weight: 400;
+}
+
+.language-markdown .hljs-bullet {
+	color: rgba(var(--foreground), 0.6);
+}
+
+/* JSON specific */
+.language-json .hljs-attr {
+	color: rgba(var(--foreground), 0.85);
+}
+
+.language-json .hljs-string {
+	color: rgba(var(--foreground), 0.7);
+}

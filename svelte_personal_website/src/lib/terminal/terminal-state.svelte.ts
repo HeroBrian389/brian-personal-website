@@ -155,8 +155,11 @@ export class TerminalState {
 
 			if (matches.length === 1) {
 				// Complete the command
-				this.currentInput = `open ${matches[0].slug}`;
-				this.cursorPosition = this.currentInput.length;
+				const match = matches[0];
+				if (match) {
+					this.currentInput = `open ${match.slug}`;
+					this.cursorPosition = this.currentInput.length;
+				}
 			} else if (matches.length > 1) {
 				// Show possible matches
 				const lastPromptIndex = this.terminalBuffer.length - 1;
@@ -178,8 +181,11 @@ export class TerminalState {
 
 			if (matches.length === 1) {
 				// Complete the command
-				this.currentInput = `kill ${matches[0].slug}`;
-				this.cursorPosition = this.currentInput.length;
+				const match = matches[0];
+				if (match) {
+					this.currentInput = `kill ${match.slug}`;
+					this.cursorPosition = this.currentInput.length;
+				}
 			} else if (matches.length > 1) {
 				// Show possible matches
 				const lastPromptIndex = this.terminalBuffer.length - 1;

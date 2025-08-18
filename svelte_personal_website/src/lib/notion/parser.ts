@@ -48,6 +48,7 @@ export function parseRichText(richTextArray: any[]): ParsedRichText[] {
 		if (Array.isArray(item)) {
 			const [text, formats] = item;
 			const annotations: ParsedRichText["annotations"] = {};
+			let href: string | undefined = undefined;
 
 			if (formats && Array.isArray(formats)) {
 				formats.forEach((format: any) => {
@@ -74,13 +75,14 @@ export function parseRichText(richTextArray: any[]): ParsedRichText[] {
 								break;
 							case "a":
 								// This is a link
-								return { text, annotations, href: value };
+								href = value;
+								break;
 						}
 					}
 				});
 			}
 
-			return { text, annotations };
+			return href ? { text, annotations, href } : { text, annotations };
 		}
 
 		// Fallback for plain text
@@ -206,17 +208,20 @@ export function enhanceBlock(block: ParsedBlock): EnhancedParsedBlock {
 	const plainText = block.content.map((c) => c.text).join("");
 
 	// Semantic analysis
+	const isHeading = block.type.startsWith("header") || block.type.startsWith("sub_");
+	const headingLevel = block.type.includes("sub_sub_")
+		? 3
+		: block.type.includes("sub_")
+			? 2
+			: block.type.includes("header")
+				? 1
+				: undefined;
+
 	const semantics = {
 		isQuote: block.type === "quote",
 		isCode: block.type === "code",
-		isHeading: block.type.startsWith("header") || block.type.startsWith("sub_"),
-		headingLevel: block.type.includes("sub_sub_")
-			? 3
-			: block.type.includes("sub_")
-				? 2
-				: block.type.includes("header")
-					? 1
-					: undefined
+		isHeading,
+		...(headingLevel !== undefined && { headingLevel })
 	};
 
 	// Typography analysis

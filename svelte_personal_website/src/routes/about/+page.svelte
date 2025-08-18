@@ -5,12 +5,9 @@
 	let age = $state(19);
 	let yearsOfCoding = $state(8);
 	let githubCommits = $state(0);
-	let _isVisible = $state(false);
-	let _isLoadingGithub = $state(true);
 
 	// Calculate dynamic values
 	onMount(() => {
-		_isVisible = true;
 
 		// Update age dynamically
 		const birthYear = 2004; // Approximate based on being 19 in 2023
@@ -53,7 +50,7 @@
 			console.error("Error fetching GitHub contributions:", error);
 			githubCommits = 2400;
 		} finally {
-			_isLoadingGithub = false;
+			// GitHub loading complete
 		}
 	}
 
@@ -67,31 +64,6 @@
 		{ year: 2024, age: 20, event: "Student Entrepreneur of the Year" }
 	];
 
-	// Achievement cards data
-	const _achievements = [
-		{
-			title: "MicroDoc",
-			description: "AI-powered medical paperwork automation for doctors",
-			links: [
-				{
-					text: "Silicon Republic",
-					url: "https://www.siliconrepublic.com/start-ups/microdoc-ai-paperwork-automation-startup-for-doctors-brian-kelleher"
-				},
-				{
-					text: "Irish Times",
-					url: "https://www.irishtimes.com/business/innovation/2023/08/24/irish-start-up-uses-ai-and-robots-to-automate-medical-paperwork-for-doctors/"
-				}
-			]
-		},
-		{
-			title: "Education",
-			description: "Mathematics & Economics at Trinity College Dublin"
-		},
-		{
-			title: "Recognition",
-			description: "National awards and press coverage"
-		}
-	];
 
 	// Side quests data
 	const sideQuests = [

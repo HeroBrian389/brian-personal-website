@@ -6,13 +6,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This repository contains two separate implementations of Brian Kelleher's personal website:
 
-1. **Notion Site** (`/notion_site/`) - A Next.js-based website using Notion as a CMS (production)
-2. **Svelte Personal Website** (`/svelte_personal_website/`) - A new SvelteKit implementation (in development)
+1. **Svelte Personal Website** (`/svelte_personal_website/`) - The active SvelteKit implementation
+2. **Notion Site** (`/archive/notion_site/`) - A Next.js-based website using Notion as a CMS (archived)
 
-## Notion Site Development Commands
+## Notion Site Development Commands (Archived)
 
 ```bash
-cd notion_site
+cd archive/notion_site
 
 # Install dependencies
 npm install
@@ -112,7 +112,7 @@ npm run format
    - Notion site: TypeScript in non-strict mode
    - Svelte site: Run `npm run check`
 
-5. **Migration Status**: The repository appears to be transitioning from the Notion-based site to the Svelte implementation. The Notion site files have been moved to a subdirectory.
+5. **Migration Status**: The migration from the Notion-based site to the Svelte implementation is complete. The Notion site has been archived for reference.
 
 ## Svelte 5 and SvelteKit Development Guidelines
 

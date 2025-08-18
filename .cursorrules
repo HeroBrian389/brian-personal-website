@@ -6,13 +6,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This repository contains two separate implementations of Brian Kelleher's personal website:
 
-1. **Notion Site** (`/notion_site/`) - A Next.js-based website using Notion as a CMS (production)
+1. **Notion Site** (`/archive/notion_site/`) - A Next.js-based website using Notion as a CMS (archived)
 2. **Svelte Personal Website** (`/svelte_personal_website/`) - A new SvelteKit implementation (in development)
 
 ## Notion Site Development Commands
 
 ```bash
-cd notion_site
+cd archive/notion_site
 
 # Install dependencies
 npm install

@@ -135,7 +135,9 @@ function countSyllables(word: string): number {
 	let previousWasVowel = false;
 
 	for (let i = 0; i < word.length; i++) {
-		const isVowel = "aeiou".includes(word[i]);
+		const char = word[i];
+		if (char === undefined) continue;
+		const isVowel = "aeiou".includes(char);
 		if (isVowel && !previousWasVowel) {
 			count++;
 		}

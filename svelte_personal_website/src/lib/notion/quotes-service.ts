@@ -19,14 +19,24 @@ export async function fetchQuotes(): Promise<Quote[]> {
 	try {
 		// For now, use the cleaned quotes JSON
 		// Later, this can be replaced with Notion database API calls
-		return cleanedQuotesData.quotes.map((q) => ({
-			id: q.id,
-			text: q.quote,
-			author: q.author === "Unknown" ? undefined : q.author,
-			source: q.source || undefined,
-			richText: parseRichText([[q.quote, []]]),
-			tags: q.tags
-		}));
+		return cleanedQuotesData.quotes.map((q) => {
+			const quote: Quote = {
+				id: q.id,
+				text: q.quote,
+				richText: parseRichText([[q.quote, []]]),
+				tags: q.tags
+			};
+			
+			// Only add optional properties if they have valid values
+			if (q.author && q.author !== "Unknown") {
+				quote.author = q.author;
+			}
+			if (q.source && q.source.trim()) {
+				quote.source = q.source;
+			}
+			
+			return quote;
+		});
 	} catch (error) {
 		console.error("Error fetching quotes:", error);
 
@@ -58,14 +68,19 @@ async function fetchQuotesFromNotion(): Promise<Quote[]> {
 					// Parse quote format (assuming format like "Quote text" - Author)
 					const quoteMatch = plainText.match(/^"?([^"]+)"?\s*[-–—]\s*(.+)$/);
 
-					if (quoteMatch) {
-						quotes.push({
+					if (quoteMatch && quoteMatch[1] && quoteMatch[2]) {
+						const quote: Quote = {
 							id: block.id,
 							text: quoteMatch[1].trim(),
-							author: quoteMatch[2].trim(),
 							richText: parseRichText([[quoteMatch[1], []]]),
 							tags: extractTags(plainText)
-						});
+						};
+						
+						if (quoteMatch[2].trim()) {
+							quote.author = quoteMatch[2].trim();
+						}
+						
+						quotes.push(quote);
 					} else if (
 						plainText.length > 20 &&
 						!plainText.toLowerCase().includes("here are some quotes")
@@ -113,7 +128,9 @@ function extractTags(text: string): string[] {
 // Get a random quote
 export function getRandomQuote(quotes: Quote[]): Quote | null {
 	if (quotes.length === 0) return null;
-	return quotes[Math.floor(Math.random() * quotes.length)];
+	const randomIndex = Math.floor(Math.random() * quotes.length);
+	const selectedQuote = quotes[randomIndex];
+	return selectedQuote ?? null;
 }
 
 // Get quotes by tag

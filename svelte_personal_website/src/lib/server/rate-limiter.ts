@@ -132,7 +132,8 @@ export function getClientIp(request: Request): string {
 	const forwardedFor = headers.get("x-forwarded-for");
 	if (forwardedFor) {
 		// X-Forwarded-For can contain multiple IPs; take the first one
-		return forwardedFor.split(",")[0].trim();
+		const firstIp = forwardedFor.split(",")[0];
+		return firstIp ? firstIp.trim() : "unknown";
 	}
 
 	const realIp = headers.get("x-real-ip");

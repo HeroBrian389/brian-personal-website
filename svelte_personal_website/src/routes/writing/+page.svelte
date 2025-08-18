@@ -74,7 +74,7 @@
 								class="text-muted-foreground/80 mb-6 line-clamp-2 text-base leading-relaxed font-light"
 							>
 								{#if page.blocks.length > 0}
-									{page.blocks[0].content.map((c) => c.text).join("")}
+									{page.blocks[0]?.content.map((c) => c.text).join("")}
 								{:else}
 									...
 								{/if}

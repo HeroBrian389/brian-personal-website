@@ -65,7 +65,11 @@
 		"vitest-browser-svelte": "^0.1.0"
 	},
 	"dependencies": {
+		"@types/marked": "^5.0.2",
+		"highlight.js": "^11.11.1",
+		"marked": "^16.2.0",
 		"notion-client": "^6.12.6",
-		"phosphor-svelte": "^1.0.0"
+		"phosphor-svelte": "^1.0.0",
+		"shiki": "^3.9.2"
 	}
 }

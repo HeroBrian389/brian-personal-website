@@ -6,8 +6,8 @@ This repository contains two implementations of Brian Kelleher's website. The or
 
 | Path | Description |
 |------|-------------|
-| [`notion_site/`](./notion_site) | Legacy Next.js site using Notion as a CMS. Kept for reference. |
 | [`svelte_personal_website/`](./svelte_personal_website) | Active SvelteKit implementation with a minimalist design language. |
+| [`archive/notion_site/`](./archive/notion_site) | Legacy Next.js site using Notion as a CMS (archived). |
 
 ## Design Manifesto
 
@@ -21,12 +21,12 @@ The Svelte site adopts a contemplative minimalism:
 
 ## Getting Started
 
-### Notion Site (legacy)
+### Notion Site (archived)
 
-This codebase is no longer maintained and exists purely as a reference.
+This codebase is no longer maintained and has been moved to the archive folder.
 
 ```bash
-cd notion_site
+cd archive/notion_site
 npm install            # install dependencies
 npm run dev            # run locally
 npm run build          # build for production
@@ -45,7 +45,7 @@ npm run preview        # preview the production build
 
 ## Related Documentation
 
-- [`notion_site/CLAUDE.md`](./notion_site/CLAUDE.md) — architecture and development tips for the Next.js site.
 - [`CLAUDE.md`](./CLAUDE.md) — overall project guidelines, Svelte conventions and design language.
+- [`archive/notion_site/CLAUDE.md`](./archive/notion_site/CLAUDE.md) — architecture and development tips for the archived Next.js site.
 
 Feel free to explore each directory's README for more detailed usage instructions.

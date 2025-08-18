@@ -31,7 +31,7 @@ export const GET: RequestHandler = async ({ request, fetch }) => {
 	}
 
 	try {
-		const username = env.GITHUB_USERNAME || "HeroBrian389";
+		const username = env["GITHUB_USERNAME"] || "HeroBrian389";
 
 		// Fetch the contributions fragment from GitHub
 		const response = await fetch(
