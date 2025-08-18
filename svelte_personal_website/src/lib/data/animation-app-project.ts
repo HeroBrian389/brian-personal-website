@@ -218,7 +218,7 @@ class ElevenLabsVoiceSync:
             # Generate audio for segment
             audio_response = self.client.text_to_speech.convert(
                 text=segment['text'],
-                voice_id="Daniel",  # or "Lily"
+                voice_id="John",  # or "Joanna"
                 model_id="eleven_turbo_v2_5",
                 voice_settings=self.voice_settings,
                 output_format="mp3_44100_128",

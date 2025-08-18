@@ -1,7 +1,57 @@
 [
 	{
-		"slug": "example-project",
-		"title": "Example Project",
-		"description": "This is an example placeholder project."
+		"slug": "animation-creation-app",
+		"title": "AI-Powered Mathematical Animation Platform",
+		"description": "Platform transforming natural language into Manim-powered educational videos through multi-agent AI orchestration and custom spatial reasoning scaffolding",
+		"technologies": [
+			"Python",
+			"Django",
+			"FastAPI",
+			"SvelteKit",
+			"TypeScript",
+			"MySQL",
+			"Redis",
+			"RabbitMQ",
+			"Celery",
+			"Docker",
+			"AWS S3",
+			"CloudFront",
+			"Manim",
+			"OpenAI API",
+			"Anthropic API",
+			"ElevenLabs",
+			"WebSockets",
+			"JWT",
+			"MyPy"
+		],
+		"featured": true,
+		"date": "2024",
+		"category": "ai",
+		"codeSnippet": {
+			"language": "python",
+			"path": "content/projects/animation-creation-app/snippet.py"
+		}
+	},
+	{
+		"slug": "claude-workflow-automation",
+		"title": "Claude Workflow Automation System",
+		"description": "An autonomous code generation pipeline orchestrating multi-stage AI workflows for full-stack application development",
+		"technologies": [
+			"Bash",
+			"Node.js",
+			"BullMQ",
+			"Redis",
+			"Claude API",
+			"Git",
+			"Docker",
+			"Winston",
+			"IORedis"
+		],
+		"date": "2025",
+		"featured": true,
+		"category": "infrastructure",
+		"codeSnippet": {
+			"language": "bash"
+		}
 	}
 ]

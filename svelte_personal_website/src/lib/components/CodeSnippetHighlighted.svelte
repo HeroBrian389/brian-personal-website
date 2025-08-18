@@ -37,14 +37,14 @@
 					{
 						pre(node) {
 							// Remove default styles and add our classes
-							delete node.properties.style;
-							node.properties.class = 'shiki-pre';
+							delete node.properties['style'];
+							node.properties['class'] = 'shiki-pre';
 						},
 						code(node) {
-							delete node.properties.style;
+							delete node.properties['style'];
 						},
 						line(node) {
-							node.properties.class = 'shiki-line';
+							node.properties['class'] = 'shiki-line';
 						}
 					}
 				]

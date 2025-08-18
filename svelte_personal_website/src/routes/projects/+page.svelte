@@ -1,9 +1,10 @@
 <script lang="ts">
-	import { projects } from '$lib/data/projects';
 	import { fade } from 'svelte/transition';
 	import CodeSnippetHighlighted from '$lib/components/CodeSnippetHighlighted.svelte';
+	import type { PageData } from './$types';
 
-	// Removed filtering by status - displaying all projects
+	let { data }: { data: PageData } = $props();
+	const { projects } = data;
 </script>
 
 <svelte:head>
@@ -60,7 +61,7 @@
 								</div>
 							</div>
 							
-							{#if project.codeSnippet}
+							{#if project.codeSnippet && project.codeSnippet.code}
 								<div class="lg:mt-8">
 									<CodeSnippetHighlighted code={project.codeSnippet.code} language={project.codeSnippet.language} />
 								</div>

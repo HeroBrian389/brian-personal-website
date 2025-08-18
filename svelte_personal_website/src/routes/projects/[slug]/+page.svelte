@@ -1,27 +1,10 @@
 <script lang="ts">
 	import { fade } from 'svelte/transition';
-	import { onMount } from 'svelte';
 	import type { PageData } from './$types';
-	import { renderMarkdown } from '$lib/utils/markdown';
 	import './+page.css';
 	
 	let { data }: { data: PageData } = $props();
 	const { project } = data;
-	
-	let renderedContent = $state('');
-	let loading = $state(true);
-	
-	onMount(async () => {
-		if (project.longDescription) {
-			try {
-				renderedContent = await renderMarkdown(project.longDescription);
-			} catch (error) {
-				console.error('Failed to render markdown:', error);
-				renderedContent = project.longDescription;
-			}
-		}
-		loading = false;
-	});
 </script>
 
 <svelte:head>
@@ -43,9 +26,11 @@
 			<header class="mb-20">
 				<div class="flex justify-between items-start mb-6">
 					<h1 class="text-4xl font-extralight">{project.title}</h1>
-					<p class="text-sm uppercase tracking-[0.2em] text-muted-foreground font-light">
-						{project.date}
-					</p>
+					{#if project.date}
+						<p class="text-sm uppercase tracking-[0.2em] text-muted-foreground font-light">
+							{project.date}
+						</p>
+					{/if}
 				</div>
 				
 				<p class="text-lg font-light text-muted-foreground mb-8">
@@ -79,17 +64,9 @@
 				</div>
 			</header>
 
-			{#if project.longDescription}
+			{#if project.renderedLongDescription}
 				<section class="mb-20 prose prose-invert max-w-none">
-					{#if loading}
-						<div class="animate-pulse">
-							<div class="h-4 bg-foreground/10 rounded w-3/4 mb-4"></div>
-							<div class="h-4 bg-foreground/10 rounded w-full mb-4"></div>
-							<div class="h-4 bg-foreground/10 rounded w-5/6"></div>
-						</div>
-					{:else}
-						<div class="markdown-content">{@html renderedContent}</div>
-					{/if}
+					<div class="markdown-content">{@html project.renderedLongDescription}</div>
 				</section>
 			{/if}
 

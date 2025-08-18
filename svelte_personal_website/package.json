@@ -17,7 +17,8 @@
 		"test": "npm run test:unit -- --run && npm run test:e2e",
 		"test:e2e": "playwright test",
 		"pre-commit": "npm run check && npm run format && npm run lint:fix && npm run lint && npm run build",
-		"lint:fix": "prettier --write . && eslint . --fix"
+		"lint:fix": "prettier --write . && eslint . --fix",
+		"extract:projects": "node ./scripts/extract-projects.mjs"
 	},
 	"devDependencies": {
 		"@eslint/compat": "^1.2.5",
@@ -65,6 +66,7 @@
 		"vitest-browser-svelte": "^0.1.0"
 	},
 	"dependencies": {
+		"zod": "^3.23.8",
 		"@types/marked": "^5.0.2",
 		"highlight.js": "^11.11.1",
 		"marked": "^16.2.0",
