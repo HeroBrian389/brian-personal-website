@@ -53,12 +53,6 @@
 				</p>
 
 				<div class="flex flex-wrap gap-6 text-sm">
-					{#if project.status}
-						<span class="uppercase tracking-[0.2em] font-light text-foreground/60">
-							Status: {project.status.replace('-', ' ')}
-						</span>
-					{/if}
-					
 					{#if project.link}
 						<a 
 							href={project.link} 

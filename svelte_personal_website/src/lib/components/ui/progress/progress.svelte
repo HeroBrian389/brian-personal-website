@@ -6,7 +6,7 @@
 		ref = $bindable(null),
 		class: className,
 		max = 100,
-		value,
+		value = 0,
 		...restProps
 	}: WithoutChildrenOrChild<ProgressPrimitive.RootProps> = $props();
 </script>

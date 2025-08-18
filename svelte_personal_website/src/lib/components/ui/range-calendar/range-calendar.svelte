@@ -8,8 +8,8 @@
 
 	let {
 		ref = $bindable(null),
-		value = $bindable(),
-		placeholder = $bindable(),
+		value = $bindable(undefined as any),
+		placeholder = $bindable(undefined as any),
 		weekdayFormat = "short",
 		class: className,
 		buttonVariant = "ghost",

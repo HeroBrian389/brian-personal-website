@@ -10,7 +10,8 @@ async function initHighlighter() {
 			themes: ['github-dark-dimmed'],
 			langs: [
 				'javascript',
-				'typescript', 
+				'typescript',
+				'python',
 				'bash',
 				'shell',
 				'json',
@@ -33,6 +34,7 @@ export async function renderMarkdown(content: string): Promise<string> {
 	const langMap: Record<string, string> = {
 		'js': 'javascript',
 		'ts': 'typescript',
+		'py': 'python',
 		'sh': 'bash',
 		'yml': 'yaml',
 		'text': 'plaintext',
@@ -69,12 +71,12 @@ export async function renderMarkdown(content: string): Promise<string> {
 	});
 	
 	// Process with marked
-	let html = marked(processedContent);
+	let html = await marked(processedContent);
 	
 	// Restore highlighted code blocks
 	html = html.replace(
 		/<!-- HIGHLIGHTED_CODE_START -->([\s\S]*?)<!-- HIGHLIGHTED_CODE_END -->/g,
-		(match, highlightedCode) => {
+		(_match, highlightedCode: string) => {
 			return highlightedCode.replace('<pre', '<pre class="shiki-code-block"');
 		}
 	);
