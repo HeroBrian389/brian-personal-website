@@ -2,25 +2,9 @@
 	import { fade } from 'svelte/transition';
 	import type { PageData } from './$types';
 	import './+page.css';
-	import { onMount } from 'svelte';
 	
 	let { data }: { data: PageData } = $props();
 	const { project } = data;
-	
-	$effect(() => {
-		console.log('[+page.svelte] Project data received:', {
-			title: project.title,
-			slug: project.slug,
-			hasRenderedLongDescription: !!project.renderedLongDescription,
-			renderedLongDescriptionLength: project.renderedLongDescription?.length || 0,
-			renderedLongDescriptionPreview: project.renderedLongDescription?.substring(0, 100)
-		});
-	});
-	
-	onMount(() => {
-		console.log('[+page.svelte] Component mounted with project:', project.title);
-		console.log('[+page.svelte] Full project object:', project);
-	});
 </script>
 
 <svelte:head>
