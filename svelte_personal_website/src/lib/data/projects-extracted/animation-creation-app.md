@@ -11,7 +11,7 @@ The fundamental challenge this platform solves is that LLMs lack spatial reasoni
 
 The key breakthrough was creating a compositional system where AI doesn't need to understand spatial relationships - it just needs to call high-level functions that handle all positioning internally:
 
-```python
+\`\`\`python
 class ManimAutoComposer:
     """Handles spatial composition without requiring AI spatial reasoning"""
     
@@ -64,13 +64,13 @@ class ManimAutoComposer:
             return VGroup(arrow, label_obj)
         
         return arrow
-```
+\`\`\`
 
 ### Deterministic Scene Templates
 
 Instead of letting AI figure out where to place objects, we created fixed templates that handle all spatial logic:
 
-```python
+\`\`\`python
 class NumberPlaneTexSplitScreen(Scene):
     """The workhorse template - handles 90% of mathematical animations"""
     
@@ -144,13 +144,13 @@ class EquationStack:
         if self.equations:
             current = self.equations[-1]
             return SurroundingRectangle(current, color=color)
-```
+\`\`\`
 
 ### ElevenLabs Voice Synchronization System
 
 The most complex part was synchronizing AI-generated voiceovers with Manim animations. We built a timing extraction and synchronization framework:
 
-```python
+\`\`\`python
 class ElevenLabsVoiceSync:
     """Handles voice generation and animation synchronization"""
     
@@ -173,7 +173,7 @@ class ElevenLabsVoiceSync:
             # Generate audio for segment
             audio_response = self.client.text_to_speech.convert(
                 text=segment['text'],
-                voice_id="John",  # or "Joanna"
+                voice_id="Daniel",  # or "Lily"
                 model_id="eleven_turbo_v2_5",
                 voice_settings=self.voice_settings,
                 output_format="mp3_44100_128",
@@ -252,13 +252,13 @@ class ManimVoiceScene(Scene):
                 getattr(self, method_name)(segment)
             else:
                 self.wait(segment['end'] - segment['start'])
-```
+\`\`\`
 
 ### Intelligent Math Symbol Recognition
 
 One of the hardest challenges was getting AI to correctly place mathematical symbols and expressions. We developed a context-aware placement system:
 
-```python
+\`\`\`python
 class MathSymbolPlacer:
     """Handles intelligent placement of mathematical notation"""
     
@@ -334,13 +334,13 @@ class TransformationTracker:
             current = next_expr
         
         return animations
-```
+\`\`\`
 
 ### 8-Stage Workflow Pipeline Architecture
 
 The pipeline orchestrates multiple AI models, each optimized for specific tasks:
 
-```python
+\`\`\`python
 class VideoGenerationPipeline:
     """Orchestrates the complete video generation workflow"""
     
@@ -401,19 +401,19 @@ class CodeGenerationStage:
             self._optimize_timing
         ]
         
-        code = f"from manim import *\\nfrom custom_components import *\\n\\n"
+        code = f"from manim import *\\\\nfrom custom_components import *\\\\n\\\\n"
         
         for pass_func in passes:
             code = await pass_func(code, lesson_plan)
         
         return {'code': code, 'template_used': self.template}
-```
+\`\`\`
 
 ### Pattern Mining and Abstraction from Existing Manim Code
 
 Before building our component library, we analyzed thousands of Manim animations to identify recurring patterns and create proper abstractions:
 
-```python
+\`\`\`python
 class ManimPatternAnalyzer:
     """Mines existing Manim code to identify common patterns and abstractions"""
     
@@ -629,13 +629,13 @@ class ColorSchemeExtractor:
             self.mathematical_colors['emphasis'].extend(emphasis_colors)
         
         return self.mathematical_colors
-```
+\`\`\`
 
 ### Custom Static Analysis for Manim
 
-We had to build our own static code analyzer because existing tools like MyPy couldn't resolve Manim's wildcard imports (`from manim import *`). This was critical for validation:
+We had to build our own static code analyzer because existing tools like MyPy couldn't resolve Manim's wildcard imports (\`from manim import *\`). This was critical for validation:
 
-```python
+\`\`\`python
 class ManimStaticAnalyzer:
     """Custom static analyzer that understands Manim's wildcard imports"""
     
@@ -792,13 +792,13 @@ class ManimTypeInferencer:
                 if func_name in self.type_map:
                     return func_name
         return 'Unknown'
-```
+\`\`\`
 
 ### DSPy: Declarative Self-Improving Python Implementation
 
 We built a sophisticated DSPy-based system with 1,000+ lines of declarative self-improving code that learns from every generation:
 
-```python
+\`\`\`python
 # From manim_dspy/src/core/modules.py - The actual implementation
 import dspy
 from chromadb import Client
@@ -1002,13 +1002,13 @@ class TemplateSelector(dspy.Module):
         )
         
         return result
-```
+\`\`\`
 
 ### Graph and Geometry Helpers
 
 Special utilities for handling mathematical visualizations that AI struggles with:
 
-```python
+\`\`\`python
 class GeometryHelper:
     """Handles complex geometric constructions"""
     
@@ -1077,6 +1077,6 @@ class AnimationComposer:
         
         # Compose with proper timing
         return AnimationGroup(*animations, lag_ratio=0.1)
-```
+\`\`\`
 
 This platform's key innovation is the extensive scaffolding that compensates for AI's inability to reason spatially. By providing deterministic templates, auto-composition utilities, and intelligent placement systems, we enable AI to create sophisticated mathematical animations without understanding the underlying spatial relationships.
