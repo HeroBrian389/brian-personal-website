@@ -356,10 +356,7 @@
 
 						<!-- Minimal separator line -->
 						<div class="mt-12 mb-8 flex justify-center">
-							<div
-								class="bg-foreground/20 h-px"
-								style="width: {nextOpacity > 0.5 ? 100 : 0}px"
-							></div>
+							<div class="bg-foreground/20 h-px" style="width: {$lineWidth}px"></div>
 						</div>
 
 						<!-- Author -->
