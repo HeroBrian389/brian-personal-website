@@ -1,0 +1,417 @@
+#!/bin/bash
+
+# setup-project - Create a new project with the standard template structure
+# Usage: ./setup-project <project-name>
+
+set -e
+
+# Colors for output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+NC='\033[0m' # No Color
+
+# Check if project name is provided
+if [ -z "$1" ]; then
+    echo -e "${RED}Error: Project name is required${NC}"
+    echo "Usage: ./setup-project <project-name>"
+    echo "Example: ./setup-project api-refactoring"
+    exit 1
+fi
+
+PROJECT_NAME="$1"
+PROJECT_PATH="projects/active/$PROJECT_NAME"
+
+# Check if project already exists
+if [ -d "$PROJECT_PATH" ]; then
+    echo -e "${RED}Error: Project '$PROJECT_NAME' already exists${NC}"
+    exit 1
+fi
+
+# Create project structure
+echo -e "${YELLOW}Creating new project: $PROJECT_NAME${NC}"
+mkdir -p "$PROJECT_PATH"/{scripts,docs,tests,spikes}
+
+# Get current date
+CURRENT_DATE=$(date +"%Y-%m-%d")
+CREATED_BY=$(git config user.name || echo "Unknown Developer")
+
+# Create README.md
+cat > "$PROJECT_PATH/README.md" << EOF
+# $PROJECT_NAME
+
+**Created**: $CURRENT_DATE  
+**Created By**: $CREATED_BY  
+**Status**: Active
+
+## Quick Start
+
+Brief description of what this project is about.
+
+## Key Links
+
+- Related PR: #XXX
+- Related Issue: #XXX
+- Slack Thread: [link]
+
+## Team
+
+- Lead: $CREATED_BY
+- Contributors: 
+
+EOF
+
+# Create USER_STORY.md
+cat > "$PROJECT_PATH/USER_STORY.md" << EOF
+# User Stories
+
+## Primary User Story
+
+**As a** [type of user]  
+**I want** [some goal]  
+**So that** [some reason]
+
+### Acceptance Criteria
+- [ ] Criteria 1
+- [ ] Criteria 2
+- [ ] Criteria 3
+
+## Additional User Stories
+
+### Story 2
+**As a** ...  
+**I want** ...  
+**So that** ...
+
+EOF
+
+# Create REQUIREMENTS.md
+cat > "$PROJECT_PATH/REQUIREMENTS.md" << EOF
+# Requirements
+
+## Functional Requirements
+
+### Must Have (P0)
+- [ ] Requirement 1
+- [ ] Requirement 2
+
+### Should Have (P1)
+- [ ] Requirement 3
+- [ ] Requirement 4
+
+### Nice to Have (P2)
+- [ ] Requirement 5
+
+## Technical Requirements
+
+### Performance
+- Requirement here
+
+### Security
+- Requirement here
+
+### Compatibility
+- Requirement here
+
+## Constraints
+
+- Constraint 1
+- Constraint 2
+
+## Out of Scope
+
+- Item 1
+- Item 2
+
+EOF
+
+# Create DESIGN.md
+cat > "$PROJECT_PATH/DESIGN.md" << EOF
+# Technical Design
+
+## Overview
+
+High-level description of the technical approach.
+
+## Architecture
+
+### Current State
+Describe current architecture
+
+### Proposed Changes
+Describe proposed changes
+
+### Architecture Diagram
+\`\`\`
+[Add ASCII diagram or link to diagram]
+\`\`\`
+
+## Technical Decisions
+
+### Decision 1: [Title]
+**Context**: Why this decision is needed  
+**Options Considered**:
+1. Option A - Pros/Cons
+2. Option B - Pros/Cons
+
+**Decision**: Option chosen and why
+
+## Implementation Plan
+
+### Phase 1: [Name]
+- Step 1
+- Step 2
+
+### Phase 2: [Name]
+- Step 3
+- Step 4
+
+## API Changes
+Document any API changes here
+
+## Database Changes
+Document any database changes here
+
+## Dependencies
+List new dependencies or changes to existing ones
+
+EOF
+
+# Create VALIDATION_STRATEGY.md
+cat > "$PROJECT_PATH/VALIDATION_STRATEGY.md" << EOF
+# Validation Strategy
+
+## Success Metrics
+
+### Quantitative Metrics
+- Metric 1: [Description] - Target: X
+- Metric 2: [Description] - Target: Y
+
+### Qualitative Metrics
+- Metric 1: [Description]
+- Metric 2: [Description]
+
+## Testing Plan
+
+### Unit Tests
+- [ ] Test area 1
+- [ ] Test area 2
+
+### Integration Tests
+- [ ] Test scenario 1
+- [ ] Test scenario 2
+
+### E2E Tests
+- [ ] User flow 1
+- [ ] User flow 2
+
+### Performance Tests
+- [ ] Load test scenario
+- [ ] Stress test scenario
+
+## Rollout Plan
+
+### Phase 1: Internal Testing
+- Timeline: 
+- Scope: 
+
+### Phase 2: Beta Release
+- Timeline: 
+- Scope: 
+
+### Phase 3: General Availability
+- Timeline: 
+- Scope: 
+
+## Rollback Plan
+
+Steps to rollback if issues are found:
+1. Step 1
+2. Step 2
+
+## Monitoring
+
+What to monitor after release:
+- Monitor 1
+- Monitor 2
+
+EOF
+
+# Create STATUS_UPDATES.md
+cat > "$PROJECT_PATH/STATUS_UPDATES.md" << EOF
+# Status Updates
+
+> Add new updates at the top of this file
+
+---
+
+## $CURRENT_DATE - Project Kickoff
+
+**Status**: Started  
+**Author**: $CREATED_BY
+
+### What happened
+- Created project structure
+- Initial planning
+
+### Next steps
+- Define requirements
+- Create technical design
+
+### Blockers
+- None
+
+---
+
+EOF
+
+# Create PROGRESS_TRACKER.md
+cat > "$PROJECT_PATH/PROGRESS_TRACKER.md" << EOF
+# Progress Tracker
+
+## Milestones
+
+- [ ] **Milestone 1**: Planning Complete (Target: DATE)
+- [ ] **Milestone 2**: Design Approved (Target: DATE)
+- [ ] **Milestone 3**: Implementation Complete (Target: DATE)
+- [ ] **Milestone 4**: Testing Complete (Target: DATE)
+- [ ] **Milestone 5**: Deployed to Production (Target: DATE)
+
+## Current Sprint Tasks
+
+### In Progress
+- [ ] Task 1
+- [ ] Task 2
+
+### To Do
+- [ ] Task 3
+- [ ] Task 4
+
+### Done
+- [x] Project setup
+
+## Detailed Task Breakdown
+
+### Planning Phase
+- [x] Create project structure
+- [ ] Gather requirements
+- [ ] Write user stories
+- [ ] Get stakeholder approval
+
+### Design Phase
+- [ ] Create technical design
+- [ ] Review with team
+- [ ] Update based on feedback
+
+### Implementation Phase
+- [ ] Task 1
+- [ ] Task 2
+
+### Testing Phase
+- [ ] Write tests
+- [ ] Run tests
+- [ ] Fix issues
+
+### Deployment Phase
+- [ ] Deploy to staging
+- [ ] Deploy to production
+- [ ] Monitor
+
+EOF
+
+# Create RETROSPECTIVE.md
+cat > "$PROJECT_PATH/RETROSPECTIVE.md" << EOF
+# Project Retrospective
+
+> To be filled out when project is complete
+
+**Project**: $PROJECT_NAME  
+**Completion Date**: TBD  
+**Duration**: TBD  
+
+## Summary
+
+Brief summary of what was accomplished.
+
+## What Went Well
+
+- Item 1
+- Item 2
+
+## What Could Be Improved
+
+- Item 1
+- Item 2
+
+## What We Learned
+
+- Learning 1
+- Learning 2
+
+## Action Items for Future Projects
+
+- [ ] Action 1
+- [ ] Action 2
+
+## Metrics vs. Goals
+
+| Metric | Goal | Actual | Status |
+|--------|------|--------|--------|
+| Metric 1 | X | Y | ✅/❌ |
+| Metric 2 | X | Y | ✅/❌ |
+
+EOF
+
+# Create .gitignore
+cat > "$PROJECT_PATH/.gitignore" << EOF
+# Project-specific ignores
+*.tmp
+*.log
+.DS_Store
+__pycache__/
+*.pyc
+node_modules/
+.env
+.venv/
+
+# IDE
+.vscode/
+.idea/
+
+# Test outputs
+test-results/
+coverage/
+
+# Generated files
+*.generated.*
+EOF
+
+# Create scripts README
+cat > "$PROJECT_PATH/scripts/README.md" << EOF
+# Project Scripts
+
+## Overview
+
+This directory contains scripts specific to the $PROJECT_NAME project.
+
+## Scripts
+
+### script-name.py
+Description of what this script does.
+
+**Usage**:
+\`\`\`bash
+python scripts/script-name.py [args]
+\`\`\`
+
+EOF
+
+echo -e "${GREEN}✅ Project '$PROJECT_NAME' created successfully!${NC}"
+echo -e "${GREEN}📁 Location: $PROJECT_PATH${NC}"
+echo ""
+echo "Next steps:"
+echo "1. cd $PROJECT_PATH"
+echo "2. Update README.md with project description"
+echo "3. Fill out USER_STORY.md with actual user stories"
+echo "4. Define requirements in REQUIREMENTS.md"
+echo "5. Start documenting in STATUS_UPDATES.md"
