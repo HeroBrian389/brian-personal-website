@@ -1,5 +1,5 @@
 // Auto-generated project data - DO NOT EDIT MANUALLY
-// Generated on 2025-08-19T09:18:40.847Z
+// Generated on 2025-09-11T12:36:02.520Z
 // Run 'node scripts/generate-project-data.cjs' to regenerate
 
 import type { ProjectMeta } from './projects.schema';
@@ -2277,6 +2277,115 @@ The system demonstrates that with proper orchestration, current LLMs can achieve
 This system represents a significant advancement in AI-assisted software development, demonstrating that complex, production-ready applications can be generated autonomously from natural language specifications while maintaining code quality, security, and architectural consistency. The 5+ hour execution time is a small investment for receiving a fully-implemented, security-audited, and tested application ready for deployment.
 
 More critically, it operates 2-3 years ahead of METR's capability projections, achieving autonomous completion of week-long development tasks that current benchmarks suggest won't be possible until 2027-2028. This positions the system at the absolute frontier of AI agent capabilities, demonstrating that proper orchestration and pipeline design can unlock latent capabilities in current models that far exceed benchmark evaluations.`
+  },
+  'setup-project': {
+    meta: {
+        "slug": "setup-project",
+        "title": "setup-project: Project Bootstrap Script",
+        "description": "Opinionated script that scaffolds a complete project workspace with aligned docs (user stories, requirements, design, validation, tracking) so humans and AI share the same scratch pad and definition of done.",
+        "technologies": [
+            "Bash",
+            "Unix",
+            "Git"
+        ],
+        "date": "2025",
+        "category": "infrastructure",
+        "featured": true,
+        "codeSnippet": {
+            "code": "#!/bin/bash\n\n# setup-project - Create a new project with the standard template structure\n# Usage: ./setup-project <project-name>\n\nset -e\n\n# Colors for output\nRED='\\033[0;31m'\nGREEN='\\033[0;32m'\nYELLOW='\\033[1;33m'\nNC='\\033[0m' # No Color\n\n# Check if project name is provided\nif [ -z \"$1\" ]; then\n    echo -e \"${RED}Error: Project name is required${NC}\"\n    echo \"Usage: ./setup-project <project-name>\"\n    echo \"Example: ./setup-project api-refactoring\"\n    exit 1\nfi\n\nPROJECT_NAME=\"$1\"\nPROJECT_PATH=\"projects/active/$PROJECT_NAME\"\n\n# Check if project already exists\nif [ -d \"$PROJECT_PATH\" ]; then\n    echo -e \"${RED}Error: Project '$PROJECT_NAME' already exists${NC}\"\n    exit 1\nfi\n\n# Create project structure\necho -e \"${YELLOW}Creating new project: $PROJECT_NAME${NC}\"\nmkdir -p \"$PROJECT_PATH\"/{scripts,docs,tests,spikes}\n\n# Get current date\nCURRENT_DATE=$(date +\"%Y-%m-%d\")\nCREATED_BY=$(git config user.name || echo \"Unknown Developer\")\n\n# Create README.md\ncat > \"$PROJECT_PATH/README.md\" << EOF\n# $PROJECT_NAME\n\n**Created**: $CURRENT_DATE  \n**Created By**: $CREATED_BY  \n**Status**: Active\n\n## Quick Start\n\nBrief description of what this project is about.\n\n## Key Links\n\n- Related PR: #XXX\n- Related Issue: #XXX\n- Slack Thread: [link]\n\n## Team\n\n- Lead: $CREATED_BY\n- Contributors: \n\nEOF\n\n# Create USER_STORY.md\ncat > \"$PROJECT_PATH/USER_STORY.md\" << EOF\n# User Stories\n\n## Primary User Story\n\n**As a** [type of user]  \n**I want** [some goal]  \n**So that** [some reason]\n\n### Acceptance Criteria\n- [ ] Criteria 1\n- [ ] Criteria 2\n- [ ] Criteria 3\n\n## Additional User Stories\n\n### Story 2\n**As a** ...  \n**I want** ...  \n**So that** ...\n\nEOF\n\n# Create REQUIREMENTS.md\ncat > \"$PROJECT_PATH/REQUIREMENTS.md\" << EOF\n# Requirements\n\n## Functional Requirements\n\n### Must Have (P0)\n- [ ] Requirement 1\n- [ ] Requirement 2\n\n### Should Have (P1)\n- [ ] Requirement 3\n- [ ] Requirement 4\n\n### Nice to Have (P2)\n- [ ] Requirement 5\n\n## Technical Requirements\n\n### Performance\n- Requirement here\n\n### Security\n- Requirement here\n\n### Compatibility\n- Requirement here\n\n## Constraints\n\n- Constraint 1\n- Constraint 2\n\n## Out of Scope\n\n- Item 1\n- Item 2\n\nEOF\n\n# Create DESIGN.md\ncat > \"$PROJECT_PATH/DESIGN.md\" << EOF\n# Technical Design\n\n## Overview\n\nHigh-level description of the technical approach.\n\n## Architecture\n\n### Current State\nDescribe current architecture\n\n### Proposed Changes\nDescribe proposed changes\n\n### Architecture Diagram\n\\`\\`\\`\n[Add ASCII diagram or link to diagram]\n\\`\\`\\`\n\n## Technical Decisions\n\n### Decision 1: [Title]\n**Context**: Why this decision is needed  \n**Options Considered**:\n1. Option A - Pros/Cons\n2. Option B - Pros/Cons\n\n**Decision**: Option chosen and why\n\n## Implementation Plan\n\n### Phase 1: [Name]\n- Step 1\n- Step 2\n\n### Phase 2: [Name]\n- Step 3\n- Step 4\n\n## API Changes\nDocument any API changes here\n\n## Database Changes\nDocument any database changes here\n\n## Dependencies\nList new dependencies or changes to existing ones\n\nEOF\n\n# Create VALIDATION_STRATEGY.md\ncat > \"$PROJECT_PATH/VALIDATION_STRATEGY.md\" << EOF\n# Validation Strategy\n\n## Success Metrics\n\n### Quantitative Metrics\n- Metric 1: [Description] - Target: X\n- Metric 2: [Description] - Target: Y\n\n### Qualitative Metrics\n- Metric 1: [Description]\n- Metric 2: [Description]\n\n## Testing Plan\n\n### Unit Tests\n- [ ] Test area 1\n- [ ] Test area 2\n\n### Integration Tests\n- [ ] Test scenario 1\n- [ ] Test scenario 2\n\n### E2E Tests\n- [ ] User flow 1\n- [ ] User flow 2\n\n### Performance Tests\n- [ ] Load test scenario\n- [ ] Stress test scenario\n\n## Rollout Plan\n\n### Phase 1: Internal Testing\n- Timeline: \n- Scope: \n\n### Phase 2: Beta Release\n- Timeline: \n- Scope: \n\n### Phase 3: General Availability\n- Timeline: \n- Scope: \n\n## Rollback Plan\n\nSteps to rollback if issues are found:\n1. Step 1\n2. Step 2\n\n## Monitoring\n\nWhat to monitor after release:\n- Monitor 1\n- Monitor 2\n\nEOF\n\n# Create STATUS_UPDATES.md\ncat > \"$PROJECT_PATH/STATUS_UPDATES.md\" << EOF\n# Status Updates\n\n> Add new updates at the top of this file\n\n---\n\n## $CURRENT_DATE - Project Kickoff\n\n**Status**: Started  \n**Author**: $CREATED_BY\n\n### What happened\n- Created project structure\n- Initial planning\n\n### Next steps\n- Define requirements\n- Create technical design\n\n### Blockers\n- None\n\n---\n\nEOF\n\n# Create PROGRESS_TRACKER.md\ncat > \"$PROJECT_PATH/PROGRESS_TRACKER.md\" << EOF\n# Progress Tracker\n\n## Milestones\n\n- [ ] **Milestone 1**: Planning Complete (Target: DATE)\n- [ ] **Milestone 2**: Design Approved (Target: DATE)\n- [ ] **Milestone 3**: Implementation Complete (Target: DATE)\n- [ ] **Milestone 4**: Testing Complete (Target: DATE)\n- [ ] **Milestone 5**: Deployed to Production (Target: DATE)\n\n## Current Sprint Tasks\n\n### In Progress\n- [ ] Task 1\n- [ ] Task 2\n\n### To Do\n- [ ] Task 3\n- [ ] Task 4\n\n### Done\n- [x] Project setup\n\n## Detailed Task Breakdown\n\n### Planning Phase\n- [x] Create project structure\n- [ ] Gather requirements\n- [ ] Write user stories\n- [ ] Get stakeholder approval\n\n### Design Phase\n- [ ] Create technical design\n- [ ] Review with team\n- [ ] Update based on feedback\n\n### Implementation Phase\n- [ ] Task 1\n- [ ] Task 2\n\n### Testing Phase\n- [ ] Write tests\n- [ ] Run tests\n- [ ] Fix issues\n\n### Deployment Phase\n- [ ] Deploy to staging\n- [ ] Deploy to production\n- [ ] Monitor\n\nEOF\n\n# Create RETROSPECTIVE.md\ncat > \"$PROJECT_PATH/RETROSPECTIVE.md\" << EOF\n# Project Retrospective\n\n> To be filled out when project is complete\n\n**Project**: $PROJECT_NAME  \n**Completion Date**: TBD  \n**Duration**: TBD  \n\n## Summary\n\nBrief summary of what was accomplished.\n\n## What Went Well\n\n- Item 1\n- Item 2\n\n## What Could Be Improved\n\n- Item 1\n- Item 2\n\n## What We Learned\n\n- Learning 1\n- Learning 2\n\n## Action Items for Future Projects\n\n- [ ] Action 1\n- [ ] Action 2\n\n## Metrics vs. Goals\n\n| Metric | Goal | Actual | Status |\n|--------|------|--------|--------|\n| Metric 1 | X | Y | ✅/❌ |\n| Metric 2 | X | Y | ✅/❌ |\n\nEOF\n\n# Create .gitignore\ncat > \"$PROJECT_PATH/.gitignore\" << EOF\n# Project-specific ignores\n*.tmp\n*.log\n.DS_Store\n__pycache__/\n*.pyc\nnode_modules/\n.env\n.venv/\n\n# IDE\n.vscode/\n.idea/\n\n# Test outputs\ntest-results/\ncoverage/\n\n# Generated files\n*.generated.*\nEOF\n\n# Create scripts README\ncat > \"$PROJECT_PATH/scripts/README.md\" << EOF\n# Project Scripts\n\n## Overview\n\nThis directory contains scripts specific to the $PROJECT_NAME project.\n\n## Scripts\n\n### script-name.py\nDescription of what this script does.\n\n**Usage**:\n\\`\\`\\`bash\npython scripts/script-name.py [args]\n\\`\\`\\`\n\nEOF\n\necho -e \"${GREEN}✅ Project '$PROJECT_NAME' created successfully!${NC}\"\necho -e \"${GREEN}📁 Location: $PROJECT_PATH${NC}\"\necho \"\"\necho \"Next steps:\"\necho \"1. cd $PROJECT_PATH\"\necho \"2. Update README.md with project description\"\necho \"3. Fill out USER_STORY.md with actual user stories\"\necho \"4. Define requirements in REQUIREMENTS.md\"\necho \"5. Start documenting in STATUS_UPDATES.md\"",
+            "language": "bash"
+        }
+    },
+    longDescription: `## Executive Summary
+
+The \`setup-project\` script is a lightweight, repeatable way to bootstrap a new project with the exact documentation scaffolding you need to keep people and AI agents aligned from day one. It creates a clean workspace under \`projects/active/<name>\` and pre-populates high-signal docs (User Stories, Requirements, Design, Validation Strategy, Progress Tracker, Status Updates, Retrospective) so the “definition of done” and current state are always explicit and discoverable.
+
+- Download: [/files/setup-project](/files/setup-project)
+- Usage: \`./setup-project <project-name>\`
+- Output: \`projects/active/<project-name>/{docs, scripts, spikes, tests}\` with all core docs
+
+## Why This Increases Alignment
+
+Alignment fails when intent, constraints, and acceptance criteria live in chat logs or tribal knowledge. This script enforces a single, canonical place for:
+
+- Intent: \`USER_STORY.md\` articulates the primary user story with acceptance criteria.
+- Constraints: \`REQUIREMENTS.md\` captures functional/technical requirements and out-of-scope items.
+- Decisions: \`DESIGN.md\` documents architecture, options considered, and chosen trade-offs.
+- Definition of Done: \`VALIDATION_STRATEGY.md\` encodes success metrics, tests, rollout/rollback.
+- Execution State: \`PROGRESS_TRACKER.md\` and \`STATUS_UPDATES.md\` make progress legible over time.
+
+That structure keeps human collaborators and AI tools working against the same source of truth, reduces ambiguity, and shortens the feedback loop.
+
+## Giving AI a Scratch Pad (That Humans Can Read)
+
+LLMs work best when they have a durable workspace to plan, reflect, and iterate. The generated project folder provides exactly that:
+
+- Writeable context: Plain-text files the AI can read/write without fragile serialization.
+- Iteration lanes: \`spikes/\` for throwaway exploration; \`tests/\` for executable verification; \`docs/\` for decisions.
+- Traceability: Status updates are append-only; trackers make “what’s next?” explicit.
+
+This transforms AI from a chat assistant into a contributory engineer with a shared notebook.
+
+## Ensuring Clean, Consistent Documentation
+
+Every project starts with the same high-quality skeleton:
+
+- \`README.md\` with creation metadata (date, author) and quick links
+- \`USER_STORY.md\` with acceptance criteria checklists
+- \`REQUIREMENTS.md\` with Must/Should/Nice-to-have plus constraints and out-of-scope
+- \`DESIGN.md\` covering current/proposed architecture, decisions, and implementation plan
+- \`VALIDATION_STRATEGY.md\` for metrics, test plan, rollout/rollback, monitoring
+- \`PROGRESS_TRACKER.md\` with milestones and sprint tasks
+- \`STATUS_UPDATES.md\` for time-ordered updates
+- \`RETROSPECTIVE.md\` to close the loop
+
+Consistency reduces cognitive overhead, improves review quality, and makes projects searchable and comparable.
+
+## Installation & Usage
+
+\`\`\`bash
+# 1) Download the script
+curl -fsSL https://briankelleher.ie/files/setup-project -o setup-project
+
+# 2) Make it executable
+chmod +x setup-project
+
+# 3) Run from the repo root (creates projects/active/<name>)
+./setup-project api-refactoring
+\`\`\`
+
+The script is idempotent for new names and safely aborts if the path already exists.
+
+## Template Details
+
+- Folders: \`scripts/\`, \`docs/\`, \`tests/\`, \`spikes/\` are created under the new project.
+- Guardrails: colored output for clarity; immediate, actionable next steps printed on success.
+- Defaults: usable boilerplate with checklists to encourage fast first commits and incremental refinement.
+
+## Integrating With AI Workflows
+
+- Point your agent at \`projects/active/<name>\` and instruct it to:
+  - Read all docs first; propose updates instead of writing code blindly.
+  - Keep \`PROGRESS_TRACKER.md\` in sync with changes.
+  - Record significant actions in \`STATUS_UPDATES.md\` (append at top).
+- Optional: add hooks or background jobs that refuse to stop while unchecked items remain, ensuring forward motion is explicit.
+
+## Safety & Limitations
+
+- Non-destructive: refuses to overwrite existing projects.
+- Local by default: no network calls; easy to audit.
+- You still need judgment: templates don’t replace design thinking, they scaffold it.
+
+## Appendix: Script Header & Usage
+
+\`\`\`bash
+#!/bin/bash
+# setup-project - Create a new project with the standard template structure
+# Usage: ./setup-project <project-name>
+\`\`\`
+
+Full source is embedded below as the code snippet and available for download above.
+`
   }
 };
 
