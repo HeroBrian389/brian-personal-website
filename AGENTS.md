@@ -443,3 +443,13 @@ The website follows a contemplative, minimalist design language inspired by the 
                transition-transform duration-500 origin-left"></div>
 </button>
 ```
+
+## Creating Projects (Local)
+
+Use the local helper from the repo root:
+
+```
+./setup-project <project-name>
+```
+
+This creates `projects/active/<project-name>/` with starter docs (README, USER_STORY, REQUIREMENTS, DESIGN, VALIDATION_STRATEGY, STATUS_UPDATES, PROGRESS_TRACKER, RETROSPECTIVE, .gitignore, scripts/README) and directories: `docs/`, `scripts/`, `tests/`, `spikes/`.
