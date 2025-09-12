@@ -108,18 +108,13 @@
                         >
                       </div>
                     </div>
-                    <div class="aspect-[16/10] w-full">
-                      <object
-                        data={`${t.pdfPath}#toolbar=0&view=FitH`}
-                        type="application/pdf"
-                        class="w-full h-full"
-                        aria-label={`Slides: ${t.title}`}
-                      >
-                        <p class="p-4 text-sm font-light text-muted-foreground">
-                          PDF preview unavailable. <a class="underline" href={t.pdfPath} target="_blank" rel="noopener noreferrer">Open the slides</a>.
-                        </p>
-                      </object>
-                    </div>
+                    <iframe
+                      src={`${t.pdfPath}#toolbar=0&view=FitH`}
+                      title={`Slides: ${t.title}`}
+                      loading="lazy"
+                      class="w-full h-[70vh]"
+                    ></iframe>
+                    <div class="bg-foreground/5 h-px"></div>
                   </div>
                 </div>
               {/if}
