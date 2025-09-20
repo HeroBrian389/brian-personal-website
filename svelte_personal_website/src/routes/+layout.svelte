@@ -131,24 +131,24 @@
 								? 'scale-x-100'
 								: 'scale-x-0 group-hover:scale-x-100'}"
 						></div>
-						</a>
-						<a
-							href="/talks"
-							class="hover:text-foreground/80 group relative transition-all duration-500 {currentPath.startsWith(
+					</a>
+					<a
+						href="/talks"
+						class="hover:text-foreground/80 group relative transition-all duration-500 {currentPath.startsWith(
+							'/talks'
+						)
+							? 'text-foreground'
+							: 'text-foreground/60'}"
+					>
+						<span class="relative z-10">Talks</span>
+						<div
+							class="bg-foreground/20 absolute inset-x-0 bottom-0 h-px transition-transform duration-500 {currentPath.startsWith(
 								'/talks'
 							)
-								? 'text-foreground'
-								: 'text-foreground/60'}"
-						>
-							<span class="relative z-10">Talks</span>
-							<div
-								class="bg-foreground/20 absolute inset-x-0 bottom-0 h-px transition-transform duration-500 {currentPath.startsWith(
-									'/talks'
-								)
-									? 'scale-x-100'
-									: 'scale-x-0 group-hover:scale-x-100'}"
-							></div>
-						</a>
+								? 'scale-x-100'
+								: 'scale-x-0 group-hover:scale-x-100'}"
+						></div>
+					</a>
 					<a
 						href="/ponder"
 						class="hover:text-foreground/80 group relative transition-all duration-500 {currentPath ===
@@ -212,15 +212,7 @@
 			<!-- Menu content -->
 			<nav class="relative flex h-full flex-col items-center justify-center px-8">
 				<div class="w-full max-w-sm space-y-12">
-					{#each [
-						{ href: "/about", label: "About" },
-						{ href: "/writing", label: "Writing" },
-						{ href: "/quotes", label: "Quotes" },
-						{ href: "/art", label: "Art" },
-						{ href: "/projects", label: "Projects" },
-						{ href: "/talks", label: "Talks" },
-						{ href: "/ponder", label: "Ponder" }
-					] as item, i}
+					{#each [{ href: "/about", label: "About" }, { href: "/writing", label: "Writing" }, { href: "/quotes", label: "Quotes" }, { href: "/art", label: "Art" }, { href: "/projects", label: "Projects" }, { href: "/ponder", label: "Ponder" }] as item, i (item.href)}
 						<a
 							href={item.href}
 							class="group block text-center"
@@ -230,8 +222,7 @@
 								class="relative inline-block text-2xl font-extralight tracking-wide {currentPath ===
 									item.href ||
 								(item.href === '/writing' && currentPath.startsWith('/writing')) ||
-								(item.href === '/projects' && currentPath.startsWith('/projects')) ||
-								(item.href === '/talks' && currentPath.startsWith('/talks'))
+								(item.href === '/projects' && currentPath.startsWith('/projects'))
 									? 'text-foreground'
 									: 'text-foreground/60'} hover:text-foreground transition-colors duration-500"
 							>
@@ -239,9 +230,10 @@
 								<div
 									class="bg-foreground/20 absolute right-0 -bottom-2 left-0 h-px transition-transform duration-500 {currentPath ===
 										item.href ||
-									(item.href === '/writing' && currentPath.startsWith('/writing')) ||
-									(item.href === '/projects' && currentPath.startsWith('/projects')) ||
-									(item.href === '/talks' && currentPath.startsWith('/talks'))
+									(item.href === '/writing' &&
+										currentPath.startsWith('/writing')) ||
+									(item.href === '/projects' &&
+										currentPath.startsWith('/projects'))
 										? 'scale-x-100'
 										: 'scale-x-0 group-hover:scale-x-100'}"
 								></div>
@@ -253,7 +245,7 @@
 				<!-- Footer links in mobile menu -->
 				<div class="absolute right-0 bottom-20 left-0">
 					<div class="flex justify-center gap-8 px-8">
-						{#each [{ href: socialLinks.github, label: "GitHub" }, { href: socialLinks.linkedin, label: "LinkedIn" }, { href: `mailto:${socialLinks.email}`, label: "Email" }] as link, i}
+						{#each [{ href: socialLinks.github, label: "GitHub" }, { href: socialLinks.linkedin, label: "LinkedIn" }, { href: `mailto:${socialLinks.email}`, label: "Email" }] as link, i (link.href)}
 							<a
 								href={link.href}
 								target={link.href.startsWith("http") ? "_blank" : undefined}
