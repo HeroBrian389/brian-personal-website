@@ -1,4 +1,5 @@
 <script lang="ts">
+        import { Pause, Play, SpeakerSimpleHigh, SpeakerSimpleSlash } from "phosphor-svelte";
         import { onMount } from "svelte";
 
         const MUTE_STORAGE_KEY = "brian-personal-website:audio-muted";
@@ -316,25 +317,53 @@
                                 id="audio-popover"
                                 role="dialog"
                                 aria-label="Background music details"
-                                class="pointer-events-auto absolute right-full top-1/2 z-50 w-64 -translate-y-1/2 rounded-2xl border border-foreground/10 bg-background/95 px-6 py-5 text-left shadow-xl shadow-black/20 backdrop-blur"
+                                class="pointer-events-auto absolute bottom-full left-1/2 z-50 w-64 -translate-x-1/2 rounded-2xl border border-foreground/10 bg-background/95 px-6 py-5 text-left shadow-xl shadow-black/20 backdrop-blur"
                         >
                                 <p class="text-[10px] uppercase tracking-[0.3em] text-muted-foreground">Now Playing</p>
                                 <p class="mt-3 text-sm font-extralight text-foreground">{TRACK_INFO.title}</p>
                                 <p class="mt-1 text-xs font-light text-muted-foreground">{TRACK_INFO.artist}</p>
 
-                                <button
-                                        type="button"
-                                        class="group relative mt-5 w-full overflow-hidden border border-foreground/10 px-4 py-2 text-[10px] uppercase tracking-[0.3em] text-muted-foreground transition-all duration-500 hover:border-foreground/30 focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-foreground/40"
-                                        aria-pressed={isMuted}
-                                        onclick={handleToggleMute}
-                                >
-                                        <span class="relative z-10 font-light">
-                                                {isMuted ? "Unmute background music" : "Mute background music"}
-                                        </span>
-                                        <span
-                                                class="absolute inset-0 origin-left scale-x-0 bg-foreground/5 transition-transform duration-700 group-hover:scale-x-100"
-                                        ></span>
-                                </button>
+                                <div class="mt-5 flex items-center justify-between gap-3">
+                                        <button
+                                                type="button"
+                                                class="group relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border border-foreground/10 text-muted-foreground transition-all duration-500 hover:border-foreground/30 focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-foreground/40"
+                                                aria-label={isMuted ? "Unmute background music" : "Mute background music"}
+                                                aria-pressed={isMuted}
+                                                title={isMuted ? "Unmute background music" : "Mute background music"}
+                                                onclick={handleToggleMute}
+                                        >
+                                                <span class="relative z-10 flex items-center justify-center">
+                                                        {#if isMuted}
+                                                                <SpeakerSimpleSlash size={16} />
+                                                        {:else}
+                                                                <SpeakerSimpleHigh size={16} />
+                                                        {/if}
+                                                </span>
+                                                <span
+                                                        class="pointer-events-none absolute inset-0 rounded-full bg-foreground/5 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+                                                ></span>
+                                        </button>
+
+                                        <button
+                                                type="button"
+                                                class="group relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border border-foreground/10 text-muted-foreground transition-all duration-500 hover:border-foreground/30 focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-foreground/40"
+                                                aria-label={audioPlaying ? "Pause background music" : "Play background music"}
+                                                aria-pressed={audioPlaying}
+                                                title={audioPlaying ? "Pause background music" : "Play background music"}
+                                                onclick={toggleAudio}
+                                        >
+                                                <span class="relative z-10 flex items-center justify-center">
+                                                        {#if audioPlaying}
+                                                                <Pause size={16} />
+                                                        {:else}
+                                                                <Play size={16} />
+                                                        {/if}
+                                                </span>
+                                                <span
+                                                        class="pointer-events-none absolute inset-0 rounded-full bg-foreground/5 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+                                                ></span>
+                                        </button>
+                                </div>
 
                                 <p class="mt-3 text-[10px] uppercase tracking-[0.3em] text-muted-foreground/60">
                                         {#if isMuted}
@@ -349,33 +378,6 @@
                 {/if}
         </div>
 
-        <!-- Play/Pause button -->
-        <button
-                onclick={toggleAudio}
-                class="group bg-background border-foreground/10 hover:border-foreground/30 relative
-           rounded-full border p-3
-           text-sm transition-all duration-500"
-		title={audioPlaying ? "Pause music" : "Play music"}
-	>
-		<span class="relative z-10 block flex h-4 w-4 items-center justify-center">
-			{#if audioPlaying}
-				<svg class="h-3 w-3" fill="currentColor" viewBox="0 0 16 16">
-					<path
-						d="M5 3.5v9a.5.5 0 0 1-1 0v-9a.5.5 0 0 1 1 0zm6 0v9a.5.5 0 0 1-1 0v-9a.5.5 0 0 1 1 0z"
-					/>
-				</svg>
-			{:else}
-				<svg class="ml-0.5 h-3 w-3" fill="currentColor" viewBox="0 0 16 16">
-					<path
-						d="M4 3.5v9a.5.5 0 0 0 .757.429l7-4.5a.5.5 0 0 0 0-.858l-7-4.5A.5.5 0 0 0 4 3.5z"
-					/>
-				</svg>
-			{/if}
-		</span>
-		<div
-			class="bg-foreground/5 absolute inset-0 scale-0 rounded-full transition-transform duration-500 group-hover:scale-100"
-		></div>
-	</button>
 </div>
 
 <style>
