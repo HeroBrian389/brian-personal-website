@@ -1,12 +1,14 @@
 <script lang="ts">
+        import { cn } from "$lib/utils";
+        import { Popover, PopoverContent, PopoverTrigger } from "$lib/components/ui/popover";
         import { Pause, Play, SpeakerSimpleHigh, SpeakerSimpleSlash } from "phosphor-svelte";
         import { onMount } from "svelte";
 
         const MUTE_STORAGE_KEY = "brian-personal-website:audio-muted";
         const HOVER_MEDIA_QUERY = "(hover: hover)";
         const TRACK_INFO = {
-                title: "Jazz Background",
-                artist: "Unknown Artist"
+                title: "You Hate Jazz?",
+                artist: "Harrison & Jaleel Shaw — 2025"
         };
 
         let audioElement: HTMLAudioElement | null = null;
@@ -18,23 +20,23 @@
         let supportsHover = false;
         let removePointerdown: (() => void) | null = null;
         let removeHoverListener: (() => void) | null = null;
+        let removePlayOnInteraction: (() => void) | null = null;
 
-        // Toggle audio playback
         function toggleAudio() {
                 if (!audioElement) return;
 
                 if (audioPlaying) {
-			audioElement.pause();
-			audioPlaying = false;
-		} else {
-			audioElement
-				.play()
-				.then(() => {
-					audioPlaying = true;
-				})
-				.catch((err) => {
-					console.log("Audio play failed:", err);
-				});
+                        audioElement.pause();
+                        audioPlaying = false;
+                } else {
+                        audioElement
+                                .play()
+                                .then(() => {
+                                        audioPlaying = true;
+                                })
+                                .catch((err) => {
+                                        console.log("Audio play failed:", err);
+                                });
                 }
         }
 
@@ -46,17 +48,14 @@
                 showPopover = false;
         }
 
-        function togglePopover() {
-                showPopover = !showPopover;
-        }
-
         function handleRecordClick(event: MouseEvent) {
-                if (supportsHover) {
+                if (!supportsHover) {
                         return;
                 }
 
-                event.stopPropagation();
-                togglePopover();
+                event.stopImmediatePropagation();
+                event.preventDefault();
+                openPopover();
         }
 
         function handlePointerEnter() {
@@ -79,11 +78,9 @@
         }
 
         function handleVinylKeydown(event: KeyboardEvent) {
-                if (event.key === "Enter" || event.key === " ") {
+                if (event.key === "Escape") {
                         event.preventDefault();
-                        togglePopover();
-                } else if (event.key === "Escape") {
-                        event.preventDefault();
+                        event.stopImmediatePropagation();
                         closePopover();
                         (event.currentTarget as HTMLElement).blur();
                 }
@@ -98,38 +95,29 @@
 
                 if (typeof window !== "undefined") {
                         try {
-                                window.localStorage.setItem(MUTE_STORAGE_KEY, nextMuted ? "true" : "false");
+                                window.localStorage.setItem(MUTE_STORAGE_KEY, String(nextMuted));
                         } catch (error) {
                                 console.log("[AUDIO] Unable to persist mute preference", error);
                         }
                 }
         }
 
-        function handleToggleMute(event: MouseEvent) {
-                event.stopPropagation();
-                toggleMute();
-        }
-
-        // Handle visibility change
         function handleVisibilityChange() {
                 if (!audioElement) return;
 
-		if (document.hidden) {
-			// Page is hidden (tab switched/minimized)
-			if (audioPlaying) {
-				audioElement.pause();
-			}
-		} else {
-			// Page is visible again
-			if (audioPlaying) {
-				audioElement.play().catch((err) => {
-					console.log("Audio resume failed:", err);
-				});
-			}
-		}
+                if (document.hidden) {
+                        if (audioPlaying) {
+                                audioElement.pause();
+                        }
+                } else {
+                        if (audioPlaying) {
+                                audioElement.play().catch((err) => {
+                                        console.log("Audio resume failed:", err);
+                                });
+                        }
+                }
         }
 
-        // Initialize
         onMount(() => {
                 console.log("[AUDIO] Component mounted, attempting to play audio...");
 
@@ -177,17 +165,15 @@
                         }
                 }
 
-                // Start background music
                 if (audioElement) {
                         console.log("[AUDIO] Audio element found, setting volume to 0.2");
-                        audioElement.volume = 0.2; // Set to 20% volume for ambient background
+                        audioElement.volume = 0.2;
                         audioElement.muted = isMuted;
 
                         if (isMuted) {
                                 console.log("[AUDIO] Mute preference active, skipping autoplay");
                                 audioPlaying = false;
                         } else {
-                                // Try to play audio
                                 const playPromise = audioElement.play();
 
                                 if (playPromise !== undefined) {
@@ -197,42 +183,46 @@
                                                         audioPlaying = true;
                                                 })
                                                 .catch((err) => {
-                                                        // Handle autoplay policy - user interaction may be required
                                                         console.log("[AUDIO] Autoplay prevented:", err.name, err.message);
                                                         console.log("[AUDIO] User interaction required to start playback");
 
-                                                        // Show prompt to user
                                                         showAudioPrompt = true;
 
-                                                        // Hide prompt after a few seconds
                                                         setTimeout(() => {
                                                                 showAudioPrompt = false;
                                                         }, 8000);
 
-                                                        // Try to play on first user interaction
                                                         const playOnInteraction = () => {
-                                                                if (audioElement) {
-                                                                        audioElement
-                                                                                .play()
-                                                                                .then(() => {
-                                                                                        console.log(
-                                                                                                "[AUDIO] Playback started after user interaction"
-                                                                                        );
-                                                                                        audioPlaying = true;
-                                                                                        showAudioPrompt = false;
-                                                                                        // Remove the listener once audio starts
-                                                                                        document.removeEventListener("click", playOnInteraction);
-                                                                                        document.removeEventListener("keydown", playOnInteraction);
-                                                                                })
-                                                                                .catch((e) => {
-                                                                                        console.log("[AUDIO] Still failed to play:", e);
-                                                                                });
+                                                                if (!audioElement) {
+                                                                        removePlayOnInteraction?.();
+                                                                        removePlayOnInteraction = null;
+                                                                        return;
                                                                 }
+
+                                                                audioElement
+                                                                        .play()
+                                                                        .then(() => {
+                                                                                console.log(
+                                                                                        "[AUDIO] Playback started after user interaction"
+                                                                                );
+                                                                                audioPlaying = true;
+                                                                                showAudioPrompt = false;
+                                                                                removePlayOnInteraction?.();
+                                                                                removePlayOnInteraction = null;
+                                                                        })
+                                                                        .catch((e) => {
+                                                                                console.log("[AUDIO] Still failed to play:", e);
+                                                                        });
                                                         };
 
-                                                        // Add listeners for user interaction
+                                                        removePlayOnInteraction?.();
+
                                                         document.addEventListener("click", playOnInteraction, { once: true });
                                                         document.addEventListener("keydown", playOnInteraction, { once: true });
+                                                        removePlayOnInteraction = () => {
+                                                                document.removeEventListener("click", playOnInteraction);
+                                                                document.removeEventListener("keydown", playOnInteraction);
+                                                        };
                                                 });
                                 }
                         }
@@ -240,14 +230,14 @@
                         console.log("[AUDIO] Audio element not found!");
                 }
 
-                // Listen for visibility changes
                 document.addEventListener("visibilitychange", handleVisibilityChange);
 
-                // Cleanup on unmount
                 return () => {
                         document.removeEventListener("visibilitychange", handleVisibilityChange);
                         removePointerdown?.();
                         removeHoverListener?.();
+                        removePlayOnInteraction?.();
+                        removePlayOnInteraction = null;
                         if (audioElement) {
                                 audioElement.pause();
                         }
@@ -260,7 +250,6 @@
 
 <!-- Vinyl record player - fixed bottom right -->
 <div class="fixed right-8 bottom-8 z-50 flex items-center gap-4">
-        <!-- Subtle prompt message -->
         {#if showAudioPrompt}
                 <div class="animate-fade-in-out absolute right-full mr-4 whitespace-nowrap">
                         <p class="text-muted-foreground/60 text-xs font-light tracking-[0.2em] uppercase">
@@ -269,55 +258,55 @@
                 </div>
         {/if}
 
-        <!-- Vinyl record -->
-        <div
-                bind:this={vinylContainer}
-                class="relative"
-                onpointerenter={handlePointerEnter}
-                onpointerleave={handlePointerLeave}
-                onfocusin={openPopover}
-                onfocusout={handleFocusOut}
-        >
+        <Popover bind:open={showPopover}>
                 <div
-                        role="button"
-                        tabindex="0"
-                        aria-label="Show background music details"
-                        aria-controls="audio-popover"
-                        aria-expanded={showPopover}
-                        class="relative h-16 w-16 cursor-pointer focus:outline-none focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-foreground/40"
-                        onclick={handleRecordClick}
-                        onkeydown={handleVinylKeydown}
+                        bind:this={vinylContainer}
+                        class="relative"
+                        onpointerenter={handlePointerEnter}
+                        onpointerleave={handlePointerLeave}
+                        onfocusin={openPopover}
+                        onfocusout={handleFocusOut}
                 >
-                        <span class="sr-only">Background music details</span>
-                        <div
-                                class="absolute inset-0 rounded-full bg-gradient-to-br from-neutral-900 to-neutral-800 shadow-lg {showAudioPrompt
-                                        ? 'animate-pulse-subtle'
-                                        : ''}"
-                                class:animate-spin-slow={audioPlaying}
+                        <PopoverTrigger
+                                type="button"
+                                aria-label="Show background music details"
+                                class="relative h-16 w-16 cursor-pointer focus:outline-none focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-foreground/40"
+                                onclick={handleRecordClick}
+                                onkeydown={handleVinylKeydown}
                         >
-                                <!-- Vinyl grooves -->
-                                <div class="absolute inset-[15%] rounded-full border border-neutral-700/50"></div>
-                                <div class="absolute inset-[25%] rounded-full border border-neutral-700/40"></div>
-                                <div class="absolute inset-[35%] rounded-full border border-neutral-700/30"></div>
-
-                                <!-- Center label -->
+                                <span class="sr-only">Background music details</span>
                                 <div
-                                        class="absolute inset-[40%] rounded-full bg-gradient-to-br from-red-900 to-red-800"
+                                        class={cn(
+                                                "absolute inset-0 rounded-full bg-gradient-to-br from-neutral-900 to-neutral-800 shadow-lg",
+                                                showAudioPrompt && "animate-pulse-subtle",
+                                                audioPlaying && "animate-spin-slow"
+                                        )}
                                 >
-                                        <div class="absolute inset-[30%] rounded-full bg-neutral-900"></div>
+                                        <div class="absolute inset-[15%] rounded-full border border-neutral-700/50"></div>
+                                        <div class="absolute inset-[25%] rounded-full border border-neutral-700/40"></div>
+                                        <div class="absolute inset-[35%] rounded-full border border-neutral-700/30"></div>
+
+                                        <div
+                                                class="absolute inset-[40%] rounded-full bg-gradient-to-br from-red-900 to-red-800"
+                                        >
+                                                <div class="absolute inset-[30%] rounded-full bg-neutral-900"></div>
+                                        </div>
+
+                                        <div class="absolute top-1 left-1 h-3 w-3 rounded-full bg-white/10 blur-sm"></div>
                                 </div>
+                        </PopoverTrigger>
 
-                                <!-- Highlight for 3D effect -->
-                                <div class="absolute top-1 left-1 h-3 w-3 rounded-full bg-white/10 blur-sm"></div>
-                        </div>
-                </div>
-
-                {#if showPopover}
-                        <div
+                        <PopoverContent
                                 id="audio-popover"
-                                role="dialog"
                                 aria-label="Background music details"
-                                class="pointer-events-auto absolute bottom-full left-1/2 z-50 w-64 -translate-x-1/2 rounded-2xl border border-foreground/10 bg-background/95 px-6 py-5 text-left shadow-xl shadow-black/20 backdrop-blur"
+                                aria-modal="false"
+                                side="top"
+                                align="end"
+                                sideOffset={18}
+                                collisionPadding={16}
+                                class={cn(
+                                        "pointer-events-auto w-64 rounded-2xl border border-foreground/10 bg-background/95 px-6 py-5 text-left shadow-xl shadow-black/20 backdrop-blur"
+                                )}
                         >
                                 <p class="text-[10px] uppercase tracking-[0.3em] text-muted-foreground">Now Playing</p>
                                 <p class="mt-3 text-sm font-extralight text-foreground">{TRACK_INFO.title}</p>
@@ -330,7 +319,7 @@
                                                 aria-label={isMuted ? "Unmute background music" : "Mute background music"}
                                                 aria-pressed={isMuted}
                                                 title={isMuted ? "Unmute background music" : "Mute background music"}
-                                                onclick={handleToggleMute}
+                                                onclick={toggleMute}
                                         >
                                                 <span class="relative z-10 flex items-center justify-center">
                                                         {#if isMuted}
@@ -374,10 +363,9 @@
                                                 Paused
                                         {/if}
                                 </p>
-                        </div>
-                {/if}
-        </div>
-
+                        </PopoverContent>
+                </div>
+        </Popover>
 </div>
 
 <style>
