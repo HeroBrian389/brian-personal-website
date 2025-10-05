@@ -34,6 +34,7 @@ These variables are available in both server and client code. They must be prefi
 - `PUBLIC_GITHUB_PROFILE_URL` - Full URL to your GitHub profile
 - `PUBLIC_LINKEDIN_PROFILE_URL` - Full URL to your LinkedIn profile
 - `PUBLIC_EMAIL_ADDRESS` - Your contact email address
+- `PUBLIC_GOOGLE_ANALYTICS_ID` - Google Analytics 4 measurement ID (e.g., `G-XXXXXXXXXX`)
 
 ## Usage in Code
 

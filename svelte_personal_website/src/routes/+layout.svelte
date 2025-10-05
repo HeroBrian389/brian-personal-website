@@ -3,6 +3,7 @@
 	import { ModeWatcher } from "mode-watcher";
 	import AudioPlayer from "$lib/components/AudioPlayer.svelte";
 	import ThemeToggle from "$lib/components/ThemeToggle.svelte";
+	import GoogleAnalytics from "$lib/components/analytics/GoogleAnalytics.svelte";
 	import { page } from "$app/stores";
 	import { slide, fade } from "svelte/transition";
 	import { quintOut } from "svelte/easing";
@@ -34,6 +35,7 @@
 	});
 </script>
 
+<GoogleAnalytics />
 <ModeWatcher />
 <AudioPlayer />
 <ThemeToggle />
