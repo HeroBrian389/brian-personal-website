@@ -3,10 +3,49 @@
 	import { ModeWatcher } from "mode-watcher";
 	import AudioPlayer from "$lib/components/AudioPlayer.svelte";
 	import ThemeToggle from "$lib/components/ThemeToggle.svelte";
+	import { browser } from "$app/environment";
+	import { afterNavigate } from "$app/navigation";
 	import { page } from "$app/stores";
 	import { slide, fade } from "svelte/transition";
 	import { quintOut } from "svelte/easing";
+	import { onMount } from "svelte";
 	import { socialLinks } from "$lib/config";
+
+	const GA_TRACKING_ID = "G-T42K1XVFLT";
+
+	declare global {
+		interface Window {
+			dataLayer: unknown[];
+			gtag?: (...args: unknown[]) => void;
+		}
+	}
+
+	const sendPageView = (url: URL) => {
+		if (!browser || typeof window.gtag !== "function") {
+			return;
+		}
+
+		window.gtag("config", GA_TRACKING_ID, {
+			page_path: `${url.pathname}${url.search}${url.hash}`
+		});
+	};
+
+	onMount(() => {
+		if (!browser) {
+			return;
+		}
+
+		window.dataLayer = window.dataLayer || [];
+		sendPageView(new URL(window.location.href));
+	});
+
+	afterNavigate(({ to }) => {
+		if (!to) {
+			return;
+		}
+
+		sendPageView(to.url);
+	});
 
 	let { children } = $props();
 
