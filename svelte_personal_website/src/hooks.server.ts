@@ -3,7 +3,11 @@ import { dev } from "$app/environment";
 
 export const handle: Handle = async ({ event, resolve }) => {
 	// HTTPS redirect in production
-	if (!dev && event.url.protocol === "http:") {
+	if (
+		!dev &&
+		event.url.protocol === "http:" &&
+		event.url.hostname !== "sveltekit-prerender"
+	) {
 		// Build the HTTPS version of the URL
 		const httpsUrl = new URL(event.url);
 		httpsUrl.protocol = "https:";
