@@ -17,7 +17,7 @@
 		<header class="mb-20">
 			<h1 class="text-4xl font-extralight mb-6">Projects</h1>
 			<p class="text-lg font-light text-muted-foreground max-w-3xl">
-				A selection of technical projects and experiments. Each represents a journey of learning and creation.
+				A selection of technical projects and experiments.
 			</p>
 		</header>
 

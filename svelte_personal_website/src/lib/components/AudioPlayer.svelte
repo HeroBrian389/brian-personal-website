@@ -1,240 +1,415 @@
 <script lang="ts">
 	import { onMount } from "svelte";
 
-	let audioElement: HTMLAudioElement | null = null;
-	let audioPlaying = $state(false);
-	let showAudioPrompt = $state(false);
+	let mainAudio: HTMLAudioElement | null = null;
+	let introAudio: HTMLAudioElement | null = null;
+	let tonearmElement: HTMLDivElement | null = null;
 
-	// Toggle audio playback
-	function toggleAudio() {
-		if (!audioElement) return;
+	const TONEARM_REST_ANGLE = -90;
+	const TONEARM_PLAY_ANGLE = -62.5;
+	const TONEARM_TIMEOUT = 1600;
 
-		if (audioPlaying) {
-			audioElement.pause();
-			audioPlaying = false;
-		} else {
-			audioElement
-				.play()
-				.then(() => {
-					audioPlaying = true;
-				})
-				.catch((err) => {
-					console.log("Audio play failed:", err);
-				});
+	let isCueing = $state(false);
+	let isArmTraveling = $state(false);
+	let isPlaying = $state(false);
+	let isPaused = $state(false);
+	type TonearmPosition = "rest" | "play";
+	let tonearmPosition = $state("rest") as TonearmPosition;
+	let runToken = 0;
+
+	let discSpinning = $derived(isCueing || isArmTraveling || isPlaying);
+	let tonearmAngle = $derived(
+		(tonearmPosition === "play" || isPaused) ? TONEARM_PLAY_ANGLE : TONEARM_REST_ANGLE
+	);
+	let isBusy = $derived(isCueing || isArmTraveling);
+
+	// Generate deterministic groove data to avoid hydration mismatches
+	const grooves = Array.from({ length: 4 }, (_, i) => {
+		const seed = i * 1337; // Simple deterministic seed
+		return {
+			r: 40 + i * 15, // Wider spacing for better visibility
+			opacity: 0.18 + (seed % 15) / 200, // More visible opacity (0.18 - 0.25)
+			width: 1.8, // Thicker lines
+			dashArray: `${(seed % 40) + 30} ${(seed % 25) + 30}` // More visible dashes
+		};
+	});
+
+	function resetAudioElements() {
+		if (introAudio) {
+			introAudio.pause();
+			introAudio.currentTime = 0;
+		}
+
+		if (mainAudio) {
+			mainAudio.pause();
+			mainAudio.currentTime = 0;
 		}
 	}
 
-	// Handle visibility change
-	function handleVisibilityChange() {
-		if (!audioElement) return;
+	function stopPlayback() {
+		runToken += 1;
+		isCueing = false;
+		isArmTraveling = false;
+		isPlaying = false;
+		isPaused = false;
+		tonearmPosition = "rest";
 
-		if (document.hidden) {
-			// Page is hidden (tab switched/minimized)
-			if (audioPlaying) {
-				audioElement.pause();
-			}
-		} else {
-			// Page is visible again
-			if (audioPlaying) {
-				audioElement.play().catch((err) => {
-					console.log("Audio resume failed:", err);
-				});
-			}
+		resetAudioElements();
+	}
+
+	async function resumePlayback() {
+		if (!mainAudio || !isPaused) return;
+
+		try {
+			await mainAudio.play();
+			isPlaying = true;
+			isPaused = false;
+		} catch (err) {
+			console.log("[AUDIO] Unable to resume playback", err);
+			stopPlayback();
 		}
 	}
 
-	// Initialize
+	async function cueAndPlay() {
+		if (!mainAudio) return;
+
+		const token = ++runToken;
+		resetAudioElements();
+		tonearmPosition = "rest";
+
+		// Skip intro sound and arm animation - go straight to play
+		tonearmPosition = "play";
+
+		try {
+			await mainAudio.play();
+			if (token !== runToken) {
+				return;
+			}
+			isPlaying = true;
+		} catch (err) {
+			console.log("[AUDIO] Unable to start ambient loop", err);
+			stopPlayback();
+		}
+	}
+
+	async function togglePlayback() {
+		// If paused, resume without intro sound
+		if (isPaused) {
+			await resumePlayback();
+			return;
+		}
+
+		// If playing or busy, stop completely
+		if (isPlaying || isBusy) {
+			stopPlayback();
+			return;
+		}
+
+		// Otherwise start from beginning with intro
+		await cueAndPlay();
+	}
+
 	onMount(() => {
-		console.log("[AUDIO] Component mounted, attempting to play audio...");
-
-		// Start background music
-		if (audioElement) {
-			console.log("[AUDIO] Audio element found, setting volume to 0.2");
-			audioElement.volume = 0.2; // Set to 20% volume for ambient background
-
-			// Try to play audio
-			const playPromise = audioElement.play();
-
-			if (playPromise !== undefined) {
-				playPromise
-					.then(() => {
-						console.log("[AUDIO] Autoplay successful!");
-						audioPlaying = true;
-					})
-					.catch((err) => {
-						// Handle autoplay policy - user interaction may be required
-						console.log("[AUDIO] Autoplay prevented:", err.name, err.message);
-						console.log("[AUDIO] User interaction required to start playback");
-
-						// Show prompt to user
-						showAudioPrompt = true;
-
-						// Hide prompt after a few seconds
-						setTimeout(() => {
-							showAudioPrompt = false;
-						}, 8000);
-
-						// Try to play on first user interaction
-						const playOnInteraction = () => {
-							if (audioElement) {
-								audioElement
-									.play()
-									.then(() => {
-										console.log(
-											"[AUDIO] Playback started after user interaction"
-										);
-										audioPlaying = true;
-										showAudioPrompt = false;
-										// Remove the listener once audio starts
-										document.removeEventListener("click", playOnInteraction);
-										document.removeEventListener("keydown", playOnInteraction);
-									})
-									.catch((e) => {
-										console.log("[AUDIO] Still failed to play:", e);
-									});
-							}
-						};
-
-						// Add listeners for user interaction
-						document.addEventListener("click", playOnInteraction, { once: true });
-						document.addEventListener("keydown", playOnInteraction, { once: true });
-					});
+		// Listen for external pause/play events (laptop media controls, etc)
+		const handlePause = () => {
+			if (isPlaying && !isPaused) {
+				isPlaying = false;
+				isPaused = true;
 			}
-		} else {
-			console.log("[AUDIO] Audio element not found!");
+		};
+
+		const handlePlay = () => {
+			if (isPaused) {
+				isPlaying = true;
+				isPaused = false;
+			}
+		};
+
+		if (mainAudio) {
+			mainAudio.volume = 0.2;
+			mainAudio.loop = true;
+			mainAudio.addEventListener("pause", handlePause);
+			mainAudio.addEventListener("play", handlePlay);
 		}
 
-		// Listen for visibility changes
+		if (introAudio) {
+			introAudio.volume = 0.5;
+		}
+
+		const handleVisibilityChange = () => {
+			if (document.hidden) {
+				stopPlayback();
+			}
+		};
+
 		document.addEventListener("visibilitychange", handleVisibilityChange);
 
-		// Cleanup on unmount
 		return () => {
 			document.removeEventListener("visibilitychange", handleVisibilityChange);
-			if (audioElement) {
-				audioElement.pause();
+			if (mainAudio) {
+				mainAudio.removeEventListener("pause", handlePause);
+				mainAudio.removeEventListener("play", handlePlay);
 			}
+			stopPlayback();
 		};
 	});
 </script>
 
-<!-- Background audio -->
-<audio bind:this={audioElement} src="/jazz-background.mp3" loop preload="auto"></audio>
+<audio bind:this={mainAudio} src="/jazz-background.mp3" preload="auto" loop></audio>
+<audio bind:this={introAudio} src="/gramophone-start.mp3" preload="auto"></audio>
 
-<!-- Vinyl record player - fixed bottom right -->
-<div class="fixed right-8 bottom-8 z-50 flex items-center gap-4">
-	<!-- Subtle prompt message -->
-	{#if showAudioPrompt}
-		<div class="animate-fade-in-out absolute right-full mr-4 whitespace-nowrap">
-			<p class="text-muted-foreground/60 text-xs font-light tracking-[0.2em] uppercase">
-				Click to play music
-			</p>
-		</div>
-	{/if}
 
-	<!-- Vinyl record -->
-	<div class="relative h-16 w-16">
-		<div
-			class="absolute inset-0 rounded-full bg-gradient-to-br from-neutral-900 to-neutral-800 shadow-lg {showAudioPrompt
-				? 'animate-pulse-subtle'
-				: ''}"
-			class:animate-spin-slow={audioPlaying}
-		>
-			<!-- Vinyl grooves -->
-			<div class="absolute inset-[15%] rounded-full border border-neutral-700/50"></div>
-			<div class="absolute inset-[25%] rounded-full border border-neutral-700/40"></div>
-			<div class="absolute inset-[35%] rounded-full border border-neutral-700/30"></div>
-
-			<!-- Center label -->
-			<div
-				class="absolute inset-[40%] rounded-full bg-gradient-to-br from-red-900 to-red-800"
-			>
-				<div class="absolute inset-[30%] rounded-full bg-neutral-900"></div>
+<div class="audio-player-root">
+	<button
+		type="button"
+		onclick={togglePlayback}
+		class="gramophone-card"
+		aria-pressed={isPlaying}
+		aria-label={isPlaying ? "Pause ambient audio" : "Play ambient audio"}
+	>
+		<div class="deck-layout">
+			<div class="platter">
+				<div class="vinyl-disc" class:spin-record={discSpinning}>
+					<!-- SVG Grooves for texture -->
+					<svg class="vinyl-grooves" viewBox="0 0 200 200">
+						{#each grooves as groove}
+							<circle
+								cx="100"
+								cy="100"
+								r={groove.r}
+								fill="none"
+								stroke="rgba(255, 255, 255, {groove.opacity})"
+								stroke-width={groove.width}
+								stroke-dasharray={groove.dashArray}
+							/>
+						{/each}
+					</svg>
+					
+					<div class="vinyl-label">
+						<div class="vinyl-center"></div>
+					</div>
+				</div>
 			</div>
 
-			<!-- Highlight for 3D effect -->
-			<div class="absolute top-1 left-1 h-3 w-3 rounded-full bg-white/10 blur-sm"></div>
+			<div class="tonearm-assembly">
+				<div class="tonearm-axis">
+					<div
+						class="tonearm-swing"
+						bind:this={tonearmElement}
+						style={`--tonearm-angle: ${tonearmAngle}deg`}
+					>
+						<div class="tonearm-rod"></div>
+						<div class="tonearm-cue"></div>
+						<div class="tonearm-rest"></div>
+					</div>
+				</div>
+			</div>
 		</div>
-	</div>
-
-	<!-- Play/Pause button -->
-	<button
-		onclick={toggleAudio}
-		class="group bg-background border-foreground/10 hover:border-foreground/30 relative
-           rounded-full border p-3
-           text-sm transition-all duration-500"
-		title={audioPlaying ? "Pause music" : "Play music"}
-	>
-		<span class="relative z-10 block flex h-4 w-4 items-center justify-center">
-			{#if audioPlaying}
-				<svg class="h-3 w-3" fill="currentColor" viewBox="0 0 16 16">
-					<path
-						d="M5 3.5v9a.5.5 0 0 1-1 0v-9a.5.5 0 0 1 1 0zm6 0v9a.5.5 0 0 1-1 0v-9a.5.5 0 0 1 1 0z"
-					/>
-				</svg>
-			{:else}
-				<svg class="ml-0.5 h-3 w-3" fill="currentColor" viewBox="0 0 16 16">
-					<path
-						d="M4 3.5v9a.5.5 0 0 0 .757.429l7-4.5a.5.5 0 0 0 0-.858l-7-4.5A.5.5 0 0 0 4 3.5z"
-					/>
-				</svg>
-			{/if}
-		</span>
-		<div
-			class="bg-foreground/5 absolute inset-0 scale-0 rounded-full transition-transform duration-500 group-hover:scale-100"
-		></div>
 	</button>
 </div>
 
 <style>
-	/* Vinyl spinning animation */
-	@keyframes spin-slow {
+	.audio-player-root {
+		position: fixed;
+		bottom: 1.5rem;
+		right: 1.5rem;
+		z-index: 50;
+		pointer-events: auto;
+	}
+
+	.gramophone-card {
+		width: 240px;
+		height: 200px;
+		border-radius: 36px;
+		background: linear-gradient(140deg, #3a1d07, #8b4a1c 55%, #b26730);
+		border: 1px solid rgba(54, 28, 13, 0.6);
+		box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.15), 0 32px 70px rgba(0, 0, 0, 0.45);
+		position: relative;
+		overflow: hidden;
+	}
+
+	.deck-layout {
+		position: relative;
+		width: 100%;
+		height: 100%;
+	}
+
+	.platter {
+		position: absolute;
+		left: 12px;
+		top: 50%;
+		transform: translateY(-50%);
+		width: 160px;
+		height: 160px;
+		filter: drop-shadow(0 12px 18px rgba(0, 0, 0, 0.45));
+	}
+
+	.vinyl-disc {
+		position: relative;
+		width: 100%;
+		height: 100%;
+		border-radius: 9999px;
+		background: linear-gradient(140deg, #111, #1a1a1a 50%, #0a0a0a);
+		box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05), inset 0 18px 45px rgba(0, 0, 0, 0.65);
+		overflow: hidden;
+	}
+
+	.vinyl-grooves {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		transform: rotate(-90deg); /* Start from top */
+	}
+
+	/* Removed old .vinyl-groove classes */
+
+	.vinyl-label {
+		position: absolute;
+		inset: 28%;
+		border-radius: 9999px;
+		background: radial-gradient(circle at 40% 35%, rgba(0, 0, 0, 0.08), transparent 60%),
+			linear-gradient(130deg, #f7f7f7, #dcdcdc 65%, #c6c6c6);
+	}
+
+	.vinyl-center {
+		position: absolute;
+		inset: 42%;
+		border-radius: 9999px;
+		background: #040404;
+		box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.15);
+		opacity: 0.6;
+	}
+
+	.spin-record {
+		animation: record-spin 5s linear infinite;
+	}
+
+	.tonearm-assembly {
+		position: absolute;
+		right: 12px;
+		top: 12px;
+		width: 200px;
+		height: 220px;
+		pointer-events: none;
+	}
+
+	.tonearm-axis {
+		position: absolute;
+		right: 12px;
+		top: 12px;
+		width: 24px;
+		height: 24px;
+		border-radius: 9999px;
+		background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.85), rgba(70, 70, 70, 0.85));
+		box-shadow: inset 0 6px 12px rgba(0, 0, 0, 0.55);
+	}
+
+	.tonearm-swing {
+		position: absolute;
+		right: 12px; /* Align right edge with center of tonearm-axis */
+		top: 4px; /* Align center (5px from top) with axis center at 24px: 24px - 5px = 19px */
+		width: 120px;
+		height: 10px;
+		transform-origin: 100% 50%;
+		transform: rotate(var(--tonearm-angle, 0deg));
+		transition: transform 0.3s cubic-bezier(0.45, 0, 0.15, 1);
+	}
+
+	.tonearm-rod {
+		position: absolute;
+		left: 0;
+		right: 0;
+		height: 100%;
+		border-radius: 9999px;
+		background: #cccccc;
+		box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+		transition: box-shadow 0.3s ease, filter 0.3s ease;
+	}
+
+	.tonearm-cue {
+		position: absolute;
+		left: 10px;
+		top: 50%;
+		transform: translateY(-50%);
+		width: 6px;
+		height: 20px;
+		border-radius: 3px;
+		background: #979797;
+		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+		transition: box-shadow 0.3s ease, filter 0.3s ease;
+	}
+
+	.tonearm-rest {
+		position: absolute;
+		left: 0;
+		top: 50%;
+		transform: translateY(-50%);
+		width: 30px;
+		height: 12px;
+		border-radius: 9999px;
+		background: #8a8a8a;
+		box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.35);
+		transition: box-shadow 0.3s ease, filter 0.3s ease;
+	}
+
+	/* Hover effects for tonearm - indicates interactive element */
+	.gramophone-card:hover .tonearm-rod {
+		box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4),
+					0 0 12px rgba(255, 255, 255, 0.6),
+					0 0 24px rgba(255, 255, 255, 0.3);
+		filter: brightness(1.3);
+	}
+
+	.gramophone-card:hover .tonearm-cue {
+		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4),
+					0 0 10px rgba(255, 255, 255, 0.5),
+					0 0 20px rgba(255, 255, 255, 0.25);
+		filter: brightness(1.3);
+	}
+
+	.gramophone-card:hover .tonearm-rest {
+		box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.35),
+					0 0 8px rgba(255, 255, 255, 0.4),
+					0 0 16px rgba(255, 255, 255, 0.2);
+		filter: brightness(1.2);
+	}
+
+	@media (max-width: 768px) {
+		.gramophone-card {
+			width: 40px;
+			height: 40px;
+			padding: 0;
+			border-radius: 9999px;
+			background: rgba(5, 5, 5, 0.9);
+			border: 1px solid rgba(255, 255, 255, 0.1);
+		}
+
+		.deck-layout {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+
+		.platter {
+			position: relative;
+			left: auto;
+			top: auto;
+			width: 64px;
+			height: 64px;
+		}
+
+		.tonearm-assembly {
+			display: none;
+		}
+	}
+
+	@keyframes record-spin {
 		from {
 			transform: rotate(0deg);
 		}
 		to {
 			transform: rotate(360deg);
 		}
-	}
-
-	:global(.animate-spin-slow) {
-		animation: spin-slow 3s linear infinite;
-	}
-
-	/* Subtle pulse animation */
-	@keyframes pulse-subtle {
-		0%,
-		100% {
-			opacity: 1;
-			transform: scale(1);
-		}
-		50% {
-			opacity: 0.8;
-			transform: scale(1.05);
-		}
-	}
-
-	:global(.animate-pulse-subtle) {
-		animation: pulse-subtle 2s ease-in-out infinite;
-	}
-
-	/* Fade in and out animation */
-	@keyframes fade-in-out {
-		0% {
-			opacity: 0;
-			transform: translateX(10px);
-		}
-		20%,
-		80% {
-			opacity: 1;
-			transform: translateX(0);
-		}
-		100% {
-			opacity: 0;
-			transform: translateX(10px);
-		}
-	}
-
-	:global(.animate-fade-in-out) {
-		animation: fade-in-out 8s ease-in-out;
 	}
 </style>

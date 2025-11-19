@@ -3,22 +3,18 @@
 	import { ModeWatcher } from "mode-watcher";
 	import AudioPlayer from "$lib/components/AudioPlayer.svelte";
 	import ThemeToggle from "$lib/components/ThemeToggle.svelte";
+	import NavLink from "$lib/components/NavLink.svelte";
+	import NavGroup from "$lib/components/NavGroup.svelte";
+	import * as NavigationMenu from "$lib/components/ui/navigation-menu";
 	import { browser } from "$app/environment";
 	import { afterNavigate } from "$app/navigation";
 	import { page } from "$app/stores";
 	import { slide, fade } from "svelte/transition";
 	import { quintOut } from "svelte/easing";
 	import { onMount } from "svelte";
-	import { socialLinks } from "$lib/config";
+	import { socialLinks, navItems } from "$lib/config";
 
 	const GA_TRACKING_ID = "G-T42K1XVFLT";
-
-	declare global {
-		interface Window {
-			dataLayer: unknown[];
-			gtag?: (...args: unknown[]) => void;
-		}
-	}
 
 	const sendPageView = (url: URL) => {
 		if (!browser || typeof window.gtag !== "function") {
@@ -89,120 +85,24 @@
 				</a>
 
 				<!-- Desktop navigation -->
-				<div
-					class="hidden items-center gap-8 text-xs font-light tracking-[0.2em] uppercase md:flex"
-				>
-					<a
-						href="/about"
-						class="hover:text-foreground/80 group relative transition-all duration-500 {currentPath ===
-						'/about'
-							? 'text-foreground'
-							: 'text-foreground/60'}"
-					>
-						<span class="relative z-10">About</span>
-						<div
-							class="bg-foreground/20 absolute inset-x-0 bottom-0 h-px transition-transform duration-500 {currentPath ===
-							'/about'
-								? 'scale-x-100'
-								: 'scale-x-0 group-hover:scale-x-100'}"
-						></div>
-					</a>
-					<a
-						href="/writing"
-						class="hover:text-foreground/80 group relative transition-all duration-500 {currentPath.startsWith(
-							'/writing'
-						)
-							? 'text-foreground'
-							: 'text-foreground/60'}"
-					>
-						<span class="relative z-10">Writing</span>
-						<div
-							class="bg-foreground/20 absolute inset-x-0 bottom-0 h-px transition-transform duration-500 {currentPath.startsWith(
-								'/writing'
-							)
-								? 'scale-x-100'
-								: 'scale-x-0 group-hover:scale-x-100'}"
-						></div>
-					</a>
-					<a
-						href="/quotes"
-						class="hover:text-foreground/80 group relative transition-all duration-500 {currentPath ===
-						'/quotes'
-							? 'text-foreground'
-							: 'text-foreground/60'}"
-					>
-						<span class="relative z-10">Quotes</span>
-						<div
-							class="bg-foreground/20 absolute inset-x-0 bottom-0 h-px transition-transform duration-500 {currentPath ===
-							'/quotes'
-								? 'scale-x-100'
-								: 'scale-x-0 group-hover:scale-x-100'}"
-						></div>
-					</a>
-					<a
-						href="/art"
-						class="hover:text-foreground/80 group relative transition-all duration-500 {currentPath ===
-						'/art'
-							? 'text-foreground'
-							: 'text-foreground/60'}"
-					>
-						<span class="relative z-10">Art</span>
-						<div
-							class="bg-foreground/20 absolute inset-x-0 bottom-0 h-px transition-transform duration-500 {currentPath ===
-							'/art'
-								? 'scale-x-100'
-								: 'scale-x-0 group-hover:scale-x-100'}"
-						></div>
-					</a>
-					<a
-						href="/projects"
-						class="hover:text-foreground/80 group relative transition-all duration-500 {currentPath.startsWith(
-							'/projects'
-						)
-							? 'text-foreground'
-							: 'text-foreground/60'}"
-					>
-						<span class="relative z-10">Projects</span>
-						<div
-							class="bg-foreground/20 absolute inset-x-0 bottom-0 h-px transition-transform duration-500 {currentPath.startsWith(
-								'/projects'
-							)
-								? 'scale-x-100'
-								: 'scale-x-0 group-hover:scale-x-100'}"
-						></div>
-					</a>
-					<a
-						href="/talks"
-						class="hover:text-foreground/80 group relative transition-all duration-500 {currentPath.startsWith(
-							'/talks'
-						)
-							? 'text-foreground'
-							: 'text-foreground/60'}"
-					>
-						<span class="relative z-10">Talks</span>
-						<div
-							class="bg-foreground/20 absolute inset-x-0 bottom-0 h-px transition-transform duration-500 {currentPath.startsWith(
-								'/talks'
-							)
-								? 'scale-x-100'
-								: 'scale-x-0 group-hover:scale-x-100'}"
-						></div>
-					</a>
-					<a
-						href="/ponder"
-						class="hover:text-foreground/80 group relative transition-all duration-500 {currentPath ===
-						'/ponder'
-							? 'text-foreground'
-							: 'text-foreground/60'}"
-					>
-						<span class="relative z-10">Ponder</span>
-						<div
-							class="bg-foreground/20 absolute inset-x-0 bottom-0 h-px transition-transform duration-500 {currentPath ===
-							'/ponder'
-								? 'scale-x-100'
-								: 'scale-x-0 group-hover:scale-x-100'}"
-						></div>
-					</a>
+				<div class="hidden md:flex">
+					<NavigationMenu.Root viewport={false} class="flex">
+						<NavigationMenu.List class="flex items-center gap-8">
+							{#each navItems as item}
+								{#if item.children}
+									<NavGroup label={item.label} children={item.children} />
+								{:else if item.href}
+									<NavigationMenu.Item>
+										<NavLink
+											href={item.href}
+											label={item.label}
+											matchType={item.matchType}
+										/>
+									</NavigationMenu.Item>
+								{/if}
+							{/each}
+						</NavigationMenu.List>
+					</NavigationMenu.Root>
 				</div>
 
 				<!-- Mobile menu button -->
@@ -250,34 +150,36 @@
 
 			<!-- Menu content -->
 			<nav class="relative flex h-full flex-col items-center justify-center px-8">
-				<div class="w-full max-w-sm space-y-12">
-					{#each [{ href: "/about", label: "About" }, { href: "/writing", label: "Writing" }, { href: "/quotes", label: "Quotes" }, { href: "/art", label: "Art" }, { href: "/projects", label: "Projects" }, { href: "/ponder", label: "Ponder" }] as item, i (item.href)}
-						<a
-							href={item.href}
-							class="group block text-center"
-							transition:slide={{ duration: 400, delay: i * 50, easing: quintOut }}
-						>
-							<span
-								class="relative inline-block text-2xl font-extralight tracking-wide {currentPath ===
-									item.href ||
-								(item.href === '/writing' && currentPath.startsWith('/writing')) ||
-								(item.href === '/projects' && currentPath.startsWith('/projects'))
-									? 'text-foreground'
-									: 'text-foreground/60'} hover:text-foreground transition-colors duration-500"
-							>
-								{item.label}
-								<div
-									class="bg-foreground/20 absolute right-0 -bottom-2 left-0 h-px transition-transform duration-500 {currentPath ===
-										item.href ||
-									(item.href === '/writing' &&
-										currentPath.startsWith('/writing')) ||
-									(item.href === '/projects' &&
-										currentPath.startsWith('/projects'))
-										? 'scale-x-100'
-										: 'scale-x-0 group-hover:scale-x-100'}"
-								></div>
-							</span>
-						</a>
+				<div class="w-full max-w-sm space-y-12 text-center">
+					{#each navItems as item, i}
+						<div transition:slide={{ duration: 400, delay: i * 50, easing: quintOut }}>
+							{#if item.children}
+								<div class="mb-4 text-xs font-bold tracking-widest text-muted-foreground uppercase opacity-50">
+									{item.label}
+								</div>
+								<div class="space-y-6">
+									{#each item.children as child}
+										{#if child.href}
+											<NavLink
+												href={child.href}
+												label={child.label}
+												matchType={child.matchType}
+												mobile
+												onclick={() => (isMobileMenuOpen = false)}
+											/>
+										{/if}
+									{/each}
+								</div>
+							{:else if item.href}
+								<NavLink
+									href={item.href}
+									label={item.label}
+									matchType={item.matchType}
+									mobile
+									onclick={() => (isMobileMenuOpen = false)}
+								/>
+							{/if}
+						</div>
 					{/each}
 				</div>
 

@@ -1,12 +1,13 @@
 <script lang="ts">
 	import { cn } from "$lib/utils.js";
 	import { Popover as PopoverPrimitive } from "bits-ui";
+	import type { HTMLButtonAttributes } from "svelte/elements";
 
 	let {
 		ref = $bindable(null),
 		class: className,
 		...restProps
-	}: PopoverPrimitive.TriggerProps = $props();
+	}: PopoverPrimitive.TriggerProps & HTMLButtonAttributes = $props();
 </script>
 
 <PopoverPrimitive.Trigger
