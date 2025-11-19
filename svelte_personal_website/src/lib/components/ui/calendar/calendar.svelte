@@ -47,7 +47,7 @@ get along, so we shut typescript up by casting `value` to `never`.
 <CalendarPrimitive.Root
 	bind:value={value as never}
 	bind:ref
-	{...(placeholder !== undefined ? { placeholder } : {})}
+	{...placeholder !== undefined ? { placeholder } : {}}
 	{type}
 	{weekdayFormat}
 	{disableDaysOutsideMonth}
@@ -58,7 +58,10 @@ get along, so we shut typescript up by casting `value` to `never`.
 	{locale}
 	{monthFormat}
 	{yearFormat}
-	{...Object.entries(restProps).reduce((acc, [key, value]) => value !== undefined ? { ...acc, [key]: value } : acc, {})}
+	{...Object.entries(restProps).reduce(
+		(acc, [key, value]) => (value !== undefined ? { ...acc, [key]: value } : acc),
+		{}
+	)}
 >
 	{#snippet children({ months, weekdays })}
 		<Calendar.Months>

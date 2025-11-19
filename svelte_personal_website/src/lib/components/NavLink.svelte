@@ -19,9 +19,7 @@
 	}>();
 
 	let isActive = $derived(
-		matchType === "exact"
-			? $page.url.pathname === href
-			: $page.url.pathname.startsWith(href)
+		matchType === "exact" ? $page.url.pathname === href : $page.url.pathname.startsWith(href)
 	);
 </script>
 
@@ -29,10 +27,10 @@
 	{href}
 	{onclick}
 	class={cn(
-		"group/nav-link relative transition-all duration-500 hover:text-foreground/80",
+		"group/nav-link hover:text-foreground/80 relative transition-all duration-500",
 		isActive ? "text-foreground" : "text-foreground/60",
 		mobile
-			? "block text-center text-2xl font-extralight tracking-wide hover:text-foreground"
+			? "hover:text-foreground block text-center text-2xl font-extralight tracking-wide"
 			: "inline-flex h-10 items-center text-xs font-light tracking-[0.2em] uppercase",
 		className
 	)}

@@ -10,9 +10,10 @@
 		align = "center",
 		portalProps,
 		...restProps
-	}: PopoverPrimitive.ContentProps & HTMLAttributes<HTMLDivElement> & {
-		portalProps?: PopoverPrimitive.PortalProps;
-	} = $props();
+	}: PopoverPrimitive.ContentProps &
+		HTMLAttributes<HTMLDivElement> & {
+			portalProps?: PopoverPrimitive.PortalProps;
+		} = $props();
 </script>
 
 <PopoverPrimitive.Portal {...portalProps}>

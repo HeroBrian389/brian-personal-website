@@ -26,7 +26,7 @@ export async function fetchQuotes(): Promise<Quote[]> {
 				richText: parseRichText([[q.quote, []]]),
 				tags: q.tags
 			};
-			
+
 			// Only add optional properties if they have valid values
 			if (q.author && q.author !== "Unknown") {
 				quote.author = q.author;
@@ -34,7 +34,7 @@ export async function fetchQuotes(): Promise<Quote[]> {
 			if (q.source && q.source.trim()) {
 				quote.source = q.source;
 			}
-			
+
 			return quote;
 		});
 	} catch (error) {
@@ -75,11 +75,11 @@ async function fetchQuotesFromNotion(): Promise<Quote[]> {
 							richText: parseRichText([[quoteMatch[1], []]]),
 							tags: extractTags(plainText)
 						};
-						
+
 						if (quoteMatch[2].trim()) {
 							quote.author = quoteMatch[2].trim();
 						}
-						
+
 						quotes.push(quote);
 					} else if (
 						plainText.length > 20 &&

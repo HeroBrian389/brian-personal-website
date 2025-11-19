@@ -1,8 +1,5 @@
-const {
-	PUBLIC_GITHUB_PROFILE_URL,
-	PUBLIC_LINKEDIN_PROFILE_URL,
-	PUBLIC_EMAIL_ADDRESS
-} = import.meta.env;
+const { PUBLIC_GITHUB_PROFILE_URL, PUBLIC_LINKEDIN_PROFILE_URL, PUBLIC_EMAIL_ADDRESS } = import.meta
+	.env;
 
 // Social links configuration using environment variables
 export const socialLinks = {

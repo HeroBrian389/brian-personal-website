@@ -20,7 +20,7 @@
 
 	let discSpinning = $derived(isCueing || isArmTraveling || isPlaying);
 	let tonearmAngle = $derived(
-		(tonearmPosition === "play" || isPaused) ? TONEARM_PLAY_ANGLE : TONEARM_REST_ANGLE
+		tonearmPosition === "play" || isPaused ? TONEARM_PLAY_ANGLE : TONEARM_REST_ANGLE
 	);
 	let isBusy = $derived(isCueing || isArmTraveling);
 
@@ -159,8 +159,6 @@
 <audio bind:this={mainAudio} src="/jazz-background.mp3" preload="auto" loop></audio>
 <audio bind:this={introAudio} src="/gramophone-start.mp3" preload="auto"></audio>
 
-
-
 <div class="audio-player-root desktop-player">
 	<button
 		type="button"
@@ -186,7 +184,7 @@
 							/>
 						{/each}
 					</svg>
-					
+
 					<div class="vinyl-label">
 						<div class="vinyl-center"></div>
 					</div>
@@ -250,7 +248,9 @@
 		border-radius: 36px;
 		background: linear-gradient(140deg, #3a1d07, #8b4a1c 55%, #b26730);
 		border: 1px solid rgba(54, 28, 13, 0.6);
-		box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.15), 0 32px 70px rgba(0, 0, 0, 0.45);
+		box-shadow:
+			inset 0 2px 0 rgba(255, 255, 255, 0.15),
+			0 32px 70px rgba(0, 0, 0, 0.45);
 		position: relative;
 		overflow: hidden;
 	}
@@ -265,7 +265,10 @@
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-		transition: background 0.4s ease, border-color 0.4s ease, color 0.4s ease;
+		transition:
+			background 0.4s ease,
+			border-color 0.4s ease,
+			color 0.4s ease;
 	}
 
 	.mobile-play-toggle.is-active {
@@ -302,7 +305,9 @@
 		height: 100%;
 		border-radius: 9999px;
 		background: linear-gradient(140deg, #111, #1a1a1a 50%, #0a0a0a);
-		box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05), inset 0 18px 45px rgba(0, 0, 0, 0.65);
+		box-shadow:
+			inset 0 0 0 1px rgba(255, 255, 255, 0.05),
+			inset 0 18px 45px rgba(0, 0, 0, 0.65);
 		overflow: hidden;
 	}
 
@@ -320,7 +325,8 @@
 		position: absolute;
 		inset: 28%;
 		border-radius: 9999px;
-		background: radial-gradient(circle at 40% 35%, rgba(0, 0, 0, 0.08), transparent 60%),
+		background:
+			radial-gradient(circle at 40% 35%, rgba(0, 0, 0, 0.08), transparent 60%),
 			linear-gradient(130deg, #f7f7f7, #dcdcdc 65%, #c6c6c6);
 	}
 
@@ -353,7 +359,11 @@
 		width: 24px;
 		height: 24px;
 		border-radius: 9999px;
-		background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.85), rgba(70, 70, 70, 0.85));
+		background: radial-gradient(
+			circle at 30% 30%,
+			rgba(255, 255, 255, 0.85),
+			rgba(70, 70, 70, 0.85)
+		);
 		box-shadow: inset 0 6px 12px rgba(0, 0, 0, 0.55);
 	}
 
@@ -376,7 +386,9 @@
 		border-radius: 9999px;
 		background: #cccccc;
 		box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
-		transition: box-shadow 0.3s ease, filter 0.3s ease;
+		transition:
+			box-shadow 0.3s ease,
+			filter 0.3s ease;
 	}
 
 	.tonearm-cue {
@@ -389,7 +401,9 @@
 		border-radius: 3px;
 		background: #979797;
 		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
-		transition: box-shadow 0.3s ease, filter 0.3s ease;
+		transition:
+			box-shadow 0.3s ease,
+			filter 0.3s ease;
 	}
 
 	.tonearm-rest {
@@ -402,28 +416,33 @@
 		border-radius: 9999px;
 		background: #8a8a8a;
 		box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.35);
-		transition: box-shadow 0.3s ease, filter 0.3s ease;
+		transition:
+			box-shadow 0.3s ease,
+			filter 0.3s ease;
 	}
 
 	/* Hover effects for tonearm - indicates interactive element */
 	.gramophone-card:hover .tonearm-rod {
-		box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4),
-					0 0 12px rgba(255, 255, 255, 0.6),
-					0 0 24px rgba(255, 255, 255, 0.3);
+		box-shadow:
+			0 2px 6px rgba(0, 0, 0, 0.4),
+			0 0 12px rgba(255, 255, 255, 0.6),
+			0 0 24px rgba(255, 255, 255, 0.3);
 		filter: brightness(1.3);
 	}
 
 	.gramophone-card:hover .tonearm-cue {
-		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4),
-					0 0 10px rgba(255, 255, 255, 0.5),
-					0 0 20px rgba(255, 255, 255, 0.25);
+		box-shadow:
+			0 4px 8px rgba(0, 0, 0, 0.4),
+			0 0 10px rgba(255, 255, 255, 0.5),
+			0 0 20px rgba(255, 255, 255, 0.25);
 		filter: brightness(1.3);
 	}
 
 	.gramophone-card:hover .tonearm-rest {
-		box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.35),
-					0 0 8px rgba(255, 255, 255, 0.4),
-					0 0 16px rgba(255, 255, 255, 0.2);
+		box-shadow:
+			inset 0 2px 4px rgba(0, 0, 0, 0.35),
+			0 0 8px rgba(255, 255, 255, 0.4),
+			0 0 16px rgba(255, 255, 255, 0.2);
 		filter: brightness(1.2);
 	}
 

@@ -67,9 +67,9 @@ The script is idempotent for new names and safely aborts if the path already exi
 ## Integrating With AI Workflows
 
 - Point your agent at `projects/active/<name>` and instruct it to:
-  - Read all docs first; propose updates instead of writing code blindly.
-  - Keep `PROGRESS_TRACKER.md` in sync with changes.
-  - Record significant actions in `STATUS_UPDATES.md` (append at top).
+    - Read all docs first; propose updates instead of writing code blindly.
+    - Keep `PROGRESS_TRACKER.md` in sync with changes.
+    - Record significant actions in `STATUS_UPDATES.md` (append at top).
 - Optional: add hooks or background jobs that refuse to stop while unchecked items remain, ensuring forward motion is explicit.
 
 ## Safety & Limitations

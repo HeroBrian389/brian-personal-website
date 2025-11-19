@@ -1,22 +1,22 @@
 {
-  "slug": "claude-workflow-automation",
-  "title": "Claude Workflow Automation System",
-  "description": "An autonomous code generation pipeline orchestrating multi-stage AI workflows for full-stack application development",
-  "codeSnippet": {
-    "code": "#!/bin/bash\n# Hook-based autonomous continuation mechanism\n\n# Check all PROGRESS_TRACKER.md files for remaining tasks\nfind \"$PROJECT_DIR/projects/active\" -name \"PROGRESS_TRACKER.md\" | while read tracker; do\n    remaining=$(grep -c \"\\[ \\]\" \"$tracker\" 2>/dev/null || echo 0)\n    total_remaining=$((total_remaining + remaining))\ndone\n\nif [ \"$total_remaining\" -gt 0 ]; then\n    echo \"Implementation incomplete: $total_remaining tasks remain\" >&2\n    echo \"Continue implementing. BE AGGRESSIVE ABOUT UPDATING PROGRESS_TRACKER.md\"\n    exit 2  # Signal to continue autonomously\nfi\n\n# Prevent infinite loops with persistence mechanism\nCOUNTER_FILE=\"$PROJECT_DIR/.claude/implementation_unknown_counter\"\ncurrent_count=$(cat \"$COUNTER_FILE\" 2>/dev/null || echo 0)\nnext_count=$((current_count + 1))\n\nif [ \"$next_count\" -gt \"$MAX_UNKNOWN_ITERATIONS\" ]; then\n    echo \"Stopping after $MAX_UNKNOWN_ITERATIONS continuation attempts\"\n    exit 0  # Signal completion\nfi\n\necho \"$next_count\" > \"$COUNTER_FILE\"\nexit 2  # Continue working",
-    "language": "bash"
-  },
-  "technologies": [
-    "Bash",
-    "Node.js",
-    "BullMQ",
-    "Redis",
-    "Claude API",
-    "Git",
-    "Docker",
-    "Winston",
-    "IORedis"
-  ],
-  "date": "2025",
-  "featured": true
+	"slug": "claude-workflow-automation",
+	"title": "Claude Workflow Automation System",
+	"description": "An autonomous code generation pipeline orchestrating multi-stage AI workflows for full-stack application development",
+	"codeSnippet": {
+		"code": "#!/bin/bash\n# Hook-based autonomous continuation mechanism\n\n# Check all PROGRESS_TRACKER.md files for remaining tasks\nfind \"$PROJECT_DIR/projects/active\" -name \"PROGRESS_TRACKER.md\" | while read tracker; do\n    remaining=$(grep -c \"\\[ \\]\" \"$tracker\" 2>/dev/null || echo 0)\n    total_remaining=$((total_remaining + remaining))\ndone\n\nif [ \"$total_remaining\" -gt 0 ]; then\n    echo \"Implementation incomplete: $total_remaining tasks remain\" >&2\n    echo \"Continue implementing. BE AGGRESSIVE ABOUT UPDATING PROGRESS_TRACKER.md\"\n    exit 2  # Signal to continue autonomously\nfi\n\n# Prevent infinite loops with persistence mechanism\nCOUNTER_FILE=\"$PROJECT_DIR/.claude/implementation_unknown_counter\"\ncurrent_count=$(cat \"$COUNTER_FILE\" 2>/dev/null || echo 0)\nnext_count=$((current_count + 1))\n\nif [ \"$next_count\" -gt \"$MAX_UNKNOWN_ITERATIONS\" ]; then\n    echo \"Stopping after $MAX_UNKNOWN_ITERATIONS continuation attempts\"\n    exit 0  # Signal completion\nfi\n\necho \"$next_count\" > \"$COUNTER_FILE\"\nexit 2  # Continue working",
+		"language": "bash"
+	},
+	"technologies": [
+		"Bash",
+		"Node.js",
+		"BullMQ",
+		"Redis",
+		"Claude API",
+		"Git",
+		"Docker",
+		"Winston",
+		"IORedis"
+	],
+	"date": "2025",
+	"featured": true
 }

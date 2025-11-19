@@ -154,7 +154,9 @@
 					{#each navItems as item, i}
 						<div transition:slide={{ duration: 400, delay: i * 50, easing: quintOut }}>
 							{#if item.children}
-								<div class="mb-4 text-xs font-bold tracking-widest text-muted-foreground uppercase opacity-50">
+								<div
+									class="text-muted-foreground mb-4 text-xs font-bold tracking-widest uppercase opacity-50"
+								>
 									{item.label}
 								</div>
 								<div class="space-y-6">

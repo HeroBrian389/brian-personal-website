@@ -8,7 +8,6 @@
 
 	// Calculate dynamic values
 	onMount(() => {
-
 		// Update age dynamically
 		const birthYear = 2004; // Approximate based on being 19 in 2023
 		const currentYear = new Date().getFullYear();
@@ -63,7 +62,6 @@
 		{ year: 2023, age: 19, event: "Ireland's 30 Under 30 (youngest)" },
 		{ year: 2024, age: 20, event: "Student Entrepreneur of the Year" }
 	];
-
 
 	// Side quests data
 	const sideQuests = [

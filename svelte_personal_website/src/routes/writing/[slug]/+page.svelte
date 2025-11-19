@@ -44,7 +44,10 @@
 		<meta property="article:author" content="Brian Kelleher" />
 		<meta property="article:published_time" content={localPost.publishedAt} />
 		{#if localPost.heroImage}
-			<meta property="og:image" content={`https://briankelleher.ie${localPost.heroImage.src}`} />
+			<meta
+				property="og:image"
+				content={`https://briankelleher.ie${localPost.heroImage.src}`}
+			/>
 			<meta property="og:image:alt" content={localPost.heroImage.alt} />
 		{/if}
 	{:else}

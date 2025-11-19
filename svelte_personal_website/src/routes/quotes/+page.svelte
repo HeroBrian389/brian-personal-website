@@ -33,7 +33,7 @@
 			transitionProperty: cs.transitionProperty,
 			transitionDuration: cs.transitionDuration,
 			transitionTimingFunction: cs.transitionTimingFunction,
-			styleAttr: (el as HTMLElement).getAttribute("style") || null,
+			styleAttr: (el as HTMLElement).getAttribute("style") || null
 		};
 	}
 
@@ -92,7 +92,10 @@
 	let prevNextOpacity = $state(0);
 	$effect(() => {
 		if (prevNextOpacity <= 0.5 && nextOpacity > 0.5) {
-			console.log("[QUOTES] nextOpacity crossed 0.5 → showing next separator", new Date().toISOString());
+			console.log(
+				"[QUOTES] nextOpacity crossed 0.5 → showing next separator",
+				new Date().toISOString()
+			);
 		}
 		prevNextOpacity = nextOpacity;
 	});
@@ -208,8 +211,11 @@
 			nextInfo: infoFor(nextContainer),
 			isNextAfterCurrent:
 				currentContainer && nextContainer
-					? Boolean(currentContainer.compareDocumentPosition(nextContainer) & Node.DOCUMENT_POSITION_FOLLOWING)
-					: null,
+					? Boolean(
+							currentContainer.compareDocumentPosition(nextContainer) &
+								Node.DOCUMENT_POSITION_FOLLOWING
+						)
+					: null
 		});
 
 		// Swap quotes (two-phase) with transition suppression to avoid a second crossfade
@@ -228,7 +234,7 @@
 			console.log(`[QUOTES][${seq}] Post-swap microtask diagnostics`, {
 				currentInfo: infoFor(currentContainer),
 				nextInfo: infoFor(nextContainer),
-				bothContainersExist: Boolean(currentContainer && nextContainer),
+				bothContainersExist: Boolean(currentContainer && nextContainer)
 			});
 		});
 
@@ -264,7 +270,10 @@
 			currentOpacity = 1;
 			nextOpacity = 0;
 			setTimeout(() => {
-				console.log("[QUOTES] onMount → expanding lineWidth to 100", new Date().toISOString());
+				console.log(
+					"[QUOTES] onMount → expanding lineWidth to 100",
+					new Date().toISOString()
+				);
 				lineWidth.set(100);
 			}, 100);
 
@@ -305,9 +314,11 @@
 					<div
 						bind:this={currentContainer}
 						class="absolute inset-0 flex flex-col items-center justify-center"
-						style="opacity: {currentOpacity}; transition: {suppressTransitions ? 'none' : `opacity ${currentOpacity === 0 ? '1000ms' : '2000ms'} ease-in-out` }"
-						ontransitionstart={(e) => logTransitionStart('currentContainer', e)}
-						ontransitionend={(e) => logTransitionEnd('currentContainer', e)}
+						style="opacity: {currentOpacity}; transition: {suppressTransitions
+							? 'none'
+							: `opacity ${currentOpacity === 0 ? '1000ms' : '2000ms'} ease-in-out`}"
+						ontransitionstart={(e) => logTransitionStart("currentContainer", e)}
+						ontransitionend={(e) => logTransitionEnd("currentContainer", e)}
 					>
 						<!-- Quote text -->
 						<div class="w-full">
@@ -341,9 +352,11 @@
 					<div
 						bind:this={nextContainer}
 						class="absolute inset-0 flex flex-col items-center justify-center"
-						style="opacity: {nextOpacity}; transition: {suppressTransitions ? 'none' : 'opacity 2000ms ease-in-out'}"
-						ontransitionstart={(e) => logTransitionStart('nextContainer', e)}
-						ontransitionend={(e) => logTransitionEnd('nextContainer', e)}
+						style="opacity: {nextOpacity}; transition: {suppressTransitions
+							? 'none'
+							: 'opacity 2000ms ease-in-out'}"
+						ontransitionstart={(e) => logTransitionStart("nextContainer", e)}
+						ontransitionend={(e) => logTransitionEnd("nextContainer", e)}
 					>
 						<!-- Quote text -->
 						<div class="w-full">

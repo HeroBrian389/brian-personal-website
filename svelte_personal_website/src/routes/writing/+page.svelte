@@ -68,7 +68,7 @@
 							in:fade={{ duration: 600, delay: i * 100 }}
 						>
 							{#if page.heroImage}
-								<div class="mb-6 overflow-hidden border border-foreground/10">
+								<div class="border-foreground/10 mb-6 overflow-hidden border">
 									<img
 										src={page.heroImage.src}
 										alt={page.heroImage.alt}
@@ -86,16 +86,20 @@
 							</h2>
 
 							<!-- Excerpt -->
-							<p class="text-muted-foreground/80 mb-6 line-clamp-2 text-base leading-relaxed font-light">
+							<p
+								class="text-muted-foreground/80 mb-6 line-clamp-2 text-base leading-relaxed font-light"
+							>
 								{page.excerpt}
 							</p>
 
 							<!-- Metadata -->
 							<div class="text-sm">
-								<p class="text-muted-foreground/60 font-light tracking-[0.2em] uppercase">
+								<p
+									class="text-muted-foreground/60 font-light tracking-[0.2em] uppercase"
+								>
 									{formatDate(page.date)}
 									{#if page.readingTimeMinutes}
-										<span class="px-2 text-foreground/30">/</span>
+										<span class="text-foreground/30 px-2">/</span>
 										{page.readingTimeMinutes} MIN READ
 									{/if}
 								</p>

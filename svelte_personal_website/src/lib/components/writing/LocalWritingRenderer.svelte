@@ -12,7 +12,8 @@
 		const documentHeight = document.documentElement.scrollHeight - windowHeight;
 		const scrollTop = window.scrollY;
 
-		scrollProgress = documentHeight <= 0 ? 0 : Math.min(100, (scrollTop / documentHeight) * 100);
+		scrollProgress =
+			documentHeight <= 0 ? 0 : Math.min(100, (scrollTop / documentHeight) * 100);
 
 		const headings = document.querySelectorAll("h1, h2, h3");
 		let current = "";
@@ -57,7 +58,9 @@
 		</div>
 	</header>
 
-	<div class="prose prose-lg dark:prose-invert prose-headings:font-normal prose-p:font-light prose-strong:font-normal max-w-none">
+	<div
+		class="prose prose-lg dark:prose-invert prose-headings:font-normal prose-p:font-light prose-strong:font-normal max-w-none"
+	>
 		{#each post.body as block}
 			{#if block.type === "paragraph"}
 				<p>{block.text}</p>

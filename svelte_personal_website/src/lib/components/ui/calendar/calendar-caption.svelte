@@ -42,8 +42,8 @@
 
 {#snippet MonthSelect()}
 	<CalendarMonthSelect
-		{...(months !== undefined && { months })}
-		{...(monthFormat !== undefined && { monthFormat })}
+		{...months !== undefined && { months }}
+		{...monthFormat !== undefined && { monthFormat }}
 		value={month.month}
 		onchange={(e) => {
 			if (!placeholder) return;
@@ -56,8 +56,8 @@
 
 {#snippet YearSelect()}
 	<CalendarYearSelect
-		{...(years !== undefined && { years })}
-		{...(yearFormat !== undefined && { yearFormat })}
+		{...years !== undefined && { years }}
+		{...yearFormat !== undefined && { yearFormat }}
 		value={month.year}
 	/>
 {/snippet}
