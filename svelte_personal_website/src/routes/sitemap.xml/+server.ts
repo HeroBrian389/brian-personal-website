@@ -6,7 +6,7 @@ import { getPublishedPosts, type PublishedPost } from "$lib/notion/service";
 const siteURL = "https://briankelleher.ie";
 
 // List of static pages
-const staticPages = ["/", "/about", "/art", "/ponder", "/quotes", "/writing"];
+const staticPages = ["/", "/about", "/art", "/ponder", "/quotes", "/writing", "/writing/edge-city-fellows"];
 
 /** @type {import('./$types').RequestHandler} */
 export async function GET({ setHeaders }) {

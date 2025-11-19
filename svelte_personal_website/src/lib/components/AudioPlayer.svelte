@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from "svelte";
+	import { Play, Pause } from "phosphor-svelte";
 
 	let mainAudio: HTMLAudioElement | null = null;
 	let introAudio: HTMLAudioElement | null = null;
@@ -159,7 +160,8 @@
 <audio bind:this={introAudio} src="/gramophone-start.mp3" preload="auto"></audio>
 
 
-<div class="audio-player-root">
+
+<div class="audio-player-root desktop-player">
 	<button
 		type="button"
 		onclick={togglePlayback}
@@ -208,6 +210,23 @@
 	</button>
 </div>
 
+<div class="audio-player-root mobile-player">
+	<button
+		type="button"
+		onclick={togglePlayback}
+		class="mobile-play-toggle"
+		class:is-active={isPlaying}
+		aria-pressed={isPlaying}
+		aria-label={isPlaying ? "Pause ambient audio" : "Play ambient audio"}
+	>
+		{#if isPlaying}
+			<Pause size={20} weight="light" class="mobile-play-icon" />
+		{:else}
+			<Play size={20} weight="light" class="mobile-play-icon" />
+		{/if}
+	</button>
+</div>
+
 <style>
 	.audio-player-root {
 		position: fixed;
@@ -215,6 +234,14 @@
 		right: 1.5rem;
 		z-index: 50;
 		pointer-events: auto;
+	}
+
+	.desktop-player {
+		display: block;
+	}
+
+	.mobile-player {
+		display: none;
 	}
 
 	.gramophone-card {
@@ -226,6 +253,31 @@
 		box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.15), 0 32px 70px rgba(0, 0, 0, 0.45);
 		position: relative;
 		overflow: hidden;
+	}
+
+	.mobile-play-toggle {
+		width: 48px;
+		height: 48px;
+		border-radius: 9999px;
+		border: 1px solid rgba(255, 255, 255, 0.2);
+		background: rgba(5, 5, 5, 0.9);
+		color: rgba(255, 255, 255, 0.85);
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		transition: background 0.4s ease, border-color 0.4s ease, color 0.4s ease;
+	}
+
+	.mobile-play-toggle.is-active {
+		background: rgba(8, 8, 8, 0.9);
+		color: #fff;
+		border-color: rgba(255, 255, 255, 0.35);
+		box-shadow: 0 0 12px rgba(0, 0, 0, 0.35);
+	}
+
+	.mobile-play-icon {
+		width: 1.5rem;
+		height: 1.5rem;
 	}
 
 	.deck-layout {
@@ -376,6 +428,19 @@
 	}
 
 	@media (max-width: 768px) {
+		.audio-player-root {
+			bottom: 1rem;
+			right: 1rem;
+		}
+
+		.desktop-player {
+			display: none;
+		}
+
+		.mobile-player {
+			display: block;
+		}
+
 		.gramophone-card {
 			width: 40px;
 			height: 40px;

@@ -29,11 +29,11 @@
 	{href}
 	{onclick}
 	class={cn(
-		"group relative transition-all duration-500 hover:text-foreground/80",
+		"group/nav-link relative transition-all duration-500 hover:text-foreground/80",
 		isActive ? "text-foreground" : "text-foreground/60",
 		mobile
 			? "block text-center text-2xl font-extralight tracking-wide hover:text-foreground"
-			: "text-xs font-light tracking-[0.2em] uppercase",
+			: "inline-flex h-10 items-center text-xs font-light tracking-[0.2em] uppercase",
 		className
 	)}
 >
@@ -41,7 +41,7 @@
 	<div
 		class={cn(
 			"bg-foreground/20 absolute right-0 left-0 h-px transition-transform duration-500",
-			isActive ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100",
+			isActive ? "scale-x-100" : "scale-x-0 group-hover/nav-link:scale-x-100",
 			mobile ? "-bottom-2" : "bottom-0"
 		)}
 	></div>

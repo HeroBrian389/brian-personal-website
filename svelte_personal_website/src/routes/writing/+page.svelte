@@ -2,10 +2,19 @@
 	import { fade } from "svelte/transition";
 	import type { PageData } from "./$types";
 
+	type WritingListEntry = {
+		slug: string;
+		title: string;
+		excerpt: string;
+		date: number;
+		heroImage?: { src: string; alt: string };
+		readingTimeMinutes?: number;
+		source: "notion" | "local";
+	};
+
 	let { data }: { data: PageData } = $props();
 
-	let writingPages = $derived(data.writingPages || []);
-	let pageIdToSlug = $derived((data.pageIdToSlug || {}) as Record<string, string>);
+	let writingPages = $derived((data.writingPages || []) as WritingListEntry[]);
 	let error = $derived(data.error || null);
 
 	function formatDate(timestamp: number): string {
@@ -14,10 +23,6 @@
 			month: "short",
 			day: "numeric"
 		});
-	}
-
-	function getSlug(pageId: string): string {
-		return pageIdToSlug[pageId] || pageId;
 	}
 </script>
 
@@ -58,10 +63,21 @@
 				<div class="space-y-0">
 					{#each writingPages as page, i}
 						<a
-							href="/writing/{getSlug(page.id)}"
+							href="/writing/{page.slug}"
 							class="group border-foreground/10 block border-b py-10 transition-all duration-500 first:pt-0 last:border-b-0"
 							in:fade={{ duration: 600, delay: i * 100 }}
 						>
+							{#if page.heroImage}
+								<div class="mb-6 overflow-hidden border border-foreground/10">
+									<img
+										src={page.heroImage.src}
+										alt={page.heroImage.alt}
+										class="h-60 w-full object-cover opacity-90 transition-all duration-[1200ms] group-hover:scale-[1.02]"
+										loading="lazy"
+									/>
+								</div>
+							{/if}
+
 							<!-- Title -->
 							<h2
 								class="group-hover:text-foreground/80 mb-4 text-2xl font-extralight transition-colors duration-500 md:text-3xl"
@@ -70,22 +86,18 @@
 							</h2>
 
 							<!-- Excerpt -->
-							<p
-								class="text-muted-foreground/80 mb-6 line-clamp-2 text-base leading-relaxed font-light"
-							>
-								{#if page.blocks.length > 0}
-									{page.blocks[0]?.content.map((c) => c.text).join("")}
-								{:else}
-									...
-								{/if}
+							<p class="text-muted-foreground/80 mb-6 line-clamp-2 text-base leading-relaxed font-light">
+								{page.excerpt}
 							</p>
 
 							<!-- Metadata -->
 							<div class="text-sm">
-								<p
-									class="text-muted-foreground/60 font-light tracking-[0.2em] uppercase"
-								>
-									{formatDate(page.metadata.lastEditedTime)}
+								<p class="text-muted-foreground/60 font-light tracking-[0.2em] uppercase">
+									{formatDate(page.date)}
+									{#if page.readingTimeMinutes}
+										<span class="px-2 text-foreground/30">/</span>
+										{page.readingTimeMinutes} MIN READ
+									{/if}
 								</p>
 							</div>
 
