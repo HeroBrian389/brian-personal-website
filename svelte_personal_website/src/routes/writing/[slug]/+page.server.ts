@@ -1,3 +1,4 @@
+import { localWritingMap } from "$lib/content/writing/local-posts";
 import { getCachedPage } from "$lib/notion/service";
 import { NOTION_CONFIG } from "$lib/notion/config.server";
 import type { PageServerLoad } from "./$types";
@@ -5,12 +6,21 @@ import type { PageServerLoad } from "./$types";
 export const load: PageServerLoad = async ({ params }) => {
 	const { slug } = params;
 
-	// Get page ID from slug
+	const localPost = localWritingMap[slug];
+	if (localPost) {
+		return {
+			writingPage: null,
+			localPost,
+			error: null
+		};
+	}
+
 	const pageId = NOTION_CONFIG.writingPages[slug as keyof typeof NOTION_CONFIG.writingPages];
 
 	if (!pageId) {
 		return {
 			writingPage: null,
+			localPost: null,
 			error: "Page not found"
 		};
 	}
@@ -21,18 +31,21 @@ export const load: PageServerLoad = async ({ params }) => {
 		if (!writingPage) {
 			return {
 				writingPage: null,
+				localPost: null,
 				error: "Failed to load page"
 			};
 		}
 
 		return {
 			writingPage,
+			localPost: null,
 			error: null
 		};
 	} catch (error) {
 		console.error("Error loading page:", error);
 		return {
 			writingPage: null,
+			localPost: null,
 			error: "Failed to load page. Please try again later."
 		};
 	}

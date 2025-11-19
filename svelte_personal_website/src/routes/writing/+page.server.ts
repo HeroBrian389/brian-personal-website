@@ -15,30 +15,13 @@ type WritingListEntry = {
 
 export const load: PageServerLoad = async () => {
 	try {
-		const pageIds = Object.values(NOTION_CONFIG.writingPages);
-		const pages = await Promise.all(pageIds.map((id) => fetchNotionPage(id)));
-		const writingPages = pages.filter((p): p is NonNullable<typeof p> => p !== null);
-
-		const notionEntries: WritingListEntry[] = writingPages.map((page) => {
-			const slug =
-				Object.entries(NOTION_CONFIG.writingPages).find(([, pageId]) => pageId === page.id)?.[0] ||
-				page.id;
-			const excerpt = page.blocks[0]?.content?.map((content) => content.text).join("") || "";
-			return {
-				slug,
-				title: page.title,
-				excerpt,
-				date: page.metadata.lastEditedTime,
-				source: "notion"
-			};
-		});
-
-		const localEntries: WritingListEntry[] = localWritingPosts.map((post) => ({
+		const notionEntries = await loadNotionEntries();
+		const localEntries = localWritingPosts.map((post) => ({
 			slug: post.slug,
 			title: post.title,
 			excerpt: post.summary,
 			date: new Date(post.publishedAt).getTime(),
-			source: "local",
+			source: "local" as const,
 			heroImage: post.heroImage,
 			readingTimeMinutes: post.readingTimeMinutes
 		}));
@@ -56,3 +39,24 @@ export const load: PageServerLoad = async () => {
 		};
 	}
 };
+
+async function loadNotionEntries(): Promise<WritingListEntry[]> {
+	const entries: WritingListEntry[] = [];
+	const slugsAndIds = Object.entries(NOTION_CONFIG.writingPages);
+
+	await Promise.all(
+		slugsAndIds.map(async ([slug, pageId]) => {
+			const page = await fetchNotionPage(pageId);
+			if (!page) return;
+			entries.push({
+				slug,
+				title: page.title,
+				excerpt: page.blocks[0]?.content?.map((content) => content.text).join("") || "",
+				date: page.metadata.lastEditedTime,
+				source: "notion"
+			});
+		})
+	);
+
+	return entries;
+}
