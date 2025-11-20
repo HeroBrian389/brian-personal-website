@@ -1,44 +1,44 @@
 {
-  "slug": "animation-creation-app",
-  "title": "AI-Powered Mathematical Animation Platform",
-  "shortDescription": "Platform transforming natural language into Manim-powered educational videos through multi-agent AI orchestration and custom spatial reasoning scaffolding",
-  "codeSnippet": {
-    "code": "async def orchestrate_animation_generation(prompt: str):\n    \"\"\"Multi-agent orchestration for Manim video generation\"\"\"\n    \n    # Phase 1: Concept extraction with specialized agent\n    concept_agent = ConceptExtractionAgent(\n        model=\"gpt-4\",\n        math_knowledge_base=self.kb\n    )\n    concepts = await concept_agent.extract(prompt)\n    \n    # Phase 2: Parallel script generation with retry logic\n    script_tasks = []\n    for concept in concepts.segments:\n        agent = ScriptGenerationAgent(\n            templates=self.manim_templates,\n            spatial_scaffolding=self.auto_composer\n        )\n        script_tasks.append(agent.generate_script(concept))\n    \n    scripts = await asyncio.gather(*script_tasks)\n    \n    # Phase 3: Manim code synthesis with validation\n    manim_code = await self.synthesize_manim_code(\n        scripts,\n        auto_layout=True,  # AI doesn't handle positioning\n        validate_syntax=True,\n        inject_transitions=True\n    )\n    \n    # Phase 4: Render with automatic error recovery\n    try:\n        video = await self.render_manim(manim_code)\n    except SpatialConflictError as e:\n        # Auto-resolve spatial conflicts\n        manim_code = self.auto_composer.resolve_conflicts(manim_code)\n        video = await self.render_manim(manim_code)\n    \n    return video",
-    "language": "python"
-  },
-  "technologies": [
-    "Python",
-    "Django",
-    "FastAPI",
-    "SvelteKit",
-    "TypeScript",
-    "MySQL",
-    "Redis",
-    "RabbitMQ",
-    "Celery",
-    "Docker",
-    "AWS S3",
-    "CloudFront",
-    "Manim",
-    "OpenAI API",
-    "Anthropic API",
-    "ElevenLabs",
-    "WebSockets",
-    "JWT",
-    "MyPy"
-  ],
-  "highlights": [
-    "Innovative spatial reasoning compensation framework for AI",
-    "100+ custom Manim components with deterministic positioning",
-    "8-stage AI workflow with OpenAI O3, Claude Opus 4, and direct Anthropic API",
-    "ElevenLabs voice synchronization with word-level timing",
-    "Auto-composition utilities that handle all spatial logic",
-    "Fixed scene templates eliminating need for AI spatial understanding",
-    "Intelligent math symbol placement and transformation tracking",
-    "Four-pass code generation system with MyPy validation"
-  ],
-  "demo": null,
-  "featured": true,
-  "year": 2024,
-  "category": "ai"
+	"slug": "animation-creation-app",
+	"title": "AI-Powered Mathematical Animation Platform",
+	"shortDescription": "Platform transforming natural language into Manim-powered educational videos through multi-agent AI orchestration and custom spatial reasoning scaffolding",
+	"codeSnippet": {
+		"code": "async def orchestrate_animation_generation(prompt: str):\n    \"\"\"Multi-agent orchestration for Manim video generation\"\"\"\n    \n    # Phase 1: Concept extraction with specialized agent\n    concept_agent = ConceptExtractionAgent(\n        model=\"gpt-4\",\n        math_knowledge_base=self.kb\n    )\n    concepts = await concept_agent.extract(prompt)\n    \n    # Phase 2: Parallel script generation with retry logic\n    script_tasks = []\n    for concept in concepts.segments:\n        agent = ScriptGenerationAgent(\n            templates=self.manim_templates,\n            spatial_scaffolding=self.auto_composer\n        )\n        script_tasks.append(agent.generate_script(concept))\n    \n    scripts = await asyncio.gather(*script_tasks)\n    \n    # Phase 3: Manim code synthesis with validation\n    manim_code = await self.synthesize_manim_code(\n        scripts,\n        auto_layout=True,  # AI doesn't handle positioning\n        validate_syntax=True,\n        inject_transitions=True\n    )\n    \n    # Phase 4: Render with automatic error recovery\n    try:\n        video = await self.render_manim(manim_code)\n    except SpatialConflictError as e:\n        # Auto-resolve spatial conflicts\n        manim_code = self.auto_composer.resolve_conflicts(manim_code)\n        video = await self.render_manim(manim_code)\n    \n    return video",
+		"language": "python"
+	},
+	"technologies": [
+		"Python",
+		"Django",
+		"FastAPI",
+		"SvelteKit",
+		"TypeScript",
+		"MySQL",
+		"Redis",
+		"RabbitMQ",
+		"Celery",
+		"Docker",
+		"AWS S3",
+		"CloudFront",
+		"Manim",
+		"OpenAI API",
+		"Anthropic API",
+		"ElevenLabs",
+		"WebSockets",
+		"JWT",
+		"MyPy"
+	],
+	"highlights": [
+		"Innovative spatial reasoning compensation framework for AI",
+		"100+ custom Manim components with deterministic positioning",
+		"8-stage AI workflow with OpenAI O3, Claude Opus 4, and direct Anthropic API",
+		"ElevenLabs voice synchronization with word-level timing",
+		"Auto-composition utilities that handle all spatial logic",
+		"Fixed scene templates eliminating need for AI spatial understanding",
+		"Intelligent math symbol placement and transformation tracking",
+		"Four-pass code generation system with MyPy validation"
+	],
+	"demo": null,
+	"featured": true,
+	"year": 2024,
+	"category": "ai"
 }

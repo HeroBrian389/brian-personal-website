@@ -2,55 +2,56 @@
 // Generated on 2025-09-11T12:36:02.520Z
 // Run 'node scripts/generate-project-data.cjs' to regenerate
 
-import type { ProjectMeta } from './projects.schema';
+import type { ProjectMeta } from "./projects.schema";
 
 export const projectsData: Record<string, { meta: ProjectMeta; longDescription: string }> = {
-  'animation-creation-app': {
-    meta: {
-        "slug": "animation-creation-app",
-        "title": "AI-Powered Mathematical Animation Platform",
-        "shortDescription": "Platform transforming natural language into Manim-powered educational videos through multi-agent AI orchestration and custom spatial reasoning scaffolding",
-        "codeSnippet": {
-            "code": "async def orchestrate_animation_generation(prompt: str):\n    \"\"\"Multi-agent orchestration for Manim video generation\"\"\"\n    \n    # Phase 1: Concept extraction with specialized agent\n    concept_agent = ConceptExtractionAgent(\n        model=\"gpt-4\",\n        math_knowledge_base=self.kb\n    )\n    concepts = await concept_agent.extract(prompt)\n    \n    # Phase 2: Parallel script generation with retry logic\n    script_tasks = []\n    for concept in concepts.segments:\n        agent = ScriptGenerationAgent(\n            templates=self.manim_templates,\n            spatial_scaffolding=self.auto_composer\n        )\n        script_tasks.append(agent.generate_script(concept))\n    \n    scripts = await asyncio.gather(*script_tasks)\n    \n    # Phase 3: Manim code synthesis with validation\n    manim_code = await self.synthesize_manim_code(\n        scripts,\n        auto_layout=True,  # AI doesn't handle positioning\n        validate_syntax=True,\n        inject_transitions=True\n    )\n    \n    # Phase 4: Render with automatic error recovery\n    try:\n        video = await self.render_manim(manim_code)\n    except SpatialConflictError as e:\n        # Auto-resolve spatial conflicts\n        manim_code = self.auto_composer.resolve_conflicts(manim_code)\n        video = await self.render_manim(manim_code)\n    \n    return video",
-            "language": "python"
-        },
-        "technologies": [
-            "Python",
-            "Django",
-            "FastAPI",
-            "SvelteKit",
-            "TypeScript",
-            "MySQL",
-            "Redis",
-            "RabbitMQ",
-            "Celery",
-            "Docker",
-            "AWS S3",
-            "CloudFront",
-            "Manim",
-            "OpenAI API",
-            "Anthropic API",
-            "ElevenLabs",
-            "WebSockets",
-            "JWT",
-            "MyPy"
-        ],
-        "highlights": [
-            "Innovative spatial reasoning compensation framework for AI",
-            "100+ custom Manim components with deterministic positioning",
-            "8-stage AI workflow with OpenAI O3, Claude Opus 4, and direct Anthropic API",
-            "ElevenLabs voice synchronization with word-level timing",
-            "Auto-composition utilities that handle all spatial logic",
-            "Fixed scene templates eliminating need for AI spatial understanding",
-            "Intelligent math symbol placement and transformation tracking",
-            "Four-pass code generation system with MyPy validation"
-        ],
-        "demo": null,
-        "featured": true,
-        "year": 2024,
-        "category": "ai"
-    },
-    longDescription: `
+	"animation-creation-app": {
+		meta: {
+			slug: "animation-creation-app",
+			title: "AI-Powered Mathematical Animation Platform",
+			shortDescription:
+				"Platform transforming natural language into Manim-powered educational videos through multi-agent AI orchestration and custom spatial reasoning scaffolding",
+			codeSnippet: {
+				code: 'async def orchestrate_animation_generation(prompt: str):\n    """Multi-agent orchestration for Manim video generation"""\n    \n    # Phase 1: Concept extraction with specialized agent\n    concept_agent = ConceptExtractionAgent(\n        model="gpt-4",\n        math_knowledge_base=self.kb\n    )\n    concepts = await concept_agent.extract(prompt)\n    \n    # Phase 2: Parallel script generation with retry logic\n    script_tasks = []\n    for concept in concepts.segments:\n        agent = ScriptGenerationAgent(\n            templates=self.manim_templates,\n            spatial_scaffolding=self.auto_composer\n        )\n        script_tasks.append(agent.generate_script(concept))\n    \n    scripts = await asyncio.gather(*script_tasks)\n    \n    # Phase 3: Manim code synthesis with validation\n    manim_code = await self.synthesize_manim_code(\n        scripts,\n        auto_layout=True,  # AI doesn\'t handle positioning\n        validate_syntax=True,\n        inject_transitions=True\n    )\n    \n    # Phase 4: Render with automatic error recovery\n    try:\n        video = await self.render_manim(manim_code)\n    except SpatialConflictError as e:\n        # Auto-resolve spatial conflicts\n        manim_code = self.auto_composer.resolve_conflicts(manim_code)\n        video = await self.render_manim(manim_code)\n    \n    return video',
+				language: "python"
+			},
+			technologies: [
+				"Python",
+				"Django",
+				"FastAPI",
+				"SvelteKit",
+				"TypeScript",
+				"MySQL",
+				"Redis",
+				"RabbitMQ",
+				"Celery",
+				"Docker",
+				"AWS S3",
+				"CloudFront",
+				"Manim",
+				"OpenAI API",
+				"Anthropic API",
+				"ElevenLabs",
+				"WebSockets",
+				"JWT",
+				"MyPy"
+			],
+			highlights: [
+				"Innovative spatial reasoning compensation framework for AI",
+				"100+ custom Manim components with deterministic positioning",
+				"8-stage AI workflow with OpenAI O3, Claude Opus 4, and direct Anthropic API",
+				"ElevenLabs voice synchronization with word-level timing",
+				"Auto-composition utilities that handle all spatial logic",
+				"Fixed scene templates eliminating need for AI spatial understanding",
+				"Intelligent math symbol placement and transformation tracking",
+				"Four-pass code generation system with MyPy validation"
+			],
+			demo: null,
+			featured: true,
+			year: 2024,
+			category: "ai"
+		},
+		longDescription: `
 # AI-Powered Mathematical Animation Platform
 
 A sophisticated educational video generation system that transforms natural language prompts into mathematical animations using Manim. The core innovation lies in compensating for AI's lack of spatial reasoning through extensive scaffolding, auto-composition utilities, and deterministic template systems.
@@ -1133,31 +1134,32 @@ class AnimationComposer:
 
 This platform's key innovation is the extensive scaffolding that compensates for AI's inability to reason spatially. By providing deterministic templates, auto-composition utilities, and intelligent placement systems, we enable AI to create sophisticated mathematical animations without understanding the underlying spatial relationships.
 `
-  },
-  'claude-workflow-automation': {
-    meta: {
-        "slug": "claude-workflow-automation",
-        "title": "Claude Workflow Automation System",
-        "description": "An autonomous code generation pipeline orchestrating multi-stage AI workflows for full-stack application development",
-        "codeSnippet": {
-            "code": "#!/bin/bash\n# Hook-based autonomous continuation mechanism\n\n# Check all PROGRESS_TRACKER.md files for remaining tasks\nfind \"$PROJECT_DIR/projects/active\" -name \"PROGRESS_TRACKER.md\" | while read tracker; do\n    remaining=$(grep -c \"\\[ \\]\" \"$tracker\" 2>/dev/null || echo 0)\n    total_remaining=$((total_remaining + remaining))\ndone\n\nif [ \"$total_remaining\" -gt 0 ]; then\n    echo \"Implementation incomplete: $total_remaining tasks remain\" >&2\n    echo \"Continue implementing. BE AGGRESSIVE ABOUT UPDATING PROGRESS_TRACKER.md\"\n    exit 2  # Signal to continue autonomously\nfi\n\n# Prevent infinite loops with persistence mechanism\nCOUNTER_FILE=\"$PROJECT_DIR/.claude/implementation_unknown_counter\"\ncurrent_count=$(cat \"$COUNTER_FILE\" 2>/dev/null || echo 0)\nnext_count=$((current_count + 1))\n\nif [ \"$next_count\" -gt \"$MAX_UNKNOWN_ITERATIONS\" ]; then\n    echo \"Stopping after $MAX_UNKNOWN_ITERATIONS continuation attempts\"\n    exit 0  # Signal completion\nfi\n\necho \"$next_count\" > \"$COUNTER_FILE\"\nexit 2  # Continue working",
-            "language": "bash"
-        },
-        "technologies": [
-            "Bash",
-            "Node.js",
-            "BullMQ",
-            "Redis",
-            "Claude API",
-            "Git",
-            "Docker",
-            "Winston",
-            "IORedis"
-        ],
-        "date": "2025",
-        "featured": true
-    },
-    longDescription: `## Executive Summary
+	},
+	"claude-workflow-automation": {
+		meta: {
+			slug: "claude-workflow-automation",
+			title: "Claude Workflow Automation System",
+			description:
+				"An autonomous code generation pipeline orchestrating multi-stage AI workflows for full-stack application development",
+			codeSnippet: {
+				code: '#!/bin/bash\n# Hook-based autonomous continuation mechanism\n\n# Check all PROGRESS_TRACKER.md files for remaining tasks\nfind "$PROJECT_DIR/projects/active" -name "PROGRESS_TRACKER.md" | while read tracker; do\n    remaining=$(grep -c "\\[ \\]" "$tracker" 2>/dev/null || echo 0)\n    total_remaining=$((total_remaining + remaining))\ndone\n\nif [ "$total_remaining" -gt 0 ]; then\n    echo "Implementation incomplete: $total_remaining tasks remain" >&2\n    echo "Continue implementing. BE AGGRESSIVE ABOUT UPDATING PROGRESS_TRACKER.md"\n    exit 2  # Signal to continue autonomously\nfi\n\n# Prevent infinite loops with persistence mechanism\nCOUNTER_FILE="$PROJECT_DIR/.claude/implementation_unknown_counter"\ncurrent_count=$(cat "$COUNTER_FILE" 2>/dev/null || echo 0)\nnext_count=$((current_count + 1))\n\nif [ "$next_count" -gt "$MAX_UNKNOWN_ITERATIONS" ]; then\n    echo "Stopping after $MAX_UNKNOWN_ITERATIONS continuation attempts"\n    exit 0  # Signal completion\nfi\n\necho "$next_count" > "$COUNTER_FILE"\nexit 2  # Continue working',
+				language: "bash"
+			},
+			technologies: [
+				"Bash",
+				"Node.js",
+				"BullMQ",
+				"Redis",
+				"Claude API",
+				"Git",
+				"Docker",
+				"Winston",
+				"IORedis"
+			],
+			date: "2025",
+			featured: true
+		},
+		longDescription: `## Executive Summary
 
 This project represents a breakthrough in autonomous code generation, implementing a sophisticated multi-stage orchestration system that transforms natural language specifications into production-ready full-stack applications. The system leverages Claude's advanced language understanding through a carefully engineered 5+ hour pipeline that maintains consistency, self-corrects errors, and ensures security compliance throughout the entire development lifecycle.
 
@@ -2277,26 +2279,23 @@ The system demonstrates that with proper orchestration, current LLMs can achieve
 This system represents a significant advancement in AI-assisted software development, demonstrating that complex, production-ready applications can be generated autonomously from natural language specifications while maintaining code quality, security, and architectural consistency. The 5+ hour execution time is a small investment for receiving a fully-implemented, security-audited, and tested application ready for deployment.
 
 More critically, it operates 2-3 years ahead of METR's capability projections, achieving autonomous completion of week-long development tasks that current benchmarks suggest won't be possible until 2027-2028. This positions the system at the absolute frontier of AI agent capabilities, demonstrating that proper orchestration and pipeline design can unlock latent capabilities in current models that far exceed benchmark evaluations.`
-  },
-  'setup-project': {
-    meta: {
-        "slug": "setup-project",
-        "title": "setup-project: Project Bootstrap Script",
-        "description": "Opinionated script that scaffolds a complete project workspace with aligned docs (user stories, requirements, design, validation, tracking) so humans and AI share the same scratch pad and definition of done.",
-        "technologies": [
-            "Bash",
-            "Unix",
-            "Git"
-        ],
-        "date": "2025",
-        "category": "infrastructure",
-        "featured": true,
-        "codeSnippet": {
-            "code": "#!/bin/bash\n\n# setup-project - Create a new project with the standard template structure\n# Usage: ./setup-project <project-name>\n\nset -e\n\n# Colors for output\nRED='\\033[0;31m'\nGREEN='\\033[0;32m'\nYELLOW='\\033[1;33m'\nNC='\\033[0m' # No Color\n\n# Check if project name is provided\nif [ -z \"$1\" ]; then\n    echo -e \"${RED}Error: Project name is required${NC}\"\n    echo \"Usage: ./setup-project <project-name>\"\n    echo \"Example: ./setup-project api-refactoring\"\n    exit 1\nfi\n\nPROJECT_NAME=\"$1\"\nPROJECT_PATH=\"projects/active/$PROJECT_NAME\"\n\n# Check if project already exists\nif [ -d \"$PROJECT_PATH\" ]; then\n    echo -e \"${RED}Error: Project '$PROJECT_NAME' already exists${NC}\"\n    exit 1\nfi\n\n# Create project structure\necho -e \"${YELLOW}Creating new project: $PROJECT_NAME${NC}\"\nmkdir -p \"$PROJECT_PATH\"/{scripts,docs,tests,spikes}\n\n# Get current date\nCURRENT_DATE=$(date +\"%Y-%m-%d\")\nCREATED_BY=$(git config user.name || echo \"Unknown Developer\")\n\n# Create README.md\ncat > \"$PROJECT_PATH/README.md\" << EOF\n# $PROJECT_NAME\n\n**Created**: $CURRENT_DATE  \n**Created By**: $CREATED_BY  \n**Status**: Active\n\n## Quick Start\n\nBrief description of what this project is about.\n\n## Key Links\n\n- Related PR: #XXX\n- Related Issue: #XXX\n- Slack Thread: [link]\n\n## Team\n\n- Lead: $CREATED_BY\n- Contributors: \n\nEOF\n\n# Create USER_STORY.md\ncat > \"$PROJECT_PATH/USER_STORY.md\" << EOF\n# User Stories\n\n## Primary User Story\n\n**As a** [type of user]  \n**I want** [some goal]  \n**So that** [some reason]\n\n### Acceptance Criteria\n- [ ] Criteria 1\n- [ ] Criteria 2\n- [ ] Criteria 3\n\n## Additional User Stories\n\n### Story 2\n**As a** ...  \n**I want** ...  \n**So that** ...\n\nEOF\n\n# Create REQUIREMENTS.md\ncat > \"$PROJECT_PATH/REQUIREMENTS.md\" << EOF\n# Requirements\n\n## Functional Requirements\n\n### Must Have (P0)\n- [ ] Requirement 1\n- [ ] Requirement 2\n\n### Should Have (P1)\n- [ ] Requirement 3\n- [ ] Requirement 4\n\n### Nice to Have (P2)\n- [ ] Requirement 5\n\n## Technical Requirements\n\n### Performance\n- Requirement here\n\n### Security\n- Requirement here\n\n### Compatibility\n- Requirement here\n\n## Constraints\n\n- Constraint 1\n- Constraint 2\n\n## Out of Scope\n\n- Item 1\n- Item 2\n\nEOF\n\n# Create DESIGN.md\ncat > \"$PROJECT_PATH/DESIGN.md\" << EOF\n# Technical Design\n\n## Overview\n\nHigh-level description of the technical approach.\n\n## Architecture\n\n### Current State\nDescribe current architecture\n\n### Proposed Changes\nDescribe proposed changes\n\n### Architecture Diagram\n\\`\\`\\`\n[Add ASCII diagram or link to diagram]\n\\`\\`\\`\n\n## Technical Decisions\n\n### Decision 1: [Title]\n**Context**: Why this decision is needed  \n**Options Considered**:\n1. Option A - Pros/Cons\n2. Option B - Pros/Cons\n\n**Decision**: Option chosen and why\n\n## Implementation Plan\n\n### Phase 1: [Name]\n- Step 1\n- Step 2\n\n### Phase 2: [Name]\n- Step 3\n- Step 4\n\n## API Changes\nDocument any API changes here\n\n## Database Changes\nDocument any database changes here\n\n## Dependencies\nList new dependencies or changes to existing ones\n\nEOF\n\n# Create VALIDATION_STRATEGY.md\ncat > \"$PROJECT_PATH/VALIDATION_STRATEGY.md\" << EOF\n# Validation Strategy\n\n## Success Metrics\n\n### Quantitative Metrics\n- Metric 1: [Description] - Target: X\n- Metric 2: [Description] - Target: Y\n\n### Qualitative Metrics\n- Metric 1: [Description]\n- Metric 2: [Description]\n\n## Testing Plan\n\n### Unit Tests\n- [ ] Test area 1\n- [ ] Test area 2\n\n### Integration Tests\n- [ ] Test scenario 1\n- [ ] Test scenario 2\n\n### E2E Tests\n- [ ] User flow 1\n- [ ] User flow 2\n\n### Performance Tests\n- [ ] Load test scenario\n- [ ] Stress test scenario\n\n## Rollout Plan\n\n### Phase 1: Internal Testing\n- Timeline: \n- Scope: \n\n### Phase 2: Beta Release\n- Timeline: \n- Scope: \n\n### Phase 3: General Availability\n- Timeline: \n- Scope: \n\n## Rollback Plan\n\nSteps to rollback if issues are found:\n1. Step 1\n2. Step 2\n\n## Monitoring\n\nWhat to monitor after release:\n- Monitor 1\n- Monitor 2\n\nEOF\n\n# Create STATUS_UPDATES.md\ncat > \"$PROJECT_PATH/STATUS_UPDATES.md\" << EOF\n# Status Updates\n\n> Add new updates at the top of this file\n\n---\n\n## $CURRENT_DATE - Project Kickoff\n\n**Status**: Started  \n**Author**: $CREATED_BY\n\n### What happened\n- Created project structure\n- Initial planning\n\n### Next steps\n- Define requirements\n- Create technical design\n\n### Blockers\n- None\n\n---\n\nEOF\n\n# Create PROGRESS_TRACKER.md\ncat > \"$PROJECT_PATH/PROGRESS_TRACKER.md\" << EOF\n# Progress Tracker\n\n## Milestones\n\n- [ ] **Milestone 1**: Planning Complete (Target: DATE)\n- [ ] **Milestone 2**: Design Approved (Target: DATE)\n- [ ] **Milestone 3**: Implementation Complete (Target: DATE)\n- [ ] **Milestone 4**: Testing Complete (Target: DATE)\n- [ ] **Milestone 5**: Deployed to Production (Target: DATE)\n\n## Current Sprint Tasks\n\n### In Progress\n- [ ] Task 1\n- [ ] Task 2\n\n### To Do\n- [ ] Task 3\n- [ ] Task 4\n\n### Done\n- [x] Project setup\n\n## Detailed Task Breakdown\n\n### Planning Phase\n- [x] Create project structure\n- [ ] Gather requirements\n- [ ] Write user stories\n- [ ] Get stakeholder approval\n\n### Design Phase\n- [ ] Create technical design\n- [ ] Review with team\n- [ ] Update based on feedback\n\n### Implementation Phase\n- [ ] Task 1\n- [ ] Task 2\n\n### Testing Phase\n- [ ] Write tests\n- [ ] Run tests\n- [ ] Fix issues\n\n### Deployment Phase\n- [ ] Deploy to staging\n- [ ] Deploy to production\n- [ ] Monitor\n\nEOF\n\n# Create RETROSPECTIVE.md\ncat > \"$PROJECT_PATH/RETROSPECTIVE.md\" << EOF\n# Project Retrospective\n\n> To be filled out when project is complete\n\n**Project**: $PROJECT_NAME  \n**Completion Date**: TBD  \n**Duration**: TBD  \n\n## Summary\n\nBrief summary of what was accomplished.\n\n## What Went Well\n\n- Item 1\n- Item 2\n\n## What Could Be Improved\n\n- Item 1\n- Item 2\n\n## What We Learned\n\n- Learning 1\n- Learning 2\n\n## Action Items for Future Projects\n\n- [ ] Action 1\n- [ ] Action 2\n\n## Metrics vs. Goals\n\n| Metric | Goal | Actual | Status |\n|--------|------|--------|--------|\n| Metric 1 | X | Y | ✅/❌ |\n| Metric 2 | X | Y | ✅/❌ |\n\nEOF\n\n# Create .gitignore\ncat > \"$PROJECT_PATH/.gitignore\" << EOF\n# Project-specific ignores\n*.tmp\n*.log\n.DS_Store\n__pycache__/\n*.pyc\nnode_modules/\n.env\n.venv/\n\n# IDE\n.vscode/\n.idea/\n\n# Test outputs\ntest-results/\ncoverage/\n\n# Generated files\n*.generated.*\nEOF\n\n# Create scripts README\ncat > \"$PROJECT_PATH/scripts/README.md\" << EOF\n# Project Scripts\n\n## Overview\n\nThis directory contains scripts specific to the $PROJECT_NAME project.\n\n## Scripts\n\n### script-name.py\nDescription of what this script does.\n\n**Usage**:\n\\`\\`\\`bash\npython scripts/script-name.py [args]\n\\`\\`\\`\n\nEOF\n\necho -e \"${GREEN}✅ Project '$PROJECT_NAME' created successfully!${NC}\"\necho -e \"${GREEN}📁 Location: $PROJECT_PATH${NC}\"\necho \"\"\necho \"Next steps:\"\necho \"1. cd $PROJECT_PATH\"\necho \"2. Update README.md with project description\"\necho \"3. Fill out USER_STORY.md with actual user stories\"\necho \"4. Define requirements in REQUIREMENTS.md\"\necho \"5. Start documenting in STATUS_UPDATES.md\"",
-            "language": "bash"
-        }
-    },
-    longDescription: `## Executive Summary
+	},
+	"setup-project": {
+		meta: {
+			slug: "setup-project",
+			title: "setup-project: Project Bootstrap Script",
+			description:
+				"Opinionated script that scaffolds a complete project workspace with aligned docs (user stories, requirements, design, validation, tracking) so humans and AI share the same scratch pad and definition of done.",
+			technologies: ["Bash", "Unix", "Git"],
+			date: "2025",
+			category: "infrastructure",
+			featured: true,
+			codeSnippet: {
+				code: '#!/bin/bash\n\n# setup-project - Create a new project with the standard template structure\n# Usage: ./setup-project <project-name>\n\nset -e\n\n# Colors for output\nRED=\'\\033[0;31m\'\nGREEN=\'\\033[0;32m\'\nYELLOW=\'\\033[1;33m\'\nNC=\'\\033[0m\' # No Color\n\n# Check if project name is provided\nif [ -z "$1" ]; then\n    echo -e "${RED}Error: Project name is required${NC}"\n    echo "Usage: ./setup-project <project-name>"\n    echo "Example: ./setup-project api-refactoring"\n    exit 1\nfi\n\nPROJECT_NAME="$1"\nPROJECT_PATH="projects/active/$PROJECT_NAME"\n\n# Check if project already exists\nif [ -d "$PROJECT_PATH" ]; then\n    echo -e "${RED}Error: Project \'$PROJECT_NAME\' already exists${NC}"\n    exit 1\nfi\n\n# Create project structure\necho -e "${YELLOW}Creating new project: $PROJECT_NAME${NC}"\nmkdir -p "$PROJECT_PATH"/{scripts,docs,tests,spikes}\n\n# Get current date\nCURRENT_DATE=$(date +"%Y-%m-%d")\nCREATED_BY=$(git config user.name || echo "Unknown Developer")\n\n# Create README.md\ncat > "$PROJECT_PATH/README.md" << EOF\n# $PROJECT_NAME\n\n**Created**: $CURRENT_DATE  \n**Created By**: $CREATED_BY  \n**Status**: Active\n\n## Quick Start\n\nBrief description of what this project is about.\n\n## Key Links\n\n- Related PR: #XXX\n- Related Issue: #XXX\n- Slack Thread: [link]\n\n## Team\n\n- Lead: $CREATED_BY\n- Contributors: \n\nEOF\n\n# Create USER_STORY.md\ncat > "$PROJECT_PATH/USER_STORY.md" << EOF\n# User Stories\n\n## Primary User Story\n\n**As a** [type of user]  \n**I want** [some goal]  \n**So that** [some reason]\n\n### Acceptance Criteria\n- [ ] Criteria 1\n- [ ] Criteria 2\n- [ ] Criteria 3\n\n## Additional User Stories\n\n### Story 2\n**As a** ...  \n**I want** ...  \n**So that** ...\n\nEOF\n\n# Create REQUIREMENTS.md\ncat > "$PROJECT_PATH/REQUIREMENTS.md" << EOF\n# Requirements\n\n## Functional Requirements\n\n### Must Have (P0)\n- [ ] Requirement 1\n- [ ] Requirement 2\n\n### Should Have (P1)\n- [ ] Requirement 3\n- [ ] Requirement 4\n\n### Nice to Have (P2)\n- [ ] Requirement 5\n\n## Technical Requirements\n\n### Performance\n- Requirement here\n\n### Security\n- Requirement here\n\n### Compatibility\n- Requirement here\n\n## Constraints\n\n- Constraint 1\n- Constraint 2\n\n## Out of Scope\n\n- Item 1\n- Item 2\n\nEOF\n\n# Create DESIGN.md\ncat > "$PROJECT_PATH/DESIGN.md" << EOF\n# Technical Design\n\n## Overview\n\nHigh-level description of the technical approach.\n\n## Architecture\n\n### Current State\nDescribe current architecture\n\n### Proposed Changes\nDescribe proposed changes\n\n### Architecture Diagram\n\\`\\`\\`\n[Add ASCII diagram or link to diagram]\n\\`\\`\\`\n\n## Technical Decisions\n\n### Decision 1: [Title]\n**Context**: Why this decision is needed  \n**Options Considered**:\n1. Option A - Pros/Cons\n2. Option B - Pros/Cons\n\n**Decision**: Option chosen and why\n\n## Implementation Plan\n\n### Phase 1: [Name]\n- Step 1\n- Step 2\n\n### Phase 2: [Name]\n- Step 3\n- Step 4\n\n## API Changes\nDocument any API changes here\n\n## Database Changes\nDocument any database changes here\n\n## Dependencies\nList new dependencies or changes to existing ones\n\nEOF\n\n# Create VALIDATION_STRATEGY.md\ncat > "$PROJECT_PATH/VALIDATION_STRATEGY.md" << EOF\n# Validation Strategy\n\n## Success Metrics\n\n### Quantitative Metrics\n- Metric 1: [Description] - Target: X\n- Metric 2: [Description] - Target: Y\n\n### Qualitative Metrics\n- Metric 1: [Description]\n- Metric 2: [Description]\n\n## Testing Plan\n\n### Unit Tests\n- [ ] Test area 1\n- [ ] Test area 2\n\n### Integration Tests\n- [ ] Test scenario 1\n- [ ] Test scenario 2\n\n### E2E Tests\n- [ ] User flow 1\n- [ ] User flow 2\n\n### Performance Tests\n- [ ] Load test scenario\n- [ ] Stress test scenario\n\n## Rollout Plan\n\n### Phase 1: Internal Testing\n- Timeline: \n- Scope: \n\n### Phase 2: Beta Release\n- Timeline: \n- Scope: \n\n### Phase 3: General Availability\n- Timeline: \n- Scope: \n\n## Rollback Plan\n\nSteps to rollback if issues are found:\n1. Step 1\n2. Step 2\n\n## Monitoring\n\nWhat to monitor after release:\n- Monitor 1\n- Monitor 2\n\nEOF\n\n# Create STATUS_UPDATES.md\ncat > "$PROJECT_PATH/STATUS_UPDATES.md" << EOF\n# Status Updates\n\n> Add new updates at the top of this file\n\n---\n\n## $CURRENT_DATE - Project Kickoff\n\n**Status**: Started  \n**Author**: $CREATED_BY\n\n### What happened\n- Created project structure\n- Initial planning\n\n### Next steps\n- Define requirements\n- Create technical design\n\n### Blockers\n- None\n\n---\n\nEOF\n\n# Create PROGRESS_TRACKER.md\ncat > "$PROJECT_PATH/PROGRESS_TRACKER.md" << EOF\n# Progress Tracker\n\n## Milestones\n\n- [ ] **Milestone 1**: Planning Complete (Target: DATE)\n- [ ] **Milestone 2**: Design Approved (Target: DATE)\n- [ ] **Milestone 3**: Implementation Complete (Target: DATE)\n- [ ] **Milestone 4**: Testing Complete (Target: DATE)\n- [ ] **Milestone 5**: Deployed to Production (Target: DATE)\n\n## Current Sprint Tasks\n\n### In Progress\n- [ ] Task 1\n- [ ] Task 2\n\n### To Do\n- [ ] Task 3\n- [ ] Task 4\n\n### Done\n- [x] Project setup\n\n## Detailed Task Breakdown\n\n### Planning Phase\n- [x] Create project structure\n- [ ] Gather requirements\n- [ ] Write user stories\n- [ ] Get stakeholder approval\n\n### Design Phase\n- [ ] Create technical design\n- [ ] Review with team\n- [ ] Update based on feedback\n\n### Implementation Phase\n- [ ] Task 1\n- [ ] Task 2\n\n### Testing Phase\n- [ ] Write tests\n- [ ] Run tests\n- [ ] Fix issues\n\n### Deployment Phase\n- [ ] Deploy to staging\n- [ ] Deploy to production\n- [ ] Monitor\n\nEOF\n\n# Create RETROSPECTIVE.md\ncat > "$PROJECT_PATH/RETROSPECTIVE.md" << EOF\n# Project Retrospective\n\n> To be filled out when project is complete\n\n**Project**: $PROJECT_NAME  \n**Completion Date**: TBD  \n**Duration**: TBD  \n\n## Summary\n\nBrief summary of what was accomplished.\n\n## What Went Well\n\n- Item 1\n- Item 2\n\n## What Could Be Improved\n\n- Item 1\n- Item 2\n\n## What We Learned\n\n- Learning 1\n- Learning 2\n\n## Action Items for Future Projects\n\n- [ ] Action 1\n- [ ] Action 2\n\n## Metrics vs. Goals\n\n| Metric | Goal | Actual | Status |\n|--------|------|--------|--------|\n| Metric 1 | X | Y | ✅/❌ |\n| Metric 2 | X | Y | ✅/❌ |\n\nEOF\n\n# Create .gitignore\ncat > "$PROJECT_PATH/.gitignore" << EOF\n# Project-specific ignores\n*.tmp\n*.log\n.DS_Store\n__pycache__/\n*.pyc\nnode_modules/\n.env\n.venv/\n\n# IDE\n.vscode/\n.idea/\n\n# Test outputs\ntest-results/\ncoverage/\n\n# Generated files\n*.generated.*\nEOF\n\n# Create scripts README\ncat > "$PROJECT_PATH/scripts/README.md" << EOF\n# Project Scripts\n\n## Overview\n\nThis directory contains scripts specific to the $PROJECT_NAME project.\n\n## Scripts\n\n### script-name.py\nDescription of what this script does.\n\n**Usage**:\n\\`\\`\\`bash\npython scripts/script-name.py [args]\n\\`\\`\\`\n\nEOF\n\necho -e "${GREEN}✅ Project \'$PROJECT_NAME\' created successfully!${NC}"\necho -e "${GREEN}📁 Location: $PROJECT_PATH${NC}"\necho ""\necho "Next steps:"\necho "1. cd $PROJECT_PATH"\necho "2. Update README.md with project description"\necho "3. Fill out USER_STORY.md with actual user stories"\necho "4. Define requirements in REQUIREMENTS.md"\necho "5. Start documenting in STATUS_UPDATES.md"',
+				language: "bash"
+			}
+		},
+		longDescription: `## Executive Summary
 
 The \`setup-project\` script is a lightweight, repeatable way to bootstrap a new project with the exact documentation scaffolding you need to keep people and AI agents aligned from day one. It creates a clean workspace under \`projects/active/<name>\` and pre-populates high-signal docs (User Stories, Requirements, Design, Validation Strategy, Progress Tracker, Status Updates, Retrospective) so the “definition of done” and current state are always explicit and discoverable.
 
@@ -2386,13 +2385,13 @@ The script is idempotent for new names and safely aborts if the path already exi
 
 Full source is embedded below as the code snippet and available for download above.
 `
-  }
+	}
 };
 
 export const getAllProjectMetas = (): ProjectMeta[] => {
-  return Object.values(projectsData).map(p => p.meta);
+	return Object.values(projectsData).map((p) => p.meta);
 };
 
 export const getProjectData = (slug: string) => {
-  return projectsData[slug] || null;
+	return projectsData[slug] || null;
 };

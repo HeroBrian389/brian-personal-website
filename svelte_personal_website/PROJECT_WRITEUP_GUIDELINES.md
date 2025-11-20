@@ -7,14 +7,17 @@ This guide outlines best practices for creating comprehensive, engaging technica
 ## Core Principles
 
 ### 1. Show, Don't Just Tell
+
 - **Replace abstract descriptions with concrete code snippets**
 - **Use actual output examples from the system**
 - **Include real file paths and structure diagrams**
 
 ❌ **Poor Example:**
+
 > "The system uses token replacement for dynamic content injection"
 
 ✅ **Better Example:**
+
 ```bash
 # Process template and inject security findings
 while IFS= read -r line; do
@@ -27,6 +30,7 @@ done < "$PROMPTS_DIR/04-fix-issues.md" > "$FIX_PROMPT_FILE"
 ### 2. Layer Technical Depth Progressively
 
 Structure your documentation in layers:
+
 1. **Executive Summary** - High-level impact and achievements
 2. **Core Architecture** - System design and key components
 3. **Implementation Details** - Specific code and algorithms
@@ -37,7 +41,8 @@ Structure your documentation in layers:
 
 ❌ **Vague:** "The system runs for a long time"
 
-✅ **Specific:** 
+✅ **Specific:**
+
 - Complete pipeline execution: 5+ hours
 - Planning: 30-45 minutes
 - Implementation: 3-4 hours
@@ -48,6 +53,7 @@ Structure your documentation in layers:
 ## Document Structure Template
 
 ### 1. Executive Summary (3-5 paragraphs)
+
 - **Opening hook** - What breakthrough does this represent?
 - **Problem solved** - What specific challenge does it address?
 - **Technical approach** - High-level architecture
@@ -57,27 +63,31 @@ Structure your documentation in layers:
 ### 2. Core Architecture Section
 
 #### System Components
+
 For each major component, provide:
+
 - **Purpose statement**
 - **Code snippet showing implementation**
 - **Configuration example**
 - **Integration points**
 
 Example structure:
+
 ```markdown
 ### Workflow Orchestration Engine
 
-The heart of the system is a bash-based orchestration engine that implements 
+The heart of the system is a bash-based orchestration engine that implements
 a state machine architecture managing five discrete stages.
 
 \`\`\`bash
-run_claude_stage() {
-    local stage_name=$1
-    local log_file="$LOGS_DIR/${TIMESTAMP}_${stage_name}.log"
-    
+run*claude_stage() {
+local stage_name=$1
+    local log_file="$LOGS_DIR/${TIMESTAMP}*${stage_name}.log"
+
     CLAUDE_PROJECT_DIR="$(pwd)" claude \
         --model="$CLAUDE_MODEL" \
         -p "$(cat "$PROMPT_FILE")" 2>&1 | tee -a "$log_file"
+
 }
 \`\`\`
 ```
@@ -85,6 +95,7 @@ run_claude_stage() {
 ### 3. Technical Deep Dives
 
 For complex features, use this pattern:
+
 1. **Conceptual explanation** (1-2 sentences)
 2. **Implementation code** (actual snippets)
 3. **Configuration/usage example**
@@ -93,6 +104,7 @@ For complex features, use this pattern:
 ### 4. Real-World Examples
 
 Include actual system behavior:
+
 ```markdown
 ## Real-World Example: Budget Tracker Generation
 
@@ -106,19 +118,20 @@ Who it's for: Individuals who want a minimal way to see monthly spending
 \`\`\`
 cloned-repo-20250812_030613/
 ├── app/
-│   ├── (dashboard)/
-│   │   ├── overview/page.tsx    # Budget overview with charts
-│   │   └── transactions/page.tsx # Transaction list with filters
+│ ├── (dashboard)/
+│ │ ├── overview/page.tsx # Budget overview with charts
+│ │ └── transactions/page.tsx # Transaction list with filters
 └── lib/
-    └── db/
-        ├── schema.ts             # Drizzle ORM schemas
-        └── seed.ts               # 50+ sample transactions
+└── db/
+├── schema.ts # Drizzle ORM schemas
+└── seed.ts # 50+ sample transactions
 \`\`\`
 ```
 
 ## Writing Style Guidelines
 
 ### Technical Precision
+
 - **Use exact variable names from code**
 - **Include actual file paths, not placeholders**
 - **Specify versions, ports, and timeouts**
@@ -127,6 +140,7 @@ cloned-repo-20250812_030613/
 ### Code Snippet Best Practices
 
 1. **Add contextual comments**
+
 ```bash
 # Wait for PostgreSQL readiness (30 second timeout)
 for i in {1..30}; do
@@ -138,6 +152,7 @@ done
 ```
 
 2. **Show configuration with defaults**
+
 ```javascript
 {
     stalledInterval: 30000,        // Check every 30 seconds
@@ -148,13 +163,14 @@ done
 ```
 
 3. **Include error handling**
+
 ```javascript
-worker.on('failed', (job, err) => {
-    logger.error(`Job ${job?.id} failed:`, {
-        error: err.message,
-        stack: err.stack,
-        jobData: job.data
-    });
+worker.on("failed", (job, err) => {
+	logger.error(`Job ${job?.id} failed:`, {
+		error: err.message,
+		stack: err.stack,
+		jobData: job.data
+	});
 });
 ```
 
@@ -171,7 +187,9 @@ Use markdown formatting to create clear visual structure:
 ## Essential Sections to Include
 
 ### 1. Architecture Diagrams
+
 Even ASCII diagrams help:
+
 ```
 ┌─────────────┐     ┌──────────────┐     ┌─────────────┐
 │   Planning  │────▶│Implementation│────▶│  Security   │
@@ -180,7 +198,9 @@ Even ASCII diagrams help:
 ```
 
 ### 2. Configuration Examples
+
 Show how to set up and customize:
+
 ```bash
 # Environment variables
 export CLAUDE_MODEL="opus"
@@ -189,7 +209,9 @@ export MAX_UNKNOWN_ITERATIONS=5
 ```
 
 ### 3. Troubleshooting Patterns
+
 Include actual error messages and solutions:
+
 ```markdown
 ### Common Issues
 
@@ -199,14 +221,18 @@ Include actual error messages and solutions:
 ```
 
 ### 4. Performance Characteristics
+
 Provide detailed metrics:
+
 - Execution times per stage
 - Resource consumption
 - Scalability limits
 - Optimization opportunities
 
 ### 5. Security Considerations
+
 Document security features and validations:
+
 - Input sanitization methods
 - Authentication mechanisms
 - Audit logging
@@ -215,14 +241,18 @@ Document security features and validations:
 ## Integration and Deployment
 
 ### External References
+
 Link to related resources:
+
 - Live deployments
 - GitHub repositories
 - Documentation sites
 - Related projects or hackathons
 
 ### Version and Compatibility
+
 Specify:
+
 - Language/framework versions
 - API versions
 - Dependency requirements
@@ -231,14 +261,18 @@ Specify:
 ## Markdown and Presentation
 
 ### Syntax Highlighting
+
 Ensure proper language tags for code blocks:
+
 - `bash` for shell scripts
 - `javascript`/`typescript` for JS/TS
 - `markdown` for prompts
 - `text` for output examples
 
 ### Interactive Elements
+
 When applicable, include:
+
 - Links to live demos
 - Embedded videos or GIFs
 - Interactive code playgrounds
@@ -266,11 +300,12 @@ Start strong with impact:
 > "This project represents a breakthrough in [domain], implementing a sophisticated [approach] that transforms [input] into [output]. The system leverages [key technology] through a carefully engineered [duration] pipeline that maintains [key quality], self-corrects [problem], and ensures [guarantee] throughout the entire [scope]."
 
 Then immediately show proof:
+
 ```
 Input: 41 lines of natural language specification
 Output: Full-stack Next.js application with:
 - TypeScript interfaces
-- Drizzle ORM schemas  
+- Drizzle ORM schemas
 - 50+ seed records
 - Responsive UI components
 - Comprehensive error handling

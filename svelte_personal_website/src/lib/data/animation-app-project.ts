@@ -1,7 +1,8 @@
 export const animationCreationApp = {
 	slug: "animation-creation-app",
 	title: "AI-Powered Mathematical Animation Platform",
-	shortDescription: "Platform transforming natural language into Manim-powered educational videos through multi-agent AI orchestration and custom spatial reasoning scaffolding",
+	shortDescription:
+		"Platform transforming natural language into Manim-powered educational videos through multi-agent AI orchestration and custom spatial reasoning scaffolding",
 	codeSnippet: {
 		code: `async def orchestrate_animation_generation(prompt: str):
     """Multi-agent orchestration for Manim video generation"""
@@ -41,7 +42,7 @@ export const animationCreationApp = {
         video = await self.render_manim(manim_code)
     
     return video`,
-		language: 'python'
+		language: "python"
 	},
 	longDescription: `
 # AI-Powered Mathematical Animation Platform
@@ -1129,7 +1130,7 @@ This platform's key innovation is the extensive scaffolding that compensates for
 	technologies: [
 		"Python",
 		"Django",
-		"FastAPI", 
+		"FastAPI",
 		"SvelteKit",
 		"TypeScript",
 		"MySQL",

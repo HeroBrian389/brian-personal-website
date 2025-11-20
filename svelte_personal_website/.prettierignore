@@ -1,9 +1,17 @@
-# Package Managers
+# Package manager artifacts
 package-lock.json
 pnpm-lock.yaml
 yarn.lock
 bun.lock
 bun.lockb
 
-# Miscellaneous
+# Generated outputs
+build
+.svelte-kit
+node_modules
+playwright-report
+test-results
+coverage
+
+# Static assets (handled separately)
 static/

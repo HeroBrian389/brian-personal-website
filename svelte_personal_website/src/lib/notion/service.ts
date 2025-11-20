@@ -1,3 +1,4 @@
+import { localWritingPosts } from "$lib/content/writing/local-posts";
 import { getNotionAPI } from "./client";
 import { parsePage, enhanceBlock, type ParsedPage, type EnhancedParsedBlock } from "./parser";
 
@@ -176,7 +177,8 @@ export interface PublishedPost {
 	slug: string;
 	title: string;
 	date: string;
-	pageId: string;
+	pageId?: string;
+	source: "notion" | "local";
 }
 
 // Get all published posts for sitemap generation
@@ -193,10 +195,20 @@ export async function getPublishedPosts(): Promise<PublishedPost[]> {
 				slug,
 				title: page.title,
 				date: new Date(page.metadata.createdTime).toISOString(),
-				pageId
+				pageId,
+				source: "notion"
 			});
 		}
 	}
+
+	const localPosts = localWritingPosts.map((post) => ({
+		slug: post.slug,
+		title: post.title,
+		date: post.publishedAt,
+		source: "local" as const
+	}));
+
+	posts.push(...localPosts);
 
 	// Sort by date, newest first
 	return posts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());

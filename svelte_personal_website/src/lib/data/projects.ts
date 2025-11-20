@@ -1,4 +1,4 @@
-import { animationCreationApp } from './animation-app-project';
+import { animationCreationApp } from "./animation-app-project";
 
 export interface Project {
 	slug: string;
@@ -14,7 +14,7 @@ export interface Project {
 	date?: string;
 	year?: number;
 	featured?: boolean;
-	category?: 'ai' | 'web' | 'infrastructure' | 'other';
+	category?: "ai" | "web" | "infrastructure" | "other";
 	codeSnippet?: {
 		code: string;
 		language: string;
@@ -24,9 +24,10 @@ export interface Project {
 export const projects: Project[] = [
 	animationCreationApp,
 	{
-		slug: 'claude-workflow-automation',
-		title: 'Claude Workflow Automation System',
-		description: 'An autonomous code generation pipeline orchestrating multi-stage AI workflows for full-stack application development',
+		slug: "claude-workflow-automation",
+		title: "Claude Workflow Automation System",
+		description:
+			"An autonomous code generation pipeline orchestrating multi-stage AI workflows for full-stack application development",
 		codeSnippet: {
 			code: `#!/bin/bash
 # Hook-based autonomous continuation mechanism
@@ -55,7 +56,7 @@ fi
 
 echo "$next_count" > "$COUNTER_FILE"
 exit 2  # Continue working`,
-			language: 'bash'
+			language: "bash"
 		},
 		longDescription: `## Executive Summary
 
@@ -1177,16 +1178,26 @@ The system demonstrates that with proper orchestration, current LLMs can achieve
 This system represents a significant advancement in AI-assisted software development, demonstrating that complex, production-ready applications can be generated autonomously from natural language specifications while maintaining code quality, security, and architectural consistency. The 5+ hour execution time is a small investment for receiving a fully-implemented, security-audited, and tested application ready for deployment.
 
 More critically, it operates 2-3 years ahead of METR's capability projections, achieving autonomous completion of week-long development tasks that current benchmarks suggest won't be possible until 2027-2028. This positions the system at the absolute frontier of AI agent capabilities, demonstrating that proper orchestration and pipeline design can unlock latent capabilities in current models that far exceed benchmark evaluations.`,
-		technologies: ['Bash', 'Node.js', 'BullMQ', 'Redis', 'Claude API', 'Git', 'Docker', 'Winston', 'IORedis'],
-		date: '2025',
+		technologies: [
+			"Bash",
+			"Node.js",
+			"BullMQ",
+			"Redis",
+			"Claude API",
+			"Git",
+			"Docker",
+			"Winston",
+			"IORedis"
+		],
+		date: "2025",
 		featured: true
 	}
 ];
 
 export function getProjectBySlug(slug: string): Project | undefined {
-	return projects.find(p => p.slug === slug);
+	return projects.find((p) => p.slug === slug);
 }
 
 export function getFeaturedProjects(): Project[] {
-	return projects.filter(p => p.featured);
+	return projects.filter((p) => p.featured);
 }
