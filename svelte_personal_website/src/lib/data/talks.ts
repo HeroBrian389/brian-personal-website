@@ -14,6 +14,22 @@ export interface Talk {
 
 export const talks: Talk[] = [
 	{
+		slug: "ai-crm-sales-agent-2025-11-20",
+		title: "How to build an AI CRM/sales agent",
+		event: "Remote session",
+		dateISO: "2025-11-20",
+		location: "Online",
+		pdfPath: "/talks/how-to-build-an-ai-crm.pdf",
+		videoUrl: "https://youtu.be/44Pdj-DTerY",
+		description:
+			"An end-to-end walkthrough of designing, deploying, and hardening an AI-native CRM/sales agent: from ingesting customer data and wiring tool access to evaluating dialogues, enforcing policies, and measuring impact in production.",
+		keyPoints: [
+			"Architecture for syncing CRM data, summarizing accounts, and exposing safe tool adapters for email, calendar, and deal updates.",
+			"Conversation flows that mix scripted intent detection with multi-turn reasoning, guardrails, and retrieval for compliance-grade responses.",
+			"Evaluation strategies (simulated prospects, red-team prompts, latency/cost dashboards) to ship reliably and iterate post-launch."
+		]
+	},
+	{
 		slug: "edge-city-patagonia-2025-10-29",
 		title: "How to use AI to Ship Production Code",
 		event: "Edge Fellowship Workshop · Edge City, Patagonia",
