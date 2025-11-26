@@ -40,8 +40,8 @@
 			</a>
 
 			<header class="mb-20">
-				<div class="mb-6 flex items-start justify-between">
-					<h1 class="text-4xl font-extralight">{project.title}</h1>
+				<div class="mb-6 space-y-4">
+					<h1 class="text-4xl font-extralight leading-tight">{project.title}</h1>
 					{#if project.date}
 						<p
 							class="text-muted-foreground text-sm font-light tracking-[0.2em] uppercase"
