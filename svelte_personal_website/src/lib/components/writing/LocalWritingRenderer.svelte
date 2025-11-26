@@ -2,7 +2,22 @@
 	import type { LocalWritingPost } from "$lib/content/writing/local-posts";
 	import { Progress } from "$lib/components/ui/progress";
 
-	let { post }: { post: LocalWritingPost } = $props();
+	let {
+		post,
+		fontFamily = ["'Helvetica Neue'", "Helvetica", "Arial", "sans-serif"],
+		lineHeight = 1.5,
+		textAlign = ["justify"]
+	}: {
+		post: LocalWritingPost;
+		fontFamily?: string[];
+		lineHeight?: number | number[];
+		textAlign?: string | string[];
+	} = $props();
+	let fontFamilyValue = $derived(fontFamily.join(", "));
+	let lineHeightValues = $derived(Array.isArray(lineHeight) ? lineHeight : [lineHeight]);
+	let lineHeightValue = $derived(lineHeightValues[0] ?? 1.5);
+	let textAlignValues = $derived(Array.isArray(textAlign) ? textAlign : [textAlign]);
+	let textAlignValue = $derived(textAlignValues[0] ?? "justify");
 
 	let scrollProgress = $state(0);
 	let currentSection = $state("");
@@ -43,7 +58,10 @@
 	}
 </script>
 
-<article class="notion-page">
+<article
+	class="notion-page"
+	style={`font-family: ${fontFamilyValue}; line-height: ${lineHeightValue}; --reading-line-height: ${lineHeightValue}; text-align: ${textAlignValue};`}
+>
 	<div class="bg-background/80 fixed top-0 right-0 left-0 z-50 border-b backdrop-blur-sm">
 		<Progress value={scrollProgress} class="h-1" />
 		{#if currentSection}
@@ -96,6 +114,17 @@
 		--tw-prose-code: hsl(var(--foreground));
 		--tw-prose-pre-code: hsl(var(--foreground));
 		--tw-prose-pre-bg: hsl(var(--muted));
+	}
+
+	:global(.prose p) {
+		line-height: var(--reading-line-height, 1.5);
+		margin-bottom: calc(var(--reading-line-height, 1.5) * 1rem);
+	}
+
+	:global(.prose ul),
+	:global(.prose ol) {
+		line-height: var(--reading-line-height, 1.5);
+		margin-bottom: calc(var(--reading-line-height, 1.5) * 1rem);
 	}
 
 	.notion-page {
