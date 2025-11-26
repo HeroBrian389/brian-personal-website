@@ -1,5 +1,5 @@
 // Auto-generated project data - DO NOT EDIT MANUALLY
-// Generated on 2025-11-26T19:58:23.813Z
+// Generated on 2025-11-26T23:35:02.561Z
 // Run 'node scripts/generate-project-data.cjs' to regenerate
 
 import type { ProjectMeta } from './projects.schema';
@@ -2547,6 +2547,10 @@ Dev B (Gemini) confused Celery’s **task execution timeout** with RabbitMQ’s 
 - Gemini 3 Pro: too trigger happy, makes random changes, doesn’t follow instructions closely.
 - Opus 4.5: doesn’t research enough and gives silly suggestions.
 - Codex-max-xhigh: still the best, but extremely slow (2–10x slower).
+
+---
+
+Editor note (2025-11-26): Gemini 3 Pro is totally unusable - it never follows instructions.
 `
   },
   'setup-project': {

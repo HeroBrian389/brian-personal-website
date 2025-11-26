@@ -127,3 +127,7 @@ Dev B (Gemini) confused Celery’s **task execution timeout** with RabbitMQ’s 
 - Gemini 3 Pro: too trigger happy, makes random changes, doesn’t follow instructions closely.
 - Opus 4.5: doesn’t research enough and gives silly suggestions.
 - Codex-max-xhigh: still the best, but extremely slow (2–10x slower).
+
+---
+
+Editor note (2025-11-26): Gemini 3 Pro is totally unusable - it never follows instructions.
