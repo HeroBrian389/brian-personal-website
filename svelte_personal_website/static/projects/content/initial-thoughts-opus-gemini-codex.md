@@ -22,7 +22,9 @@ I gave the **same debugging task** (“Find subtle bug with Celery timeouts”) 
 
 Then I asked **each model** (Claude, Gemini, and Codex) to **judge all three outputs** and choose which one was best.
 
-Below are their evaluations.
+Below are their evaluations. NOTE: When we say "As judged by <model>", we mean that the model was asked to judge the output of all 3 models according to what the model found in the codebase. This is also a test of the model's meta-reasoning capabilities: the ability to analyse and judge the output of other models.
+
+A judge may declare that a model's output is correct/incorrect. This judgement may be incorrect.
 
 ---
 
