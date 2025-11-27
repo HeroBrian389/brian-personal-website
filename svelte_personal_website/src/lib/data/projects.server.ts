@@ -45,16 +45,11 @@ async function getProjectContent(slug: string, fetchFn: typeof fetch): Promise<s
 }
 
 export async function getProjectBySlug(slug: string, fetchFn: typeof fetch) {
-	console.log("[projects.server.ts] Getting project by slug:", slug);
-
 	const meta = getProjectMeta(slug);
 
 	if (!meta) {
-		console.log("[projects.server.ts] No project found for slug:", slug);
 		return null;
 	}
-
-	console.log("[projects.server.ts] Found project:", meta.title);
 
 	// Fetch the markdown content from static assets
 	const longDescription = await getProjectContent(slug, fetchFn);
@@ -64,12 +59,6 @@ export async function getProjectBySlug(slug: string, fetchFn: typeof fetch) {
 		longDescription: longDescription || "",
 		codeSnippet: meta.codeSnippet
 	};
-
-	console.log("[projects.server.ts] Returning project data:", {
-		slug: result.slug,
-		hasLongDescription: !!result.longDescription,
-		longDescriptionLength: result.longDescription?.length || 0
-	});
 
 	return result;
 }

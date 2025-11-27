@@ -3,7 +3,6 @@
 	import { cn } from "$lib/utils";
 	import * as NavigationMenu from "$lib/components/ui/navigation-menu";
 	import type { NavItem } from "$lib/config";
-	import { onMount } from "svelte";
 
 	let { label, children = [] } = $props<{
 		label: string;
@@ -19,89 +18,7 @@
 
 	let isActive = $derived(children.some(isChildActive));
 
-	// Logging setup
-	console.log(`[NavGroup:${label}] Component initialized`);
-
 	let contentRef = $state<HTMLElement | null>(null);
-	let containerRef = $state<HTMLDivElement | null>(null);
-
-	onMount(() => {
-		console.log(`[NavGroup:${label}] Component mounted`);
-
-		// Set up MutationObserver to watch for data-state changes
-		if (contentRef) {
-			const observer = new MutationObserver((mutations) => {
-				mutations.forEach((mutation) => {
-					if (mutation.type === "attributes" && mutation.attributeName === "data-state") {
-						const newState = contentRef?.getAttribute("data-state");
-						console.log(`[NavGroup:${label}] data-state changed to:`, newState);
-						console.log(
-							`[NavGroup:${label}] contentRef classes:`,
-							contentRef?.className
-						);
-						console.log(
-							`[NavGroup:${label}] contentRef computed style opacity:`,
-							contentRef ? window.getComputedStyle(contentRef).opacity : "N/A"
-						);
-						console.log(
-							`[NavGroup:${label}] contentRef computed style visibility:`,
-							contentRef ? window.getComputedStyle(contentRef).visibility : "N/A"
-						);
-						console.log(
-							`[NavGroup:${label}] contentRef computed style display:`,
-							contentRef ? window.getComputedStyle(contentRef).display : "N/A"
-						);
-					}
-				});
-			});
-
-			observer.observe(contentRef, { attributes: true });
-
-			console.log(
-				`[NavGroup:${label}] Initial data-state:`,
-				contentRef.getAttribute("data-state")
-			);
-
-			return () => {
-				observer.disconnect();
-			};
-		}
-
-		return () => {};
-	});
-
-	// Watch container for animation events
-	$effect(() => {
-		const container = containerRef;
-		if (container) {
-			const onAnimationStart = (e: AnimationEvent) => {
-				console.log(
-					`[NavGroup:${label}] Animation started:`,
-					e.animationName,
-					"on",
-					e.target
-				);
-			};
-			const onAnimationEnd = (e: AnimationEvent) => {
-				console.log(
-					`[NavGroup:${label}] Animation ended:`,
-					e.animationName,
-					"on",
-					e.target
-				);
-			};
-
-			container.addEventListener("animationstart", onAnimationStart);
-			container.addEventListener("animationend", onAnimationEnd);
-
-			return () => {
-				container.removeEventListener("animationstart", onAnimationStart);
-				container.removeEventListener("animationend", onAnimationEnd);
-			};
-		}
-
-		return () => {};
-	});
 </script>
 
 <NavigationMenu.Item class="relative">
@@ -124,10 +41,7 @@
 		></div>
 	</NavigationMenu.Trigger>
 	<NavigationMenu.Content bind:ref={contentRef} class="pt-6">
-		<div
-			bind:this={containerRef}
-			class="dropdown-container border-foreground/10 bg-background/95 text-foreground/80 min-w-[14rem] space-y-3 border px-6 py-4 backdrop-blur-md"
-		>
+		<div class="dropdown-container border-foreground/10 bg-background/95 text-foreground/80 min-w-[14rem] space-y-3 border px-6 py-4 backdrop-blur-md">
 			{#each children as child (child.href ?? child.label)}
 				{#if child.href}
 					<a

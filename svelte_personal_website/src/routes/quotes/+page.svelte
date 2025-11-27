@@ -24,98 +24,6 @@
 	// Smooth animations with consistent timing
 	const lineWidth = tweened(0, { duration: 800, easing: quintOut });
 
-	// --- Debug helpers for investigating double fade ---
-	function infoFor(el: Element | null) {
-		if (!el) return null;
-		const cs = getComputedStyle(el);
-		return {
-			opacity: cs.opacity,
-			transitionProperty: cs.transitionProperty,
-			transitionDuration: cs.transitionDuration,
-			transitionTimingFunction: cs.transitionTimingFunction,
-			styleAttr: (el as HTMLElement).getAttribute("style") || null
-		};
-	}
-
-	function logTransitionStart(label: string, e: TransitionEvent) {
-		if (e.propertyName !== "opacity" || e.target !== e.currentTarget) return;
-		try {
-			const target = e.target as Element;
-			const opacity = getComputedStyle(target).opacity;
-			console.log(`[QUOTES] ${label} opacity transitionstart`, {
-				when: new Date().toISOString(),
-				computedOpacity: opacity
-			});
-		} catch (err) {
-			console.log(`[QUOTES] ${label} opacity transitionstart`, new Date().toISOString());
-		}
-	}
-
-	function logTransitionEnd(label: string, e: TransitionEvent) {
-		if (e.propertyName !== "opacity" || e.target !== e.currentTarget) return;
-		try {
-			const target = e.target as Element;
-			const opacity = getComputedStyle(target).opacity;
-			console.log(`[QUOTES] ${label} opacity transitionend`, {
-				when: new Date().toISOString(),
-				computedOpacity: opacity
-			});
-		} catch (err) {
-			console.log(`[QUOTES] ${label} opacity transitionend`, new Date().toISOString());
-		}
-	}
-
-	let currentContainer = $state<HTMLDivElement | null>(null);
-	let nextContainer = $state<HTMLDivElement | null>(null);
-
-	$effect(() => {
-		if (currentContainer) {
-			console.log("[QUOTES] currentContainer mounted");
-		} else {
-			console.log("[QUOTES] currentContainer unmounted");
-		}
-	});
-
-	$effect(() => {
-		if (nextContainer) {
-			console.log("[QUOTES] nextContainer mounted");
-		} else {
-			console.log("[QUOTES] nextContainer unmounted");
-		}
-	});
-
-	let unsubscribeLineWidth: (() => void) | null = null;
-	unsubscribeLineWidth = lineWidth.subscribe((v) => {
-		console.log("[QUOTES] lineWidth tween value", v);
-	});
-
-	let prevNextOpacity = $state(0);
-	$effect(() => {
-		if (prevNextOpacity <= 0.5 && nextOpacity > 0.5) {
-			console.log(
-				"[QUOTES] nextOpacity crossed 0.5 → showing next separator",
-				new Date().toISOString()
-			);
-		}
-		prevNextOpacity = nextOpacity;
-	});
-
-	$effect(() => {
-		console.log("[QUOTES] currentOpacity", currentOpacity);
-	});
-
-	$effect(() => {
-		console.log("[QUOTES] nextOpacity", nextOpacity);
-	});
-
-	$effect(() => {
-		console.log("[QUOTES] currentQuote changed", currentQuote ? currentQuote.id : null);
-	});
-
-	$effect(() => {
-		console.log("[QUOTES] nextQuote changed", nextQuote ? nextQuote.id : null);
-	});
-
 	// Shuffle quotes array
 	function shuffleArray<T>(array: T[]): T[] {
 		const shuffled: T[] = [...array];
@@ -136,25 +44,13 @@
 		return shuffledQuotes[currentQuoteIndex] ?? null;
 	}
 
-	let transitionSeq = 0;
-
 	// Get a new quote following the cycle
-	async function getNewQuote(source: "manual" | "auto" = "auto", override?: Quote) {
-		const seq = ++transitionSeq;
-		const start = performance.now();
-		console.log(`[QUOTES][${seq}] getNewQuote(${source}) at`, new Date().toISOString());
+	async function getNewQuote(_source: "manual" | "auto" = "auto", override?: Quote) {
 		if (isTransitioning || quotes.length === 0) {
-			console.log(
-				`[QUOTES][${seq}] Skipping - isTransitioning:`,
-				isTransitioning,
-				"quotes.length:",
-				quotes.length
-			);
 			return;
 		}
 
 		isTransitioning = true;
-		console.log(`[QUOTES][${seq}] Starting transition`);
 
 		// Reset auto-advance timer
 		startAutoAdvance();
@@ -162,86 +58,37 @@
 		// Determine next quote
 		const newQuote = override ?? getNextQuoteInCycle();
 		if (newQuote) {
-			console.log(`[QUOTES][${seq}] Loading new quote:`, newQuote.id);
 			nextQuote = newQuote;
 		}
 
-		console.log(`[QUOTES][${seq}] Phase A: fade OUT current start`, {
-			currentInfo: infoFor(currentContainer)
-		});
-
 		// Start fade out of current
 		currentOpacity = 0;
-		console.log(`[QUOTES][${seq}] lineWidth.set(0)`);
 		lineWidth.set(0);
 
 		// Wait for fade out to complete
-		console.log(`[QUOTES][${seq}] Waiting 1000ms for fade out...`);
 		await new Promise((resolve) => setTimeout(resolve, 1000));
-		console.log(
-			`[QUOTES][${seq}] Phase A: fade OUT current end @ ${Math.round(performance.now() - start)}ms`,
-			{ currentInfo: infoFor(currentContainer) }
-		);
 
 		// Wait a moment with nothing on screen
-		console.log(`[QUOTES][${seq}] Waiting 200ms with empty screen...`);
 		await new Promise((resolve) => setTimeout(resolve, 200));
-		console.log(
-			`[QUOTES][${seq}] Empty screen period complete @ ${Math.round(performance.now() - start)}ms`
-		);
 
 		// Start fade in of next quote
-		console.log(`[QUOTES][${seq}] Phase B: fade IN next start at`, new Date().toISOString());
 		nextOpacity = 1;
-		console.log(`[QUOTES][${seq}] lineWidth.set(100)`);
 		lineWidth.set(100);
 
 		// Wait for fade in to complete
-		console.log(`[QUOTES][${seq}] Waiting 2000ms for fade in...`);
 		await new Promise((resolve) => setTimeout(resolve, 2000));
-		console.log(
-			`[QUOTES][${seq}] Phase B: fade IN next end @ ${Math.round(performance.now() - start)}ms`
-		);
-
-		// Pre-swap diagnostics
-		console.log(`[QUOTES][${seq}] Pre-swap diagnostics`, {
-			currentQuoteId: currentQuote?.id ?? null,
-			nextQuoteId: nextQuote?.id ?? null,
-			currentInfo: infoFor(currentContainer),
-			nextInfo: infoFor(nextContainer),
-			isNextAfterCurrent:
-				currentContainer && nextContainer
-					? Boolean(
-							currentContainer.compareDocumentPosition(nextContainer) &
-								Node.DOCUMENT_POSITION_FOLLOWING
-						)
-					: null
-		});
 
 		// Swap quotes (two-phase) with transition suppression to avoid a second crossfade
 		suppressTransitions = true;
-		console.log(`[QUOTES][${seq}] Suppressing transitions for swap`);
 		currentQuote = nextQuote;
 		currentOpacity = 1;
 		nextOpacity = 0;
 		nextQuote = null;
-		console.log(
-			`[QUOTES][${seq}] Swap applied (set current=next, currentOpacity=1, nextOpacity=0, cleared nextQuote)`
-		);
 		queueMicrotask(() => {
 			suppressTransitions = false;
-			console.log(`[QUOTES][${seq}] Re-enabled transitions after swap`);
-			console.log(`[QUOTES][${seq}] Post-swap microtask diagnostics`, {
-				currentInfo: infoFor(currentContainer),
-				nextInfo: infoFor(nextContainer),
-				bothContainersExist: Boolean(currentContainer && nextContainer)
-			});
 		});
 
 		isTransitioning = false;
-		console.log(
-			`[QUOTES][${seq}] Transition complete @ ${Math.round(performance.now() - start)}ms`
-		);
 	}
 
 	// Start auto-advance
@@ -270,10 +117,6 @@
 			currentOpacity = 1;
 			nextOpacity = 0;
 			setTimeout(() => {
-				console.log(
-					"[QUOTES] onMount → expanding lineWidth to 100",
-					new Date().toISOString()
-				);
 				lineWidth.set(100);
 			}, 100);
 
@@ -284,7 +127,6 @@
 		// Cleanup on unmount
 		return () => {
 			stopAutoAdvance();
-			if (unsubscribeLineWidth) unsubscribeLineWidth();
 		};
 	});
 
@@ -312,13 +154,10 @@
 				<!-- Current quote -->
 				{#if currentQuote}
 					<div
-						bind:this={currentContainer}
 						class="absolute inset-0 flex flex-col items-center justify-center"
 						style="opacity: {currentOpacity}; transition: {suppressTransitions
 							? 'none'
 							: `opacity ${currentOpacity === 0 ? '1000ms' : '2000ms'} ease-in-out`}"
-						ontransitionstart={(e) => logTransitionStart("currentContainer", e)}
-						ontransitionend={(e) => logTransitionEnd("currentContainer", e)}
 					>
 						<!-- Quote text -->
 						<div class="w-full">
@@ -350,13 +189,10 @@
 				<!-- Next quote (pre-loaded but invisible) -->
 				{#if nextQuote}
 					<div
-						bind:this={nextContainer}
 						class="absolute inset-0 flex flex-col items-center justify-center"
 						style="opacity: {nextOpacity}; transition: {suppressTransitions
 							? 'none'
 							: 'opacity 2000ms ease-in-out'}"
-						ontransitionstart={(e) => logTransitionStart("nextContainer", e)}
-						ontransitionend={(e) => logTransitionEnd("nextContainer", e)}
 					>
 						<!-- Quote text -->
 						<div class="w-full">

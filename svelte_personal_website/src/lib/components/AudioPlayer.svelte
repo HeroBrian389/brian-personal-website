@@ -64,7 +64,7 @@
 			isPlaying = true;
 			isPaused = false;
 		} catch (err) {
-			console.log("[AUDIO] Unable to resume playback", err);
+			console.error("[AUDIO] Unable to resume playback", err);
 			stopPlayback();
 		}
 	}
@@ -86,7 +86,7 @@
 			}
 			isPlaying = true;
 		} catch (err) {
-			console.log("[AUDIO] Unable to start ambient loop", err);
+			console.error("[AUDIO] Unable to start ambient loop", err);
 			stopPlayback();
 		}
 	}

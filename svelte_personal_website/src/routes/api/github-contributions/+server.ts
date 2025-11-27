@@ -96,7 +96,6 @@ export const GET: RequestHandler = async ({ request, fetch }) => {
 
 		// If we can't find the contribution count, return an error
 		console.error("Could not parse contribution count from HTML");
-		console.log("HTML snippet:", html.substring(0, 500)); // Log first 500 chars for debugging
 
 		return json(
 			{
