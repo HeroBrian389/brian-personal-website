@@ -1,40 +1,32 @@
 # How to Add New Projects
 
-## Quick Guide
+## Quick Guide (current pipeline)
 
-To add a new project to your portfolio:
-
-1. **Create JSON metadata**: `src/lib/data/projects/your-project.json`
-2. **Create markdown writeup**: `src/lib/data/projects-extracted/your-project.md`
-3. **Generate TypeScript data**: `node scripts/generate-project-data.cjs`
-4. **Verify build**: `npm run check && npm run build`
+1. **Add metadata**: update `src/lib/data/projects-meta.ts` (copy an existing entry).
+2. **Add markdown writeup**: place `static/projects/content/your-project.md`.
+3. **Verify build**: `npm run check && npm run build`.
 
 ## Example: Adding a New Project
 
-### 1. Create JSON file
+### 1. Add metadata
 
-`src/lib/data/projects/my-awesome-project.json`:
+In `src/lib/data/projects-meta.ts`, add an entry keyed by the slug:
 
-```json
-{
-	"slug": "my-awesome-project",
-	"title": "My Awesome Project",
-	"description": "Brief description for the project card",
-	"technologies": ["Python", "FastAPI", "PostgreSQL"],
-	"github": "https://github.com/username/project",
-	"demo": "https://project-demo.com",
-	"featured": true,
-	"order": 3,
-	"codeSnippet": {
-		"code": "def main():\n    return 'Hello World'",
-		"language": "python"
-	}
+```ts
+"my-awesome-project": {
+  slug: "my-awesome-project",
+  title: "My Awesome Project",
+  description: "Brief description for the project card",
+  technologies: ["Python", "FastAPI", "PostgreSQL"],
+  github: "https://github.com/username/project",
+  demo: "https://project-demo.com",
+  featured: true
 }
 ```
 
 ### 2. Create Markdown writeup
 
-`src/lib/data/projects-extracted/my-awesome-project.md`:
+`static/projects/content/my-awesome-project.md`:
 
 ```markdown
 ## Executive Summary
@@ -51,29 +43,16 @@ Detailed technical explanation...
 - Feature 2
 ```
 
-### 3. Generate the data
-
-```bash
-node scripts/generate-project-data.cjs
-```
-
-### 4. Verify everything works
+### 3. Verify everything works
 
 ```bash
 npm run check
 npm run dev
+npm run build
 ```
 
 ## Important Notes
 
-- The `slug` in JSON must match the markdown filename (minus .md extension)
-- The generation script handles all markdown escaping automatically
-- Both Claude and Animation projects have extensive writeups as examples
-- Order field controls display order (lower = first)
-
-## Current Projects
-
-1. **claude-workflow-automation** (38,301 chars) - Autonomous code generation pipeline
-2. **animation-creation-app** (42,117 chars) - Mathematical animation platform
-
-Both projects include complete technical writeups demonstrating the expected level of detail.
+- The `slug` in metadata must match the markdown filename (minus `.md`).
+- Markdown lives in `static/projects/content/` and ships with the build—no generation step.
+- Use `featured` and date fields in metadata; sorting is handled in `projects.server.ts`.
