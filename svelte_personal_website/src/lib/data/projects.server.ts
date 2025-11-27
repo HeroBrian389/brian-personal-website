@@ -1,5 +1,10 @@
+import { readFile } from "fs/promises";
+import { join } from "path";
 import type { ProjectMeta } from "./projects.schema";
-import { getAllProjectMetas, getProjectData } from "./projects-data";
+import { getAllProjectMetas, getProjectMeta } from "./projects-meta";
+
+// Path to project content markdown files
+const CONTENT_DIR = join(process.cwd(), "src/lib/data/projects/content");
 
 export function invalidateProjectsCache(): void {
 	// No-op since we're using static data now
@@ -23,22 +28,36 @@ export async function getAllProjects(): Promise<ProjectMeta[]> {
 	return metas.sort((a, b) => score(b) - score(a));
 }
 
+async function getProjectContent(slug: string): Promise<string | null> {
+	try {
+		const filePath = join(CONTENT_DIR, `${slug}.md`);
+		const content = await readFile(filePath, "utf-8");
+		return content;
+	} catch (error) {
+		console.warn(`[projects.server.ts] Could not read content for ${slug}:`, error);
+		return null;
+	}
+}
+
 export async function getProjectBySlug(slug: string) {
 	console.log("[projects.server.ts] Getting project by slug:", slug);
 
-	const projectData = getProjectData(slug);
+	const meta = getProjectMeta(slug);
 
-	if (!projectData) {
+	if (!meta) {
 		console.log("[projects.server.ts] No project found for slug:", slug);
 		return null;
 	}
 
-	console.log("[projects.server.ts] Found project:", projectData.meta.title);
+	console.log("[projects.server.ts] Found project:", meta.title);
+
+	// Read the markdown content from the separate file
+	const longDescription = await getProjectContent(slug);
 
 	const result = {
-		...projectData.meta,
-		longDescription: projectData.longDescription,
-		codeSnippet: projectData.meta.codeSnippet
+		...meta,
+		longDescription: longDescription || "",
+		codeSnippet: meta.codeSnippet
 	};
 
 	console.log("[projects.server.ts] Returning project data:", {

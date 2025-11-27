@@ -2,7 +2,7 @@
 
 .markdown-content {
 	font-weight: 300;
-	color: rgba(var(--foreground), 0.9);
+	color: color-mix(in oklch, var(--foreground) 90%, transparent);
 }
 
 .markdown-content h2 {
@@ -11,7 +11,7 @@
 	font-weight: 200;
 	margin-bottom: 1.5rem;
 	margin-top: 3rem;
-	color: rgb(var(--foreground));
+	color: var(--foreground);
 }
 
 .markdown-content h3 {
@@ -20,7 +20,7 @@
 	font-weight: 200;
 	margin-bottom: 1rem;
 	margin-top: 2rem;
-	color: rgb(var(--foreground));
+	color: var(--foreground);
 }
 
 .markdown-content p {
@@ -31,7 +31,7 @@
 
 .markdown-content strong {
 	font-weight: 400;
-	color: rgb(var(--foreground));
+	color: var(--foreground);
 }
 
 .markdown-content ul {
@@ -46,17 +46,21 @@
 }
 
 .markdown-content li {
-	color: rgba(var(--foreground), 0.8);
+	color: color-mix(in oklch, var(--foreground) 80%, transparent);
 }
 
+/* Inline code styling - distinctive amber/gold tint */
 .markdown-content code {
-	padding: 0.125rem 0.375rem;
-	border-radius: 0.25rem;
-	font-size: 0.875rem;
+	padding: 0.2rem 0.45rem;
+	border-radius: 0.375rem;
+	font-size: 0.85em;
 	font-family: "JetBrains Mono", "SF Mono", Monaco, "Cascadia Code", "Roboto Mono", monospace;
-	background-color: rgba(var(--foreground), 0.08);
-	border: 1px solid rgba(var(--foreground), 0.1);
-	color: rgba(var(--foreground), 0.9);
+	background-color: color-mix(in oklch, oklch(0.75 0.12 85) 15%, transparent);
+	border: 1px solid color-mix(in oklch, oklch(0.75 0.12 85) 30%, transparent);
+	color: color-mix(in oklch, var(--foreground) 95%, oklch(0.75 0.12 85) 5%);
+	font-weight: 450;
+	letter-spacing: -0.01em;
+	white-space: nowrap;
 }
 
 .markdown-content pre,
@@ -65,7 +69,7 @@
 	padding: 1rem;
 	margin-bottom: 1.5rem;
 	overflow-x: auto;
-	border: 1px solid rgba(var(--foreground), 0.15);
+	border: 1px solid color-mix(in oklch, var(--foreground) 15%, transparent);
 	position: relative;
 	font-size: 0.875rem;
 	line-height: 1.5;
@@ -73,23 +77,27 @@
 
 .markdown-content pre:hover,
 .markdown-content .shiki-code-block:hover {
-	border-color: rgba(var(--foreground), 0.25);
+	border-color: color-mix(in oklch, var(--foreground) 25%, transparent);
 	transition: border-color 0.3s ease;
 }
 
 .markdown-content pre code,
 .markdown-content .shiki code {
 	background-color: transparent !important;
+	border: none !important;
 	padding: 0;
 	font-size: 0.875rem;
 	line-height: 1.5;
 	font-family: "JetBrains Mono", "SF Mono", Monaco, "Cascadia Code", "Roboto Mono", monospace;
 	display: block;
+	white-space: pre;
+	font-weight: 400;
+	color: inherit;
 }
 
 /* Override Shiki's inline styles for our theme */
 .markdown-content .shiki {
-	background-color: rgba(var(--foreground), 0.03) !important;
+	background-color: color-mix(in oklch, var(--foreground) 3%, transparent) !important;
 }
 
 /* Add subtle scrollbar styling */
@@ -98,17 +106,17 @@
 }
 
 .markdown-content pre::-webkit-scrollbar-track {
-	background: rgba(var(--foreground), 0.05);
+	background: color-mix(in oklch, var(--foreground) 5%, transparent);
 	border-radius: 3px;
 }
 
 .markdown-content pre::-webkit-scrollbar-thumb {
-	background: rgba(var(--foreground), 0.2);
+	background: color-mix(in oklch, var(--foreground) 20%, transparent);
 	border-radius: 3px;
 }
 
 .markdown-content pre::-webkit-scrollbar-thumb:hover {
-	background: rgba(var(--foreground), 0.3);
+	background: color-mix(in oklch, var(--foreground) 30%, transparent);
 }
 
 .markdown-content blockquote {
@@ -117,19 +125,27 @@
 	font-style: italic;
 	margin-top: 1rem;
 	margin-bottom: 1rem;
-	border-color: rgba(var(--foreground), 0.3);
-	color: rgba(var(--foreground), 0.7);
+	border-color: color-mix(in oklch, var(--foreground) 30%, transparent);
+	color: color-mix(in oklch, var(--foreground) 70%, transparent);
 }
 
 .markdown-content a {
-	color: rgba(var(--foreground), 0.9);
+	color: color-mix(in oklch, var(--foreground) 90%, transparent);
 	text-decoration: underline;
-	text-decoration-color: rgba(var(--foreground), 0.3);
+	text-decoration-color: color-mix(in oklch, var(--foreground) 30%, transparent);
 	text-underline-offset: 2px;
 	transition: all 0.3s ease;
 }
 
 .markdown-content a:hover {
-	color: rgb(var(--foreground));
-	text-decoration-color: rgba(var(--foreground), 0.6);
+	color: var(--foreground);
+	text-decoration-color: color-mix(in oklch, var(--foreground) 60%, transparent);
+}
+
+.markdown-content hr {
+	border: none;
+	height: 1px;
+	background-color: color-mix(in oklch, var(--foreground) 20%, transparent);
+	margin-top: 3rem;
+	margin-bottom: 3rem;
 }

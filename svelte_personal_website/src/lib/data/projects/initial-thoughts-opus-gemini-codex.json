@@ -1,19 +1,13 @@
 {
-  "slug": "initial-thoughts-opus-gemini-codex",
-  "title": "Initial thoughts: Opus 4.5 vs Gemini 3 Pro vs Codex-Max",
-  "description": "Three-model bakeoff debugging a 30-minute Celery/RabbitMQ crash and how each model judged the others.",
-  "technologies": [
-    "Celery",
-    "RabbitMQ",
-    "Python",
-    "OpenAI API",
-    "Anthropic API"
-  ],
-  "date": "2025-11-26",
-  "featured": false,
-  "category": "infrastructure",
-  "codeSnippet": {
-    "language": "ini",
-    "code": "; RabbitMQ broker-side ack timeout (ms)\nconsumer_timeout = 1800000\n\n; Celery worker (conceptual)\nworker_prefetch_multiplier = 1\n; late acks defer ACK until task completes\n; task_acks_late = True\n; add heartbeat to keep connection alive\nbroker_heartbeat = 60"
-  }
+	"slug": "initial-thoughts-opus-gemini-codex",
+	"title": "Initial thoughts: Opus 4.5 vs Gemini 3 Pro vs Codex-Max",
+	"description": "Three-model bakeoff debugging a 30-minute Celery/RabbitMQ crash and how each model judged the others.",
+	"technologies": ["Celery", "RabbitMQ", "Python", "OpenAI API", "Anthropic API"],
+	"date": "2025-11-26",
+	"featured": false,
+	"category": "infrastructure",
+	"codeSnippet": {
+		"language": "ini",
+		"code": "; RabbitMQ broker-side ack timeout (ms)\nconsumer_timeout = 1800000\n\n; Celery worker (conceptual)\nworker_prefetch_multiplier = 1\n; late acks defer ACK until task completes\n; task_acks_late = True\n; add heartbeat to keep connection alive\nbroker_heartbeat = 60"
+	}
 }

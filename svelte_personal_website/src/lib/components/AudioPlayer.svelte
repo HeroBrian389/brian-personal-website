@@ -4,11 +4,9 @@
 
 	let mainAudio: HTMLAudioElement | null = null;
 	let introAudio: HTMLAudioElement | null = null;
-	let tonearmElement: HTMLDivElement | null = null;
 
 	const TONEARM_REST_ANGLE = -90;
 	const TONEARM_PLAY_ANGLE = -62.5;
-	const TONEARM_TIMEOUT = 1600;
 
 	let isCueing = $state(false);
 	let isArmTraveling = $state(false);
@@ -193,11 +191,7 @@
 
 			<div class="tonearm-assembly">
 				<div class="tonearm-axis">
-					<div
-						class="tonearm-swing"
-						bind:this={tonearmElement}
-						style={`--tonearm-angle: ${tonearmAngle}deg`}
-					>
+					<div class="tonearm-swing" style={`--tonearm-angle: ${tonearmAngle}deg`}>
 						<div class="tonearm-rod"></div>
 						<div class="tonearm-cue"></div>
 						<div class="tonearm-rest"></div>
