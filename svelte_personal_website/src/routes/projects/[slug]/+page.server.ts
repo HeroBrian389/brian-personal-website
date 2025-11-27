@@ -3,10 +3,10 @@ import { error } from "@sveltejs/kit";
 import { getProjectBySlug } from "$lib/data/projects.server";
 import { renderMarkdown } from "$lib/utils/markdown";
 
-export const load: PageServerLoad = async ({ params }) => {
+export const load: PageServerLoad = async ({ params, fetch }) => {
 	console.log("[+page.server.ts] Loading project with slug:", params.slug);
 
-	const project = await getProjectBySlug(params.slug);
+	const project = await getProjectBySlug(params.slug, fetch);
 	if (!project) {
 		console.error("[+page.server.ts] Project not found for slug:", params.slug);
 		error(404, "Project not found");

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import "../app.css";
 	import { ModeWatcher } from "mode-watcher";
-	import AudioPlayer from "$lib/components/AudioPlayer.svelte";
+import AudioPlayer from "$lib/components/AudioPlayer.svelte";
 	import ThemeToggle from "$lib/components/ThemeToggle.svelte";
 	import NavLink from "$lib/components/NavLink.svelte";
 	import NavGroup from "$lib/components/NavGroup.svelte";
@@ -47,6 +47,7 @@
 
 	let currentPath = $derived($page.url.pathname);
 	let isMobileMenuOpen = $state(false);
+	let showAudioPlayer = $state(false);
 
 	// Close mobile menu when route changes
 	$effect(() => {
@@ -67,10 +68,16 @@
 			document.body.style.overflow = "";
 		};
 	});
+
+	onMount(() => {
+		showAudioPlayer = true;
+	});
 </script>
 
 <ModeWatcher />
-<AudioPlayer />
+{#if showAudioPlayer}
+	<AudioPlayer />
+{/if}
 <ThemeToggle />
 
 <div class="bg-background min-h-screen">

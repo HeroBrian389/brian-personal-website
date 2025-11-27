@@ -22,8 +22,8 @@ export const handle: Handle = async ({ event, resolve }) => {
 	// Content Security Policy
 	const csp = [
 		"default-src 'self'",
-		// Scripts: self, unsafe-inline for Svelte, YouTube, and other necessary domains
-		"script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.youtube.com https://s.ytimg.com https://www.google.com https://www.gstatic.com",
+		// Scripts: self, inline for Svelte hydration, YouTube embeds, Google tag/analytics
+		"script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.youtube.com https://s.ytimg.com https://www.google.com https://www.gstatic.com https://www.googletagmanager.com",
 		// Styles: self, unsafe-inline for Svelte and TailwindCSS
 		"style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
 		// Images: self, data URIs, HTTPS sources including Notion and GitHub
@@ -32,8 +32,8 @@ export const handle: Handle = async ({ event, resolve }) => {
 		"font-src 'self' https://fonts.gstatic.com",
 		// Frames: YouTube and other embed sources
 		"frame-src 'self' https://www.youtube.com https://www.youtube-nocookie.com https://player.vimeo.com",
-		// Connect: self, GitHub API, Notion API, and other necessary APIs
-		"connect-src 'self' https://api.github.com https://notion-api.splitbee.io https://*.notion.so wss: https:",
+		// Connect: self, GitHub API, Notion API, Google Analytics/Tag Manager, and other necessary APIs
+		"connect-src 'self' https://api.github.com https://notion-api.splitbee.io https://*.notion.so https://www.google-analytics.com https://www.googletagmanager.com wss: https:",
 		// Media: self and common media sources
 		"media-src 'self' https: blob:",
 		// Object: none for security
@@ -55,35 +55,24 @@ export const handle: Handle = async ({ event, resolve }) => {
 	response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
 
 	// Permissions Policy - disable unnecessary features
+	// Keep to widely-supported directives to avoid console warnings
 	const permissions = [
 		"accelerometer=()",
-		"ambient-light-sensor=()",
 		"autoplay=()",
-		"battery=()",
 		"camera=()",
+		"clipboard-write=()",
 		"display-capture=()",
-		"document-domain=()",
 		"encrypted-media=()",
-		"execution-while-not-rendered=()",
-		"execution-while-out-of-viewport=()",
 		"fullscreen=(self)",
 		"geolocation=()",
 		"gyroscope=()",
-		"layout-animations=(self)",
-		"legacy-image-formats=(self)",
 		"magnetometer=()",
 		"microphone=()",
 		"midi=()",
-		"navigation-override=()",
-		"oversized-images=(self)",
 		"payment=()",
 		"picture-in-picture=()",
 		"publickey-credentials-get=()",
-		"sync-xhr=()",
 		"usb=()",
-		"wake-lock=()",
-		"screen-wake-lock=()",
-		"web-share=()",
 		"xr-spatial-tracking=()"
 	].join(", ");
 

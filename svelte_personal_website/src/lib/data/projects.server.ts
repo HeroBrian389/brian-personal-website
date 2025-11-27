@@ -1,10 +1,8 @@
-import { readFile } from "fs/promises";
-import { join } from "path";
 import type { ProjectMeta } from "./projects.schema";
 import { getAllProjectMetas, getProjectMeta } from "./projects-meta";
 
-// Path to project content markdown files
-const CONTENT_DIR = join(process.cwd(), "src/lib/data/projects/content");
+// Static content is served from /projects/content/*.md (placed in static/)
+const CONTENT_BASE_PATH = "/projects/content";
 
 export function invalidateProjectsCache(): void {
 	// No-op since we're using static data now
@@ -28,10 +26,17 @@ export async function getAllProjects(): Promise<ProjectMeta[]> {
 	return metas.sort((a, b) => score(b) - score(a));
 }
 
-async function getProjectContent(slug: string): Promise<string | null> {
+async function getProjectContent(slug: string, fetchFn: typeof fetch): Promise<string | null> {
 	try {
-		const filePath = join(CONTENT_DIR, `${slug}.md`);
-		const content = await readFile(filePath, "utf-8");
+		const response = await fetchFn(`${CONTENT_BASE_PATH}/${slug}.md`);
+		if (!response.ok) {
+			console.warn(
+				`[projects.server.ts] Could not fetch content for ${slug}: ${response.status} ${response.statusText}`
+			);
+			return null;
+		}
+
+		const content = await response.text();
 		return content;
 	} catch (error) {
 		console.warn(`[projects.server.ts] Could not read content for ${slug}:`, error);
@@ -39,7 +44,7 @@ async function getProjectContent(slug: string): Promise<string | null> {
 	}
 }
 
-export async function getProjectBySlug(slug: string) {
+export async function getProjectBySlug(slug: string, fetchFn: typeof fetch) {
 	console.log("[projects.server.ts] Getting project by slug:", slug);
 
 	const meta = getProjectMeta(slug);
@@ -51,8 +56,8 @@ export async function getProjectBySlug(slug: string) {
 
 	console.log("[projects.server.ts] Found project:", meta.title);
 
-	// Read the markdown content from the separate file
-	const longDescription = await getProjectContent(slug);
+	// Fetch the markdown content from static assets
+	const longDescription = await getProjectContent(slug, fetchFn);
 
 	const result = {
 		...meta,
